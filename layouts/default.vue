@@ -2,116 +2,108 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      class="ma-2 rounded-xl"
+      temporary
       fixed
       app
     >
-      <v-list>
+      <v-list nav rounded class="text-center">
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in navItems"
           :key="i"
           :to="item.to"
           router
           exact
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
+    <v-app-bar fixed app color="transparent" flat>
+      <v-app-bar-nav-icon
+        aria-label="nav-button"
+        @click.stop="drawer = !drawer"
       >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
+        <v-icon slot="default">{{ icons.menu }}</v-icon></v-app-bar-nav-icon
       >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <nuxt-link v-if="!$vuetify.breakpoint.lgAndUp" :to="{ name: 'index' }">
+        <v-img src="/icon.png" max-width="60" contain alt="logo"></v-img>
+      </nuxt-link>
+
+      <AppBarMenu v-else :navItems="navItems" />
+      <v-btn class="ml-auto" outlined>Sign in</v-btn>
     </v-app-bar>
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
+
+    <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import {
+  mdiMenu,
+  mdiPhone,
+  mdiWhatsapp,
+  mdiEmail,
+  mdiFacebook,
+  mdiInstagram,
+  mdiYoutube,
+  mdiGoogle,
+} from '@mdi/js'
 export default {
-  data () {
+  data() {
     return {
-      clipped: false,
       drawer: false,
-      fixed: false,
-      items: [
+
+      icons: {
+        menu: mdiMenu,
+        call: mdiPhone,
+        email: mdiEmail,
+        whatsapp: mdiWhatsapp,
+      },
+      navItems: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
+          title: 'Home',
+          to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+          title: 'About Us',
+          to: '/about',
+        },
+        {
+          title: 'Events',
+          to: '/events',
+        },
+        {
+          title: 'Artists',
+          to: '/artists',
+        },
       ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      socialLinks: [
+        {
+          name: 'Facebook',
+          url: 'https://www.facebook.com/signetlogo',
+          icon: mdiFacebook,
+        },
+        {
+          name: 'Instagram',
+          url: 'https://www.instagram.com/signetlogo',
+          icon: mdiInstagram,
+        },
+        {
+          name: 'Youtube',
+          url: 'https://www.youtube.com/channel/UCTHNYidV3Jv-tRoEB_iUmTQ',
+          icon: mdiYoutube,
+        },
+        { name: 'Google', url: 'https://g.co/kgs/jbFUBk', icon: mdiGoogle },
+      ],
     }
-  }
+  },
 }
 </script>
