@@ -9,8 +9,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - IAA-site',
-    title: 'IAA-site',
+    titleTemplate: 'IAA - Independent Artist Association',
+    title: 'Independent Artist Association',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -24,7 +24,14 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/pixi.js', mode: 'client', ssr: false }],
+  plugins: [
+    {
+      src: '~/plugins/vee-validate.js',
+    },
+    { src: '~/plugins/firebase.js', mode: 'client', ssr: false },
+
+    { src: '~/plugins/pixi.js', mode: 'client', ssr: false },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -38,6 +45,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -45,7 +53,6 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -60,7 +67,7 @@ export default {
   googleFonts: {
     families: {
       Monoton: true,
-      Raleway: {
+      Roboto: {
         wght: [400, 700],
       },
     },
@@ -72,6 +79,7 @@ export default {
     defaultAssets: false,
     theme: {
       dark: true,
+      light: false,
       options: {
         customProperties: false,
         variations: false,

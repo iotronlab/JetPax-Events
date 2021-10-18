@@ -33,7 +33,7 @@
       </nuxt-link>
 
       <AppBarMenu v-else :navItems="navItems" />
-      <v-btn class="ml-auto" outlined>Sign in</v-btn>
+      <v-btn class="ml-auto" outlined to="auth/sign-in">Sign in</v-btn>
     </v-app-bar>
     <v-main>
       <Nuxt />
