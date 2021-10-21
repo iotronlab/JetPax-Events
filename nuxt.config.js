@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -21,7 +19,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['@/assets/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -56,7 +54,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:8000/api',
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -66,8 +66,7 @@ export default {
   },
   googleFonts: {
     families: {
-      Monoton: true,
-      Roboto: {
+      'Josefin Sans': {
         wght: [400, 700],
       },
     },
@@ -92,12 +91,12 @@ export default {
       themes: {
         dark: {
           primary: 'ed2f7b',
-          accent: colors.grey.darken3,
+          accent: '#A78BFA',
           secondary: 'f9b31e',
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          info: '#6366F1',
+          warning: '#F59E0B',
+          error: '#EF4444',
+          success: '#059669',
         },
       },
     },

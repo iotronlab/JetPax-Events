@@ -6,7 +6,7 @@
       style="position: absolute; top: 10rem; width: 100%"
       class="text-center"
       justify="center"
-      ><v-col cols="12" lg="3">
+      ><v-col cols="12" lg="5">
         <h1
           class="text-uppercase mb-4"
           style="letter-spacing: 4px; font-size: 20px"
@@ -14,8 +14,8 @@
           Independent Artist Association
         </h1>
 
-        <h2 class="text-h2 mb-6">For the artists, By the artists.</h2>
-        <h3 class="text-body-1 font-weight-black">
+        <h2 class="text-h1 mb-6">For the Artists, By the Artists.</h2>
+        <h3>
           Independent Artist Association is a community that believes in equal
           opportunities for all artists.
         </h3>

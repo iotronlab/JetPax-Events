@@ -1,0 +1,87 @@
+@font-face {
+  font-family: 'Rockville Solid Regular';
+  font-display: swap;
+  src: url('~assets/fonts/Rockville.otf') format('opentype');
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s ease-in-out;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.5s 0.1s ease-in-out;
+}
+
+.btn-creator {
+  transition: 0.5s 0.1s ease-in-out !important;
+  background-size: auto 200%;
+  box-shadow: 0 0 10px #9333ea;
+  background-image: linear-gradient(
+    to bottom,
+    #c084fc 0%,
+    #9333ea 51%,
+    #c084fc 100%
+  );
+}
+
+.btn-creator:hover {
+  background-position: center bottom; /* change the direction of the change here */
+  box-shadow: 0 0 15px #9333ea;
+}
+
+.btn-agency {
+  transition: 0.5s ease-in-out 0.1s !important;
+  background-size: auto 200%;
+  box-shadow: 0 0 10px #6366f1;
+  background-image: linear-gradient(
+    to bottom,
+    #6366f1 0%,
+    #4f46e5 51%,
+    #6366f1 100%
+  );
+}
+
+.btn-agency:hover {
+  background-position: center bottom; /* change the direction of the change here */
+  box-shadow: 0 0 15px #6366f1;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-left: 1px solid #dadada;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border: solid 3px #e6e6e6;
+  border-radius: 7px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #7851a9;
+}
+
+.v-application.theme--light .nucard {
+  transition: all 0.2s !important;
+  box-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6),
+    -9px -9px 16px rgba(255, 255, 255, 1) !important;
+}
+.v-application.theme--dark .nucard {
+  transition: all 0.2s !important;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8),
+    -5px -5px 10px rgba(255, 255, 255, 0.2) !important;
+}
