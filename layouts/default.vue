@@ -21,18 +21,18 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app color="transparent" flat>
+    <v-app-bar id="nav" class="nav-transparent" fixed app flat>
       <v-app-bar-nav-icon
         aria-label="nav-button"
         @click.stop="drawer = !drawer"
       >
         <v-icon slot="default">{{ icons.menu }}</v-icon></v-app-bar-nav-icon
       >
-      <nuxt-link v-if="!$vuetify.breakpoint.lgAndUp" :to="{ name: 'index' }">
+      <nuxt-link :to="{ name: 'index' }">
         <v-img src="/icon.png" max-width="60" contain alt="logo"></v-img>
       </nuxt-link>
 
-      <AppBarMenu v-else :navItems="navItems" />
+      <AppBarMenu v-if="$vuetify.breakpoint.lgAndUp" :nav-items="navItems" />
       <v-btn class="ml-auto" outlined to="auth/sign-in">Sign in</v-btn>
     </v-app-bar>
     <v-main>
@@ -105,5 +105,27 @@ export default {
       ],
     }
   },
+  mounted() {
+    const myNav = document.getElementById('nav')
+    window.onscroll = function () {
+      'use strict'
+      if (document.body.scrollTop >= 200) {
+        myNav.classList.add('nav-transparent')
+        myNav.classList.remove('card-glass')
+      } else {
+        myNav.classList.remove('nav-transparent')
+        myNav.classList.add('card-glass')
+      }
+    }
+    // this.tawk()
+  },
 }
 </script>
+<style scoped>
+#nav {
+  z-index: 100;
+}
+.nav-transparent {
+  background-color: transparent !important;
+}
+</style>

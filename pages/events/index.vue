@@ -1,6 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <section v-if="$fetchState.pending">
+      <h1 class="text-lg-h1 text-h2 text-center">Events</h1>
       <Loading message="fetching events..." />
     </section>
     <section v-else-if="errorMessage != null">
@@ -8,66 +9,70 @@
     </section>
     <section v-else>
       <section v-if="events.length < 1">
-        <v-card height="480" rounded="xl" class="text-center">
+        <v-card height="480" rounded="xl" class="text-center ma-2">
           <h1 class="text-body-1 pa-2 pt-4">
-            There is no events to display.
+            There are no events to display.
           </h1></v-card
         >
       </section>
       <section v-else>
-        <h1 class="text-h1 text-center">Events</h1>
-        <v-divider class="my-2"></v-divider>
-        <v-row
-          v-for="(event, i) in events"
-          :key="i"
-          no-gutters
-          justify="center"
-        >
-          <v-col cols="12" lg="5" class="pa-2">
-            <nuxt-link
-              :to="{
-                name: 'events-slug',
-                params: {
-                  slug: event.id,
-                },
-              }"
-            >
-              <v-img
-                :src="require('@/assets/images/index/landing.webp')"
-                gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.7)"
-                class="rounded-lg"
-                dark
-              >
-              </v-img>
-            </nuxt-link>
+        <!-- page body start -->
+        <v-row no-gutters justify="center" align="center" class="text-center">
+          <Breadcrumb :breadcrumb-items="breadcrumbItems" />
+          <v-col cols="12" lg="3" md="3">
+            <h1 class="text-lg-h1 text-h2">Events</h1>
           </v-col>
-          <v-col cols="12" lg="4" offset-x="50">
-            <v-container fluid>
-              <h1 class="primary--text mb-2">
-                {{ event.startOn }}
-                <span class="text-subtitle-2 secondary--text"
-                  ><br />- {{ event.endOn }}</span
-                >
-              </h1>
-              <v-row no-gutters class="mb-2" align="center">
-                <v-chip v-if="event.isBookingOpen == true" color="success"
-                  >Booking Open</v-chip
-                >
-                <v-chip v-else>Booking Closed</v-chip>
-                <v-btn class="btn-agency ml-2" dark small rounded> View </v-btn>
-              </v-row>
-              <h2 class="mb-2" style="letter-spacing: 0.1rem; font-size: 2rem">
-                {{ event.name }}
-              </h2>
-
-              <h3 class="text-body-1">
-                <v-icon left>{{ location }}</v-icon
-                >{{ event.location }}
-              </h3>
-            </v-container></v-col
-          >
+          <h2 class="text-body-1">
+            <v-pagination
+              v-model="pageData.current_page"
+              :length="pageData.last_page"
+              :next-icon="nextArrow"
+              :prev-icon="prevArrow"
+              @input="updateQuery(pageData.current_page)"
+            ></v-pagination>
+            showing ({{ pageData.from }} - {{ pageData.to }})
+            <span v-if="pageData.total > 1">events</span>
+            <span v-else>event</span>
+          </h2>
         </v-row>
-        <div class="text-center">
+        <v-divider class="my-2"></v-divider>
+        <!-- events for loop -->
+        <section v-for="(event, i) in events" :key="i">
+          <v-row no-gutters justify="center"
+            ><v-col cols="12" lg="8" md="7" sm="6">
+              <nuxt-link
+                :to="{
+                  name: 'events-slug',
+                  params: {
+                    slug: event.url,
+                  },
+                }"
+                :aria-label="event.name"
+              >
+                <v-img
+                  :src="require('@/assets/images/events/placeholder.png')"
+                  max-height="900"
+                  class="fill-height"
+                  :alt="event.name"
+                >
+                </v-img
+              ></nuxt-link>
+            </v-col>
+            <v-col
+              cols="12"
+              lg="4"
+              md="5"
+              sm="6"
+              style="z-index: 10"
+              :class="i % 2 == 1 ? 'mr-sm-n16' : 'ml-sm-n16'"
+              class="pa-1"
+              :order-sm="i % 2 == 1 ? 'first' : null"
+            >
+              <EventsCard :event="event" /> </v-col
+          ></v-row>
+          <v-divider class="my-2"></v-divider>
+        </section>
+        <h2 class="text-body-1 text-center">
           <v-pagination
             v-model="pageData.current_page"
             :length="pageData.last_page"
@@ -75,14 +80,17 @@
             :prev-icon="prevArrow"
             @input="updateQuery(pageData.current_page)"
           ></v-pagination>
-        </div>
+          showing ({{ pageData.from }} - {{ pageData.to }})
+          <span v-if="pageData.total > 1">events</span>
+          <span v-else>event</span>
+        </h2>
       </section>
     </section>
   </v-container>
 </template>
 
 <script>
-import { mdiArrowRight, mdiArrowLeft, mdiMapMarkerStar } from '@mdi/js'
+import { mdiArrowRight, mdiArrowLeft } from '@mdi/js'
 export default {
   data() {
     return {
@@ -91,7 +99,17 @@ export default {
       errorMessage: null,
       nextArrow: mdiArrowRight,
       prevArrow: mdiArrowLeft,
-      location: mdiMapMarkerStar,
+      breadcrumbItems: [
+        {
+          text: 'Home',
+          disabled: false,
+          to: '/',
+        },
+        {
+          text: 'Events',
+          disabled: true,
+        },
+      ],
     }
   },
   async fetch() {
@@ -108,6 +126,19 @@ export default {
         })
     } catch (error) {
       // this.$sentry.captureException(new Error(error))
+    }
+  },
+  head() {
+    return {
+      title: 'Events',
+      // meta: [
+      //   // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+      //   {
+      //     hid: 'description',
+      //     name: 'description',
+      //     content: 'My custom description',
+      //   },
+      // ],
     }
   },
   watch: {

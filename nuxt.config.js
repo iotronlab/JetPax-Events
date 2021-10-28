@@ -7,8 +7,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: 'IAA - Independent Artist Association',
-    title: 'Independent Artist Association',
+    titleTemplate: '%s - Independent Artist Association',
+    title: 'Welcome to IAA',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -96,7 +96,7 @@ export default {
           info: '#6366F1',
           warning: '#F59E0B',
           error: '#EF4444',
-          success: '#059669',
+          success: '#9FE2BF',
         },
       },
     },
