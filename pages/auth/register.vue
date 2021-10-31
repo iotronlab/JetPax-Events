@@ -85,7 +85,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style >
 .bg {
   background-image: url('@/assets/images/auth/iaa-bg.webp');
   background-size: cover;

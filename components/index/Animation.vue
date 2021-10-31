@@ -28,6 +28,7 @@
 </template>
 <script>
 import { GodrayFilter } from '@pixi/filter-godray'
+import { sound } from '@pixi/sound'
 export default {
   mounted() {
     this.startPixi()
@@ -38,6 +39,31 @@ export default {
       // Get the screen width and height
       // Disable interaction plugin (for PixiJS 6)
       // delete PIXI.Renderer.__plugins.interaction
+
+      // PIXI.sound.Sound.from({
+      //   url: '@/assets/audios/song.mp3',
+      //   autoPlay: true,
+      //   complete() {
+      //     console.log('Sound finished')
+      //   },
+      // })
+      // console.log(sound)
+      // sound.Sound.from({
+      //   url: '@/assets/audios/song.mp3',
+      // })
+      // sound.play('my-sound')
+      sound.add('sound', {
+        url: '@/assets/audios/song.mp3',
+        preload: true,
+        loaded: (err, sound) => {
+          if (err) {
+            console.warn(err)
+          } else {
+            console.log(`loaded sound  ${sound.duration} seconds`)
+          }
+        },
+      })
+
       const width = window.innerWidth
       const height = window.innerHeight
       const app = new PIXI.Application({
@@ -176,7 +202,7 @@ void main() {
         if (app.renderer.plugins.interaction.eventData.data) {
           const mouseposition =
             app.renderer.plugins.interaction.eventData.data.global
-          console.log(app.renderer.plugins.interaction.eventData.data)
+          //  console.log(app.renderer.plugins.interaction.eventData.data)
           rayFilter.center.x = mouseposition.x
         }
       })

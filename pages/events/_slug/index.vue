@@ -43,6 +43,12 @@
                 outlined
                 rounded
                 color="success"
+                :to="{
+                  name: 'events-slug-booking',
+                  params: {
+                    slug: event.url,
+                  },
+                }"
                 >Book Now</v-btn
               >
               <v-btn v-else small text disabled>Booking Closed</v-btn>
@@ -97,8 +103,18 @@
             lg="5"
             class="pa-1"
           >
-            <EventsTicket :ticket="ticket" /> </v-col
-        ></v-row>
+            <EventsTicket :ticket="ticket" />
+            <v-btn
+              :to="{
+                name: 'events-slug-booking',
+                params: {
+                  slug: event.url,
+                },
+              }"
+              >Book now</v-btn
+            ></v-col
+          ></v-row
+        >
       </section>
     </section>
   </v-container>
