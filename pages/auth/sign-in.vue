@@ -170,10 +170,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.bg-glow {
-  background-image: url('@/assets/images/events/bg1.png');
-  width: 100%;
-  background-size: cover;
-}
-</style>
