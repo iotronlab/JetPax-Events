@@ -39,10 +39,8 @@
             <v-row no-gutters class="mb-2" align="center" justify="center">
               <v-btn
                 v-if="event.isBookingOpen == true"
-                small
-                outlined
                 rounded
-                color="success"
+                color="primary"
                 :to="{
                   name: 'events-slug-booking',
                   params: {
@@ -51,8 +49,8 @@
                 }"
                 >Book Now</v-btn
               >
-              <v-btn v-else small text disabled>Booking Closed</v-btn>
-              <v-btn class="ml-2" small rounded outlined>Line Up</v-btn>
+              <v-btn v-else text disabled>Booking Closed</v-btn>
+              <v-btn class="ml-2" rounded outlined>Line Up</v-btn>
             </v-row>
           </v-container>
         </v-col>

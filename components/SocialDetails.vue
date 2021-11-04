@@ -1,6 +1,12 @@
 <template>
   <section>
-    <v-row no-gutters class="mb-2" align="center" justify="center">
+    <v-row
+      v-if="displayData.genres"
+      no-gutters
+      class="mb-2"
+      align="center"
+      justify="center"
+    >
       <h4>Genres</h4>
       <v-chip
         v-for="(genre, n) in displayData.genres"
@@ -27,7 +33,7 @@
       >
     </v-row>
     <v-row
-      v-if="displayData.socials"
+      v-if="displayData.external_links"
       no-gutters
       class="mb-2"
       justify="center"
@@ -35,7 +41,7 @@
     >
       <h4>Socials</h4>
       <v-chip
-        v-for="(social, l) in displayData.socials"
+        v-for="(social, l) in displayData.external_links"
         :key="l"
         class="ml-2"
         outlined

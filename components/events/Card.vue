@@ -56,7 +56,7 @@
     >
     <div class="text-body-2">
       <h3 class="mb-4">Venue - {{ event.location }}</h3>
-      <v-row no-gutters class="mb-2" align="center">
+      <v-row v-if="event.genres" no-gutters class="mb-2" align="center">
         <h4>Genres</h4>
         <v-chip
           v-for="(genre, n) in event.genres"

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fill-height bg-glow">
+  <v-container fluid class="fill-height glow-pink">
     <v-row no-gutters justify="center">
       <v-col lg="5">
         <v-container fluid class="card-glass rounded-xl">
@@ -8,10 +8,10 @@
               <ValidationObserver ref="observer" v-slot="{}">
                 <v-form id="login-form" method="post" @submit.prevent="login">
                   <v-img
-                    src="/icon.png"
+                    :src="require('@/assets/images/index/logo.webp')"
                     contain
                     alt="iaa logo"
-                    max-width="120"
+                    max-width="200"
                     class="mx-auto"
                   />
                   <ValidationProvider
@@ -21,7 +21,7 @@
                   >
                     <v-text-field
                       v-model="email"
-                      prepend-icon="mdi-email"
+                      :prepend-icon="icon.email"
                       label="Email ID"
                       name="email"
                       type="email"
@@ -36,8 +36,8 @@
                   >
                     <v-text-field
                       v-model="password"
-                      prepend-icon="mdi-lock"
-                      :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                      :prepend-icon="icon.password"
+                      :append-icon="showPass ? icon.passShow : icon.passHide"
                       :type="showPass ? 'text' : 'password'"
                       label="Password"
                       name="password"
@@ -48,13 +48,13 @@
                   </ValidationProvider>
                   <div class="d-flex justify-center">
                     <v-btn
-                      color="primary"
+                      color="secondary"
                       rounded
                       outlined
                       type="submit"
                       class="mt-4"
-                      >LogIn</v-btn
-                    >
+                      ><b>LogIn</b>
+                    </v-btn>
                   </div>
 
                   <br />
@@ -70,7 +70,7 @@
                       @click.prevent="socialLogin('facebook')"
                     >
                       facebook
-                      <v-icon right>mdi-facebook</v-icon>
+                      <v-icon right>{{ icon.facebook }}</v-icon>
                     </v-btn>
 
                     <v-btn
@@ -79,8 +79,8 @@
                       dark
                       @click.prevent="socialLogin('google')"
                     >
-                      google
-                      <v-icon right>mdi-google</v-icon>
+                      <v-icon left>{{ icon.google }}</v-icon
+                      >google
                     </v-btn>
                   </v-row>
                 </v-form></ValidationObserver
@@ -92,19 +92,11 @@
           <hr />
           <br />
           <v-row no-gutters class="my-2" justify="space-around">
-            <v-btn
-              text
-              x-small
-              :to="{ path: '/verify/register' }"
-              @click="dialog = false"
+            <v-btn text small :to="{ path: 'register' }" @click="dialog = false"
               >Create an account</v-btn
             >
 
-            <v-btn
-              text
-              x-small
-              :to="{ path: '/verify/reset' }"
-              @click="dialog = false"
+            <v-btn text small :to="{ path: 'reset' }" @click="dialog = false"
               >Forgot password</v-btn
             >
           </v-row>
@@ -115,6 +107,14 @@
 </template>
 <script>
 import { ValidationObserver } from 'vee-validate'
+import {
+  mdiEmail,
+  mdiLock,
+  mdiEye,
+  mdiEyeOff,
+  mdiFacebook,
+  mdiGoogle,
+} from '@mdi/js'
 export default {
   components: {
     ValidationObserver,
@@ -125,6 +125,14 @@ export default {
       email: '',
       password: '',
       showPass: false,
+      icon: {
+        email: mdiEmail,
+        password: mdiLock,
+        passShow: mdiEye,
+        passHide: mdiEyeOff,
+        facebook: mdiFacebook,
+        google: mdiGoogle,
+      },
     }
   },
   methods: {
