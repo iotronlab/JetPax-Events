@@ -84,6 +84,10 @@ export default {
           title: 'Artists',
           to: '/artists',
         },
+        {
+          title: 'Contact Us',
+          to: '/contact',
+        },
       ],
       socialLinks: [
         {
@@ -122,9 +126,6 @@ export default {
 }
 </script>
 <style scoped>
-#nav {
-  z-index: 100;
-}
 .nav-transparent {
   background-color: transparent !important;
 }

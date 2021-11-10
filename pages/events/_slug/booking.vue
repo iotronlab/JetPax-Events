@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 glow-purple">
+  <v-container fluid class="pa-0 glow-purple mb-8">
     <section v-if="$fetchState.pending">
       <Loading :message="'booking event ' + $route.params.slug" />
     </section>
@@ -38,11 +38,21 @@
         <v-divider class="my-2"></v-divider>
         <h1 class="text-h3 text-center mt-2">Booking Form</h1>
         <v-divider class="my-2"></v-divider>
-        <v-card class="card-glass rounded-xl text-center pa-1">
-          <EventsBookingForm :event="event" />
+        <v-card class="card-glass rounded-xl pa-1">
+          <EventsBookingForm ref="form" :event="event" @setTotal="setTotal" />
           <!-- <EventsGuestForm :event="event" /> -->
         </v-card>
       </v-col>
+      <v-app-bar bottom fixed
+        >Total: {{ bookingTotal }}
+        <v-btn
+          width="50%"
+          class="ml-auto"
+          color="primary"
+          @click="confirmBooking"
+          >Confirm Booking</v-btn
+        ></v-app-bar
+      >
     </section>
   </v-container>
 </template>
@@ -54,11 +64,12 @@ export default {
     return {
       event: {},
       errorMessage: null,
+      bookingTotal: 0,
       icon: {
         location: mdiMapMarkerStar,
         calender: mdiCalendarHeart,
       },
-      guests: [],
+
       breadcrumbItems: [
         {
           text: 'Home',
@@ -106,6 +117,56 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    setTotal(total) {
+      this.bookingTotal = total
+    },
+    confirmBooking() {
+      this.$refs.form.confirmBooking()
+      this.createPayment()
+    },
+    createPayment() {
+      const self = this
+      const rzpOptions = {
+        key: 'rzp_test_0wpfilwI7DwcZd',
+        amount: this.bookingTotal * 100,
+        name: this.event.name,
+        description: this.event.desc,
+        handler(response) {
+          self.$toast.success(`Payment Succesful`, {
+            position: 'bottom-center',
+            theme: 'outline',
+            duration: 5000,
+          })
+          self.payment_id = response.razorpay_payment_id
+        },
+        modal: {
+          ondismiss() {
+            self.$toast.error(`Payment Failed`, {
+              position: 'bottom-center',
+              theme: 'outline',
+              duration: 5000,
+            })
+          },
+        },
+        prefill: {
+          email: 'test@email.com',
+          contact: +914455667788,
+        },
+        notes: {
+          name: 'Customer Name',
+          item: 'Item',
+        },
+        theme: {
+          color: '#667eea',
+        },
+      }
+      /* global Razorpay */
+      /* eslint no-undef: "error" */
+      const rzp1 = new Razorpay(rzpOptions)
+      rzp1.open()
+    },
   },
 }
 </script>

@@ -91,3 +91,17 @@ a {
   backdrop-filter: blur(8px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(8px) saturate(160%) !important;
 }
+
+.glow-purple {
+  background-image: radial-gradient(75% 50% at left, #3a1d5e, transparent);
+}
+.glow-pink {
+  background-image: radial-gradient(50% 50% at center, #55004c, transparent);
+}
+.glow-red {
+  background-image: radial-gradient(
+    70% 50% at center,
+    rgba(208, 20, 31, 0.7),
+    transparent
+  );
+}

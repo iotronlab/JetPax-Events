@@ -21,8 +21,9 @@
           <Breadcrumb :breadcrumb-items="breadcrumbItems" />
           <v-col cols="12" lg="3" md="3">
             <h1 class="text-lg-h1 text-h2">Events</h1>
+            <v-divider class="my-2"></v-divider>
           </v-col>
-          <h2 class="text-body-1">
+          <h2 class="text-body-1 mb-2">
             <v-pagination
               v-model="pageData.current_page"
               :length="pageData.last_page"
@@ -35,7 +36,7 @@
             <span v-else>event</span>
           </h2>
         </v-row>
-        <v-divider class="my-2"></v-divider>
+
         <!-- events for loop -->
         <section v-for="(event, i) in events" :key="i">
           <v-row no-gutters justify="center"
@@ -78,6 +79,7 @@
             :length="pageData.last_page"
             :next-icon="nextArrow"
             :prev-icon="prevArrow"
+            total-visible="10"
             @input="updateQuery(pageData.current_page)"
           ></v-pagination>
           showing ({{ pageData.from }} - {{ pageData.to }})
@@ -122,10 +124,10 @@ export default {
         })
         .catch((err) => {
           this.errorMessage = err
-          // this.$sentry.captureException(new Error(err))
+          this.$sentry.captureException(new Error(err))
         })
     } catch (error) {
-      // this.$sentry.captureException(new Error(error))
+      this.$sentry.captureException(new Error(error))
     }
   },
   head() {

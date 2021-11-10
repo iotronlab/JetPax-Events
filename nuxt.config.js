@@ -16,6 +16,13 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        hid: 'rzpay',
+        src: 'https://checkout.razorpay.com/v1/checkout.js',
+        defer: true,
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -50,7 +57,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/sentry',
+    '@nuxtjs/auth-next',
 
     // https://go.nuxtjs.dev/pwa
   ],
@@ -58,6 +66,17 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8000/api',
+  },
+
+  // sentry config
+  sentry: {
+    dsn: 'https://e073240737c847159fcc5b6e914abde1@o1063476.ingest.sentry.io/6053880', // Enter your project's DSN here
+    // Additional Module Options go here
+    // https://sentry.nuxtjs.org/sentry/options
+    config: {
+      // Add native Sentry config here
+      // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
+    },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
