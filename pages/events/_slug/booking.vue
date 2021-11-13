@@ -100,10 +100,10 @@ export default {
         })
         .catch((err) => {
           this.errorMessage = err
-          //  this.$sentry.captureException(new Error(err))
+          this.$sentry.captureException(new Error(err))
         })
     } catch (error) {
-      // this.$sentry.captureException(new Error(error))
+      this.$sentry.captureException(new Error(error))
     }
   },
   head() {

@@ -1,38 +1,11 @@
 <template>
   <section v-resize="onResize">
     <canvas></canvas>
-    <v-row
-      no-gutters
-      style="position: absolute; top: 0; width: 100%"
-      class="text-center fill-height"
-      justify="center"
-      align="center"
-      ><v-col cols="12" lg="5">
-        <h1
-          class="text-uppercase mb-4"
-          style="letter-spacing: 4px; font-size: 20px"
-        >
-          Independent Artist Association
-        </h1>
-
-        <h2 class="text-h1 mb-6">For the Artists, By the Artists.</h2>
-        <h3 class="mb-4">
-          Independent Artist Association is a community that believes in equal
-          and fair opportunities for all performing artists.
-        </h3>
-        <v-btn class="mt-1" outlined large
-          ><strong>Upcoming events</strong></v-btn
-        >
-        <v-btn class="mt-1" outlined large
-          ><strong>Join Our Network</strong></v-btn
-        >
-      </v-col>
-    </v-row>
   </section>
 </template>
 <script>
 import { GodrayFilter } from '@pixi/filter-godray'
-import { sound } from '@pixi/sound'
+// import { sound } from '@pixi/sound'
 export default {
   data: () => ({
     windowSize: {
@@ -67,17 +40,17 @@ export default {
       //   url: '@/assets/audios/song.mp3',
       // })
       // sound.play('my-sound')
-      sound.add('sound', {
-        url: '@/assets/audios/song.mp3',
-        preload: true,
-        loaded: (err, sound) => {
-          if (err) {
-            console.warn(err)
-          } else {
-            console.log(`loaded sound  ${sound.duration} seconds`)
-          }
-        },
-      })
+      // sound.add('sound', {
+      //   url: '@/assets/audios/song.mp3',
+      //   preload: true,
+      //   loaded: (err, sound) => {
+      //     if (err) {
+      //       console.warn(err)
+      //     } else {
+      //       console.log(`loaded sound  ${sound.duration} seconds`)
+      //     }
+      //   },
+      // })
 
       const width = this.windowSize.x
       const height = this.windowSize.y

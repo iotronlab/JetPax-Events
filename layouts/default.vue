@@ -33,7 +33,7 @@
       </nuxt-link>
 
       <AppBarMenu v-if="$vuetify.breakpoint.lgAndUp" :nav-items="navItems" />
-      <v-btn class="ml-auto" outlined to="auth/sign-in">Sign in</v-btn>
+      <v-btn class="ml-auto" disabled outlined to="auth/sign-in">Sign in</v-btn>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -54,7 +54,6 @@ import {
   mdiFacebook,
   mdiInstagram,
   mdiYoutube,
-  mdiGoogle,
 } from '@mdi/js'
 export default {
   data() {
@@ -76,17 +75,21 @@ export default {
           title: 'About Us',
           to: '/about',
         },
+        // {
+        //   title: 'Events',
+        //   to: '/events',
+        // },
+        // {
+        //   title: 'Artists',
+        //   to: '/artists',
+        // },
+        // {
+        //   title: 'Contact Us',
+        //   to: '/contactus',
+        // },
         {
-          title: 'Events',
-          to: '/events',
-        },
-        {
-          title: 'Artists',
-          to: '/artists',
-        },
-        {
-          title: 'Contact Us',
-          to: '/contact',
+          title: 'Join Us',
+          to: '/joinus',
         },
       ],
       socialLinks: [
@@ -105,7 +108,6 @@ export default {
           url: 'https://www.youtube.com/channel/UCTHNYidV3Jv-tRoEB_iUmTQ',
           icon: mdiYoutube,
         },
-        { name: 'Google', url: 'https://g.co/kgs/jbFUBk', icon: mdiGoogle },
       ],
     }
   },

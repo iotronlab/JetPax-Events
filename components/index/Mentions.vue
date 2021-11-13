@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h1 class="text-h2 text-center mt-8">Our Team</h1>
+    <h1 class="text-h2 text-center mt-8">Featured in</h1>
     <v-divider class="my-2"></v-divider>
     <section v-if="$fetchState.pending">
       <Loading message="fetching events..." />

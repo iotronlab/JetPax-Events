@@ -12,7 +12,12 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Independent Artist Association is an event organizer community of performing artists based in Kolkata, India. The growth and development of underground artists is the primary focus of our organization.',
+      },
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -65,7 +70,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8000/api',
+    // baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://devapi.iaa.org.in/api',
   },
 
   // sentry config
@@ -81,8 +87,25 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: {
+      /* icon options */
+      source: '/icon.png',
+    },
     manifest: {
       lang: 'en',
+      name: 'Independent Artist Association',
+      short_name: 'IAA',
+      description: `Independent Artist Association is an event organizer community of performing artists based in Kolkata, India.
+      The growth and development of underground artists is the primary focus of our organization.`,
+    },
+    meta: {
+      theme_color: '#121212',
+      nativeUI: true,
+      name: 'IAA',
+      author: 'iotron',
+      description: `Independent Artist Association is an event organizer community of performing artists based in Kolkata, India.
+      The growth and development of underground artists is the primary focus of our organization.`,
+      ogHost: 'https://www.iaa.org.in',
     },
   },
   googleFonts: {
