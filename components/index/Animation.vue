@@ -1,5 +1,5 @@
 <template>
-  <section v-resize="onResize">
+  <section>
     <canvas></canvas>
   </section>
 </template>
@@ -7,21 +7,17 @@
 import { GodrayFilter } from '@pixi/filter-godray'
 // import { sound } from '@pixi/sound'
 export default {
-  data: () => ({
-    windowSize: {
-      x: 0,
-      y: 0,
-    },
-  }),
+  // data: () => ({
+  //   windowSize: {
+  //     x: 0,
+  //     y: 0,
+  //   },
+  // }),
 
   mounted() {
-    this.onResize()
+    this.startPixi()
   },
   methods: {
-    onResize() {
-      this.windowSize = { x: window.innerWidth, y: window.innerHeight }
-      this.startPixi()
-    },
     startPixi() {
       const PIXI = global.PIXI
       // Get the screen width and height
@@ -52,36 +48,19 @@ export default {
       //   },
       // })
 
-      const width = this.windowSize.x
-      const height = this.windowSize.y
+      const width = window.innerWidth
+      const height = window.innerHeight
       const app = new PIXI.Application({
         width,
         height,
         view: document.querySelector('canvas'),
+        resizeTo: document.querySelector('canvas'),
+        // backgroundAlpha: 0,
         // resolution: devicePixelRatio,
       })
       // app.stop()
 
       // load resources
-      app.loader
-        .add('landing', require('@/assets/images/index/landing.webp'))
-        .load((loaderInstance, resources) => {
-          const logo = PIXI.Sprite.from(
-            require('@/assets/images/index/landing.webp')
-          )
-          // Set it at the center of the screen
-          logo.position.set(app.screen.width / 2, app.screen.height / 2) // same as your innerWidth
-          logo.anchor.set(0.5)
-          // resize image Math.min() to contain
-          logo.scale.set(
-            Math.max(
-              app.screen.width / logo.texture.width,
-              app.screen.height / logo.texture.height
-            )
-          )
-          logo.blendMode = PIXI.BLEND_MODES.ADD
-          app.stage.addChild(logo)
-        })
 
       const uniforms = {
         dimensions: { x: width, y: height },
@@ -141,8 +120,45 @@ void main() {
 }
 
 `
+      // Build geometry.
+      const geometry = new PIXI.Geometry()
+        .addAttribute(
+          'aVertexPosition', // the attribute name
+          [
+            0,
+            0, // x, y
+            width,
+            0, // x, y
+            width,
+            height,
+            0,
+            height,
+          ], // x, y
+          2
+        ) // the size of the attribute
+        .addAttribute(
+          'aTextureCoord', // the attribute name
+          [
+            0,
+            0, // u, v
+            1,
+            0, // u, v
+            1,
+            1,
+            0,
+            1,
+          ], // u, v
+          2
+        ) // the size of the attribute
+        .addIndex([0, 1, 2, 0, 2, 3])
 
-      const filter = new PIXI.Filter(undefined, fragmentSrc, uniforms)
+      const filter = PIXI.Shader.from(null, fragmentSrc, uniforms)
+
+      const quad = new PIXI.Mesh(geometry, filter)
+      // app.stage.filterArea = app.renderer.screen
+
+      app.stage.addChild(quad)
+      // const filter = new PIXI.Filter(null, fragmentSrc, uniforms)
       // ray filter
       const rayFilter = new GodrayFilter({
         gain: 0,
@@ -155,14 +171,32 @@ void main() {
           y: -1000,
         },
       })
+      app.stage.filters = [rayFilter]
+      app.loader
+        .add('landing', require('@/assets/images/index/landing.webp'))
+        .load((loaderInstance, resources) => {
+          const logo = PIXI.Sprite.from(resources.landing.texture)
+          // Set it at the center of the screen
+          logo.position.set(app.screen.width / 2, app.screen.height / 2) // same as your innerWidth
+          logo.anchor.set(0.5)
+          // resize image Math.min() to contain
+          logo.scale.set(
+            Math.max(
+              app.screen.width / logo.texture.width,
+              app.screen.height / logo.texture.height
+            )
+          )
+          logo.blendMode = PIXI.BLEND_MODES.ADD
+          app.stage.addChild(logo)
+        })
 
-      const bg = new PIXI.Container()
-      bg.filterArea = app.renderer.screen
-      //  bg.blendMode = PIXI.BLEND_MODES.ADD
+      // const bg = new PIXI.Container()
+      // bg.filterArea = app.renderer.screen
+      // //  bg.blendMode = PIXI.BLEND_MODES.ADD
 
-      bg.filters = [filter, rayFilter]
+      // bg.filters = [filter, rayFilter]
 
-      app.stage.addChild(bg)
+      // app.stage.addChild(bg)
 
       let count = 0
       app.ticker.add((delta) => {
