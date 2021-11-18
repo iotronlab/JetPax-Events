@@ -100,6 +100,8 @@
               >Forgot password</v-btn
             >
           </v-row>
+          {{ $auth.user }}
+          {{ $auth.loggedIn }}
         </v-container>
       </v-col></v-row
     >
@@ -140,7 +142,7 @@ export default {
       if (this.$refs.observer.validate()) {
         console.log(this.$refs.observer.validate())
         await this.$auth
-          .loginWith('local', {
+          .loginWith('laravelSanctum', {
             data: {
               email: this.email,
               password: this.password,
@@ -150,8 +152,7 @@ export default {
             console.log(res)
           })
           .catch((error) => {
-            console.log(error.response.data)
-            this.$toast.error(error.response.data.message)
+            console.log(error.response)
           })
       } else {
         console.log('invalid formwa')

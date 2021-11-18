@@ -6,7 +6,7 @@ import {
   setInteractionMode,
 } from 'vee-validate'
 
-import { required, max, digits, email, min } from 'vee-validate/dist/rules'
+import { required, max, digits, email, min, is } from 'vee-validate/dist/rules'
 
 setInteractionMode('eager')
 
@@ -29,6 +29,10 @@ extend('min', {
 extend('digits', {
   ...digits,
   message: '{_field_} must be of {length} digits',
+})
+extend('is', {
+  ...is,
+  message: '{_field_} is required',
 })
 // Register it globally
 // main.js or any entry file.

@@ -33,7 +33,7 @@
       </nuxt-link>
 
       <AppBarMenu v-if="$vuetify.breakpoint.lgAndUp" :nav-items="navItems" />
-      <v-btn class="ml-auto" disabled outlined to="auth/sign-in">Sign in</v-btn>
+      <v-btn class="ml-auto" outlined to="/auth/sign-in">Sign in</v-btn>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -75,14 +75,14 @@ export default {
           title: 'About Us',
           to: '/about',
         },
-        // {
-        //   title: 'Events',
-        //   to: '/events',
-        // },
-        // {
-        //   title: 'Artists',
-        //   to: '/artists',
-        // },
+        {
+          title: 'Events',
+          to: '/events',
+        },
+        {
+          title: 'Artists',
+          to: '/artists',
+        },
         // {
         //   title: 'Contact Us',
         //   to: '/contactus',

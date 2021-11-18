@@ -70,10 +70,52 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: 'http://localhost:8000/api',
-    baseURL: 'https://devapi.iaa.org.in/api',
+    baseURL: 'http://localhost:8000/api',
+    // baseURL: 'https://devapi.iaa.org.in/api',
+    credentials: true,
   },
-
+  auth: {
+    redirect: {
+      home: '/',
+      logout: '/',
+      login: '/auth/sign-in',
+      callback: '/',
+    },
+    localStorage: {
+      prefix: 'iaa.',
+    },
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost:8000',
+        // token: {
+        //   property: 'accessToken',
+        //   required: true,
+        //   type: 'Bearer',
+        //   global: true,
+        //   maxAge: null,
+        // },
+        user: {
+          property: 'data',
+          autoFetch: true,
+        },
+        endpoints: {
+          login: {
+            url: '/api/login',
+            method: 'post',
+          },
+          user: {
+            url: '/api/details',
+            method: 'get',
+          },
+          logout: {
+            url: '/api/logout',
+            method: 'get',
+          },
+        },
+      },
+    },
+  },
   // sentry config
   sentry: {
     dsn: 'https://e073240737c847159fcc5b6e914abde1@o1063476.ingest.sentry.io/6053880', // Enter your project's DSN here

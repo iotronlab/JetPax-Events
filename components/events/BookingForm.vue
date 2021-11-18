@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
-    <h2 class="mt-4 text-center">Select Pass</h2>
+    <h2 id="tickets" class="mt-4 text-center">Select Pass</h2>
     <v-item-group v-model="selectedTicket" mandatory>
       <v-row no-gutters>
         <v-col
@@ -57,7 +57,7 @@
       </v-row>
     </v-item-group>
     <v-divider class="my-2"></v-divider>
-    <h3 class="text-center text-button">Booking Details</h3>
+    <h3 id="details" class="text-center text-button">Booking Details</h3>
     <v-divider class="my-2"></v-divider>
     <validation-observer ref="observer">
       <v-row no-gutters>
@@ -68,7 +68,7 @@
             rules="required"
           >
             <v-text-field
-              v-model="email"
+              v-model="form.booking_name"
               counter
               outlined
               hint="Enter your full name"
@@ -82,7 +82,7 @@
             rules="required|email"
           >
             <v-text-field
-              v-model="email"
+              v-model="form.booking_email"
               counter
               outlined
               hint="Enter your email"
@@ -97,7 +97,7 @@
             rules="required|digits:10"
           >
             <v-text-field
-              v-model="contact"
+              v-model="form.booking_contact"
               counter
               outlined
               maxlength="10"
@@ -117,22 +117,30 @@
               <div>whatsapp epass on my number.</div>
             </template>
           </v-checkbox> -->
-          <v-checkbox
-            v-model="agreeTerms"
-            :off-icon="icons.deselect"
-            :on-icon="icons.select"
+          <validation-provider
+            v-slot="{ errors }"
+            name="Agreement"
+            rules="is:1"
           >
-            <template #label>
-              <div>
-                I agree to the
+            <v-checkbox
+              v-model="agreeTerms"
+              :off-icon="icons.deselect"
+              :on-icon="icons.select"
+              :error-messages="errors"
+              true-value="1"
+              false-value="0"
+            >
+              <template #label>
+                <div>
+                  I agree to the
 
-                <a target="_blank" href=""> terms and conditions </a>
+                  <a target="_blank" href=""> terms and conditions </a>
 
-                for the event.
-              </div>
-            </template>
-          </v-checkbox>
-
+                  for the event.
+                </div>
+              </template>
+            </v-checkbox>
+          </validation-provider>
           <ul>
             <li>
               e-Pass will be sent to your email. You need to carry the e-Pass
@@ -169,13 +177,15 @@ export default {
     },
   },
   data: () => ({
-    email: null,
-    name: null,
-    contact: null,
+    form: {
+      booking_email: null,
+      booking_name: null,
+      booking_contact: null,
+      tickets: [],
+    },
     user: null,
     selectedTicket: null,
-    bookingTickets: [],
-    agreeTerms: false,
+    agreeTerms: 0,
     icons: {
       delete: mdiTrashCanOutline,
       select: mdiCheckboxMarkedOutline,
@@ -185,7 +195,7 @@ export default {
   computed: {
     total() {
       let total = 0
-      this.bookingTickets.forEach((el) => {
+      this.form.tickets.forEach((el) => {
         total += el.price * el.quantity
       })
       return total
@@ -194,34 +204,50 @@ export default {
   methods: {
     updateTickets(data) {
       if (data) {
-        const ticketIndex = this.bookingTickets.findIndex(
+        const bookingTickets = this.form.tickets
+        const ticketIndex = bookingTickets.findIndex(
           (el) => el.event_ticket_id === this.selectedTicket.id
         )
         if (ticketIndex === -1) {
           // add ticket
-          this.bookingTickets.push({
-            event_ticket_id: this.selectedTicket.id,
+          bookingTickets.push({
+            id: this.selectedTicket.id,
             quantity: data,
             price: this.selectedTicket.price,
           })
         } else {
           // update ticket
-          this.bookingTickets[ticketIndex].quantity = data
+          bookingTickets[ticketIndex].quantity = data
         }
         this.$emit('setTotal', this.total)
       }
     },
     removeTickets(ticketId) {
-      const ticketIndex = this.bookingTickets.findIndex(
+      const ticketIndex = this.form.tickets.findIndex(
         (el) => el.event_ticket_id === ticketId
       )
 
-      this.bookingTickets.splice(ticketIndex, 1)
+      this.form.tickets.splice(ticketIndex, 1)
       this.$emit('setTotal', this.total)
     },
     async confirmBooking() {
-      if (await this.$refs.observer.validate()) {
-        console.log('l')
+      if (this.total > 0) {
+        if (await this.$refs.observer.validate()) {
+          await this.$axios
+            .$post(`booking/new/${this.event.url}`, this.form)
+            .then((res) => {
+              console.log(res)
+              this.$router.push(`/booking/${res.bookingUuid}`)
+            })
+            .catch((err) => {
+              this.$sentry.captureException(new Error(err))
+              console.log(err)
+            })
+        } else {
+          this.$vuetify.goTo('#details')
+        }
+      } else {
+        this.$vuetify.goTo('#tickets')
       }
     },
   },
