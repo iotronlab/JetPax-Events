@@ -22,30 +22,31 @@
           This is the email you will use to login to your IAA account
         </span>
         <div id="recaptcha" class="ma-4"></div>
-        <validation-provider
-          name="OTP"
-          rules="required|max:6|min:6"
-          v-slot="{ errors }"
-        >
-          <v-text-field
-            v-if="otpSent"
-            v-model="otp"
-            counter
-            outlined
-            maxlength="6"
-            :hint="'Enter otp recieved via email on ' + email"
-            label="Enter OTP"
-            :error-messages="errors"
-          ></v-text-field
-        ></validation-provider>
+        <div v-if="otpSent">
+          <validation-provider
+            v-slot="{ errors }"
+            name="OTP"
+            rules="required|max:6|min:6"
+          >
+            <v-text-field
+              v-model="otp"
+              counter
+              outlined
+              maxlength="6"
+              :hint="'Enter otp recieved via email on ' + email"
+              label="Enter OTP"
+              :error-messages="errors"
+            ></v-text-field
+          ></validation-provider>
+        </div>
       </v-card-text>
     </validation-observer>
     <v-divider></v-divider>
 
     <v-card-actions>
-      <v-btn v-if="otpSent" depressed color="primary" @click="changeNumber">
+      <!-- <v-btn v-if="otpSent" depressed color="primary" @click="changeNumber">
         Change Email
-      </v-btn>
+      </v-btn> -->
       <v-spacer></v-spacer>
       <v-btn v-if="!otpSent" depressed color="primary" @click="sendOtp">
         Send Otp
@@ -63,13 +64,17 @@ import { getAuth, RecaptchaVerifier } from 'firebase/auth'
 export default {
   data: () => ({
     email: null,
-    auth: null,
+    googleAuth: null,
     otp: null,
     otpSent: false,
   }),
   mounted() {
-    this.auth = getAuth()
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha', {}, this.auth)
+    this.googleAuth = getAuth()
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      'recaptcha',
+      {},
+      this.googleAuth
+    )
     window.recaptchaVerifier.render().then(function (widgetId) {
       window.recaptchaWidgetId = widgetId
     })
@@ -78,7 +83,29 @@ export default {
     async sendOtp() {
       console.log(await this.$refs.observer.validate())
       if (await this.$refs.observer.validate()) {
-        this.otpSent = true
+        this.$axios
+          .$post('sendotp')
+          .then((res) => {
+            // this.$store.commit('SET_SNACKBAR', {
+            //   color: 'success',
+            //   text: res.message,
+            // })
+            this.otpSent = true
+            this.$store.dispatch('setSnackbar', {
+              color: 'success',
+              text: res.message,
+            })
+          })
+          .catch((err) => {
+            //    this.$sentry.captureException(new Error(err))
+            console.log(err.response.data.message)
+            this.$store.dispatch('setSnackbar', {
+              color: 'warning',
+              text: err.response.data.message,
+            })
+          })
+
+        console.log(await this.$refs.observer.validate())
       }
       try {
         // const phoneNumber = '+91' + this.contact

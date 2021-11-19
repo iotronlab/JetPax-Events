@@ -1,5 +1,6 @@
+export const strict = false
 export const state = () => ({
-  snackbars: [],
+  snackbar: {},
 })
 
 export const getters = {
@@ -13,13 +14,13 @@ export const mutations = {
     snackbar.showing = true
     snackbar.icon = snackbar.icon || null
     snackbar.color = snackbar.color || 'success'
-    state.snackbars = state.snackbars.concat(snackbar)
+    state.snackbar = snackbar
   },
 }
 
 export const actions = {
-  setSnackbar({ commit, snackbar }) {
-    snackbar.showing = true
+  setSnackbar({ commit }, snackbar) {
+    //   snackbar.showing = true
     commit('SET_SNACKBAR', snackbar)
     console.log(snackbar)
   },

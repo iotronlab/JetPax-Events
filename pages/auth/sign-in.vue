@@ -151,14 +151,14 @@ export default {
           .then((res) => {
             console.log(res)
           })
-          .catch((error) => {
-            console.log(error.response)
+          .catch((err) => {
+            this.$sentry.captureException(new Error(err))
           })
       } else {
         console.log('invalid formwa')
       }
 
-      this.checkLogin()
+      // this.checkLogin()
     },
     // async loginWithFacebook() {
     //   window.location.href = `https://api.butiq.co.in/public/api/login/facebook`
@@ -168,14 +168,14 @@ export default {
     //   window.location.href = `https://api.butiq.co.in/public/api/login/google`
     //   this.checkLogin()
     // },
-    checkLogin() {
-      console.log(this.$auth.user)
-      if (this.$auth.loggedIn) {
-        this.dialog = false
-      } else {
-        this.message = 'Invalid email or password'
-      }
-    },
+    // checkLogin() {
+    //   console.log(this.$auth.user)
+    //   if (this.$auth.loggedIn) {
+    //     this.dialog = false
+    //   } else {
+    //     this.message = 'Invalid email or password'
+    //   }
+    // },
   },
 }
 </script>

@@ -18,9 +18,14 @@
             booking.status
           }}</span>
         </h1>
-        <v-btn v-if="!booking.payment_success" color="primary" class="mb-2"
-          >retry payment</v-btn
-        >
+        <div v-if="!booking.payment_success">
+          <p class="caption mb-1">
+            Kindly complete the payment within 24hrs to avoid cancellation
+          </p>
+          <v-btn color="primary" class="mb-2" @click="initiatePayment"
+            >retry payment</v-btn
+          >
+        </div>
         <EventsMiniCard :event="booking.event" />
         <h1 class="overline mt-2 secondary--text">Booking Details</h1>
 
@@ -101,6 +106,18 @@ export default {
       // this.$sentry.captureException(new Error(error))
     }
   },
+  //  computed: {
+  //   currentTitle() {
+  //     switch (data) {
+  //       case 1:
+  //         return 'sign-up'
+  //       case 2:
+  //         return 'Create a password'
+  //       default:
+  //         return 'Account created'
+  //     }
+  //   },
+  // },
   methods: {
     initiatePayment() {
       const self = this

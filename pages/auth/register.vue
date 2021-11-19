@@ -2,18 +2,13 @@
   <v-container fluid class="fill-height align-center bg ma-0">
     <v-card class="mx-auto">
       <v-card-title class="justify-space-between">
-        <h1 class="text-h6">{{ currentTitle }}</h1>
-        <v-avatar
-          color="primary"
-          class="text-h6"
-          size="24"
-          v-text="step"
-        ></v-avatar>
+        <h1 class="text-button">{{ currentTitle }}</h1>
+        <v-avatar color="primary" size="24" v-text="step"></v-avatar>
       </v-card-title>
 
       <v-window v-model="step">
         <v-window-item :value="1">
-          <div class="ma-2">
+          <div class="ma-2 text-center">
             <h2 class="text-overline">verify using</h2>
             <v-btn-toggle v-model="verifyUsing" mandatory shaped>
               <v-btn value="number">

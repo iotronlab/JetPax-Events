@@ -6,7 +6,7 @@
       style="position: absolute; top: 0; width: 100%"
       class="text-center"
       justify="center"
-      ><v-col cols="12" lg="5" class="mt-16">
+      ><v-col cols="12" lg="5" class="mt-16 px-2">
         <h1
           class="text-uppercase mb-4"
           style="letter-spacing: 4px; font-size: 20px"

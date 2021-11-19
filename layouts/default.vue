@@ -2,7 +2,7 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
-      class="ma-2 rounded-xl"
+      class="ma-2 rounded-xl card-glass"
       temporary
       fixed
       app
@@ -33,7 +33,18 @@
       </nuxt-link>
 
       <AppBarMenu v-if="$vuetify.breakpoint.lgAndUp" :nav-items="navItems" />
-      <v-btn class="ml-auto" outlined to="/auth/sign-in">Sign in</v-btn>
+
+      <section v-if="$auth.loggedIn == false" class="ml-auto">
+        <!-- <Login /> -->
+        <v-btn outlined to="/auth/sign-in">Sign in</v-btn>
+      </section>
+      <section v-if="$auth.loggedIn == true" class="ml-auto">
+        <!-- Account button -->
+
+        <v-btn color="secondary" dark icon to="/account">
+          <v-icon>{{ icons.account }}</v-icon>
+        </v-btn>
+      </section>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -42,6 +53,24 @@
     <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+    <v-scroll-y-transition>
+      <v-snackbar
+        v-model="snackbar.showing"
+        top
+        text
+        :color="snackbar.color"
+        :timeout="4000"
+      >
+        <v-icon dark class="mr-2">{{ snackbar.icon }}</v-icon>
+        {{ snackbar.text }}
+
+        <template #action="{ attrs }">
+          <v-btn text small v-bind="attrs" @click="snackbar.showing = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar></v-scroll-y-transition
+    >
   </v-app>
 </template>
 
@@ -54,7 +83,9 @@ import {
   mdiFacebook,
   mdiInstagram,
   mdiYoutube,
+  mdiAccount,
 } from '@mdi/js'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -65,6 +96,7 @@ export default {
         call: mdiPhone,
         email: mdiEmail,
         whatsapp: mdiWhatsapp,
+        account: mdiAccount,
       },
       navItems: [
         {
@@ -110,6 +142,12 @@ export default {
         },
       ],
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      snackbar: 'snackbar',
+    }),
   },
   mounted() {
     const myNav = document.getElementById('nav')
