@@ -28,19 +28,13 @@
             name="OTP"
             rules="required|max:6|min:6"
           >
-            <v-text-field
-              v-model="otp"
-              counter
-              outlined
-              maxlength="6"
-              :hint="'Enter otp recieved via email on ' + email"
-              label="Enter OTP"
-              :error-messages="errors"
-            ></v-text-field
-          ></validation-provider>
+            <v-otp-input v-model="otp" length="6" type="number"></v-otp-input>
+            {{ errors.toString() }}
+          </validation-provider>
         </div>
       </v-card-text>
     </validation-observer>
+    {{ errorMessage }}
     <v-divider></v-divider>
 
     <v-card-actions>
@@ -67,6 +61,7 @@ export default {
     googleAuth: null,
     otp: null,
     otpSent: false,
+    errorMessage: null,
   }),
   mounted() {
     this.googleAuth = getAuth()
@@ -81,15 +76,46 @@ export default {
   },
   methods: {
     async sendOtp() {
-      console.log(await this.$refs.observer.validate())
       if (await this.$refs.observer.validate()) {
-        this.$axios
-          .$post('sendotp')
+        try {
+          await this.$axios
+            .$get('http://localhost:8000/sanctum/csrf-cookie', {
+              withCredentials: true,
+            })
+            .then(async (response) => {
+              await this.$axios
+                .$post('sendotp', {
+                  email: this.email,
+                  type: 'new',
+                })
+                .then((res) => {
+                  this.otpSent = true
+                  this.$store.dispatch('setSnackbar', {
+                    color: 'success',
+                    text: res.message,
+                  })
+                })
+            })
+        } catch (err) {
+          this.$sentry.captureException(new Error(err))
+          this.errorMessage = err.response
+            ? err.response.data.message
+            : err.message
+          this.$store.dispatch('setSnackbar', {
+            color: 'warning',
+            text: this.errorMessage,
+          })
+        }
+      }
+    },
+    async verifyOtp() {
+      if (await this.$refs.observer.validate()) {
+        await this.$axios
+          .$post('verifyotp', {
+            email: this.email,
+            otp: this.otp,
+          })
           .then((res) => {
-            // this.$store.commit('SET_SNACKBAR', {
-            //   color: 'success',
-            //   text: res.message,
-            // })
             this.otpSent = true
             this.$store.dispatch('setSnackbar', {
               color: 'success',
@@ -97,54 +123,15 @@ export default {
             })
           })
           .catch((err) => {
-            //    this.$sentry.captureException(new Error(err))
-            console.log(err.response.data.message)
+            this.$sentry.captureException(new Error(err))
+            this.errorMessage = err.response
+              ? err.response.data.message
+              : err.message
             this.$store.dispatch('setSnackbar', {
               color: 'warning',
-              text: err.response.data.message,
+              text: this.errorMessage,
             })
           })
-
-        console.log(await this.$refs.observer.validate())
-      }
-      try {
-        // const phoneNumber = '+91' + this.contact
-        // const appVerifier = window.recaptchaVerifier
-        // signInWithPhoneNumber(this.auth, phoneNumber, appVerifier)
-        //   .then((confirmationResult) => {
-        //     // SMS sent. Prompt user to type the code from the message, then sign the
-        //     // user in with confirmationResult.confirm(code).
-        //     window.confirmationResult = confirmationResult
-        //     console.log(confirmationResult)
-        //     // ...
-        //   })
-        //   .catch((error) => {
-        //     // Error; SMS not sent
-        //     console.log(error)
-        //     // grecaptcha.reset(window.recaptchaWidgetId)
-        //   })
-      } catch (e) {
-        // handleError(e)
-        console.log(e)
-      }
-    },
-    verifyOtp() {
-      try {
-        window.confirmationResult
-          .confirm(this.otp)
-          .then((result) => {
-            // User signed in successfully.
-            console.log(result)
-            // ...
-          })
-          .catch((error) => {
-            // User couldn't sign in (bad verification code?)
-            // ...
-            console.log(error)
-          })
-      } catch (e) {
-        // handleError(e)
-        console.log(e)
       }
     },
   },

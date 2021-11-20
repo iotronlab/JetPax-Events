@@ -78,6 +78,7 @@ export default {
       }
     },
   },
+  async mounted() {},
 }
 </script>
 <style >

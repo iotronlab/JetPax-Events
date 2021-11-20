@@ -149,6 +149,14 @@ export default {
       snackbar: 'snackbar',
     }),
   },
+  watch: {
+    snackbar() {
+      this.snackbar.showing = false
+      setTimeout(() => {
+        this.snackbar.showing = true
+      }, 100)
+    },
+  },
   mounted() {
     const myNav = document.getElementById('nav')
     window.onscroll = function () {
