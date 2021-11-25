@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid>
-    <h1 class="text-h2 text-center">Featured in</h1>
+  <v-container fluid class="pa-0">
+    <h1 class="text-h2 text-center">Associates</h1>
     <v-divider class="my-2"></v-divider>
     <section v-if="$fetchState.pending">
       <Loading message="fetching events..." />
@@ -12,7 +12,7 @@
       <v-col cols="12" md="9" class="text-center mx-auto">
         <v-row
           ><v-col
-            v-for="(mention, i) in mentions"
+            v-for="(associate, i) in associates"
             :key="i"
             cols="12"
             lg="4"
@@ -20,14 +20,14 @@
           >
             <v-img
               :src="
-                mention.image
-                  ? mention.image
+                associate.image
+                  ? associate.image
                   : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Brand'
               "
               max-height="100"
               contain
             ></v-img>
-            <h1 class="text-overline text--secondary">{{ mention.name }}</h1>
+            <h1 class="text-overline text--secondary">{{ associate.name }}</h1>
           </v-col></v-row
         ></v-col
       >
@@ -39,15 +39,15 @@
 export default {
   data() {
     return {
-      mentions: null,
+      associates: null,
       errorMessage: null,
     }
   },
   async fetch() {
     await this.$axios
-      .$get('agency/mentions')
+      .$get('agency/associates')
       .then((res) => {
-        this.mentions = res.data
+        this.associates = res.data
       })
       .catch((err) => {
         this.errorMessage = err

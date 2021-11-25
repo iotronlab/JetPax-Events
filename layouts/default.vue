@@ -106,6 +106,11 @@ export default {
         {
           title: 'About Us',
           to: '/about',
+          // children: [
+          //   { title: 'Art Forms', to: '/about#artforms' },
+          //   { title: 'Our Team', to: '/about#team' },
+          //   { title: 'Associates', to: '/about#associates' },
+          // ],
         },
         {
           title: 'Events',

@@ -77,7 +77,7 @@
                       color="#DB4437"
                       class="ma-1"
                       dark
-                      @click.prevent="socialLogin('google')"
+                      @click.prevent="loginWithGoogle"
                     >
                       <v-icon left>{{ icon.google }}</v-icon
                       >google
@@ -164,10 +164,11 @@ export default {
     //   window.location.href = `https://api.butiq.co.in/public/api/login/facebook`
     //   this.checkLogin()
     // },
-    // async loginWithGoogle() {
-    //   window.location.href = `https://api.butiq.co.in/public/api/login/google`
-    //   this.checkLogin()
-    // },
+    async loginWithGoogle() {
+      // window.location.href = `https://api.butiq.co.in/public/api/login/google`
+      // this.checkLogin()
+      await this.$auth.loginWith('google')
+    },
     // checkLogin() {
     //   console.log(this.$auth.user)
     //   if (this.$auth.loggedIn) {

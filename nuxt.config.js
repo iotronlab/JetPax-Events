@@ -85,16 +85,20 @@ export default {
       prefix: 'iaa.',
     },
     strategies: {
+      google: {
+        clientId:
+          '1052205198151-tjrsrpdhliu6tjoago3ucpmjpj2dfn7r.apps.googleusercontent.com',
+        // codeChallengeMethod: '',
+        // responseType: 'code',
+        endpoints: {
+          token: 'http://localhost:8000/user/google/', // somm backend url to resolve your auth with google and give you the token back
+          userInfo: 'http://localhost:8000/auth/user/', // the endpoint to get the user info after you recived the token
+        },
+      },
       laravelSanctum: {
         provider: 'laravel/sanctum',
         url: 'http://localhost:8000',
-        // token: {
-        //   property: 'accessToken',
-        //   required: true,
-        //   type: 'Bearer',
-        //   global: true,
-        //   maxAge: null,
-        // },
+
         user: {
           property: 'data',
           autoFetch: true,

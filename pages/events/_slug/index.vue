@@ -72,9 +72,8 @@
             <h3 class="my-4">Venue - {{ event.location }}</h3>
             <SocialDetails :display-data="event" /></div
         ></v-col>
-        <v-col cols="12" lg="10">
-          <p class="mt-4">{{ event.description }}</p></v-col
-        >
+        <v-col cols="12" lg="10" class="pa-2 mt-2" v-html="event.description">
+        </v-col>
       </v-row>
 
       <section>

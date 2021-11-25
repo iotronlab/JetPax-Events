@@ -60,7 +60,10 @@
       <LazyAboutArtForms />
     </section>
     <section id="team" class="glow-red mt-8 px-1">
-      <!-- <LazyAboutTeam /> -->
+      <LazyAboutTeam />
+    </section>
+    <section id="associates" class="mt-8 px-1">
+      <LazyAboutAssociates />
     </section>
   </v-container>
 </template>
