@@ -5,7 +5,9 @@
       <h1 class="text-lg-h1 text-h2 text-center">Artists</h1>
       <Loading message="fetching artists..." />
     </section>
-
+    <section v-else-if="errorMessage != null">
+      <LazyFetchError />
+    </section>
     <section v-else>
       <v-row no-gutters justify="center" align="center" class="text-center">
         <v-col cols="12" lg="3" md="3">
@@ -172,7 +174,8 @@ export default {
         this.pageData = res.meta
       })
       .catch((err) => {
-        console.log(err)
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
       })
 
     // await this.$axios

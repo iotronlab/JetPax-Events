@@ -67,7 +67,10 @@ export default {
 
     // https://go.nuxtjs.dev/pwa
   ],
-
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    apiUrl: process.env.API_URL || 'http://localhost:8000',
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8000/api',
@@ -85,16 +88,6 @@ export default {
       prefix: 'iaa.',
     },
     strategies: {
-      google: {
-        clientId:
-          '1052205198151-tjrsrpdhliu6tjoago3ucpmjpj2dfn7r.apps.googleusercontent.com',
-        // codeChallengeMethod: '',
-        // responseType: 'code',
-        endpoints: {
-          token: 'http://localhost:8000/user/google/', // somm backend url to resolve your auth with google and give you the token back
-          userInfo: 'http://localhost:8000/auth/user/', // the endpoint to get the user info after you recived the token
-        },
-      },
       laravelSanctum: {
         provider: 'laravel/sanctum',
         url: 'http://localhost:8000',

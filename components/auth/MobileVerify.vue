@@ -24,23 +24,27 @@
         <span class="text-caption text--secondary">
           This is the phone number you will use to login to your IAA account
         </span>
-        <div id="recaptcha" class="ma-4"></div>
-        <validation-provider
-          v-slot="{ errors }"
-          name="OTP"
-          rules="required|max:6|min:6"
-        >
-          <v-text-field
-            v-if="otpSent"
-            v-model.number="otp"
-            counter
-            outlined
-            maxlength="6"
-            :hint="'Enter otp recieved via sms on +91' + contact"
-            label="Enter OTP"
-            :error-messages="errors"
-          ></v-text-field
-        ></validation-provider>
+        <div v-if="!otpSent" id="recaptcha" class="ma-4"></div>
+
+        <div v-if="otpSent">
+          <v-scroll-y-transition>
+            <validation-provider
+              v-slot="{ errors }"
+              name="OTP"
+              rules="required|max:6|min:6"
+            >
+              <v-text-field
+                v-if="otpSent"
+                v-model.number="otp"
+                counter
+                outlined
+                maxlength="6"
+                :hint="'Enter otp recieved via sms on +91' + contact"
+                label="Enter OTP"
+                :error-messages="errors"
+              ></v-text-field></validation-provider
+          ></v-scroll-y-transition>
+        </div>
       </v-card-text>
     </validation-observer>
     <v-divider></v-divider>
@@ -64,82 +68,92 @@
 import {
   getAuth,
   RecaptchaVerifier,
-  //  signInWithPhoneNumber,
+  signInWithPhoneNumber,
 } from 'firebase/auth'
 
 export default {
   data: () => ({
     contact: null,
-    auth: null,
+    googleAuth: null,
+    reCaptcha: null,
     otp: null,
     otpSent: false,
   }),
   mounted() {
-    this.auth = getAuth()
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha', {}, this.auth)
+    this.googleAuth = getAuth()
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      'recaptcha',
+      {
+        size: 'normal',
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          this.reCaptcha = response
+        },
+        'expired-callback': () => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          this.reCaptcha = null
+        },
+      },
+      this.googleAuth
+    )
     window.recaptchaVerifier.render().then(function (widgetId) {
       window.recaptchaWidgetId = widgetId
     })
   },
   methods: {
-    async sendOtp() {
-      console.log(await this.$refs.observer.validate())
-      if (await this.$refs.observer.validate()) {
-        this.otpSent = true
-      }
-      try {
-        // const phoneNumber = '+91' + this.contact
-        // const appVerifier = window.recaptchaVerifier
-        // signInWithPhoneNumber(this.auth, phoneNumber, appVerifier)
-        //   .then((confirmationResult) => {
-        //     // SMS sent. Prompt user to type the code from the message, then sign the
-        //     // user in with confirmationResult.confirm(code).
-        //     window.confirmationResult = confirmationResult
-        //     console.log(confirmationResult)
-        //     // ...
-        //   })
-        //   .catch((error) => {
-        //     // Error; SMS not sent
-        //     console.log(error)
-        //     // grecaptcha.reset(window.recaptchaWidgetId)
-        //   })
-      } catch (e) {
-        // handleError(e)
-        console.log(e)
+    checkRecaptcha() {
+      if (this.reCaptcha != null) {
+        return true
+      } else {
+        this.$store.dispatch('setSnackbar', {
+          color: 'warning',
+          text: 'Verify you are not a robot!',
+        })
+        return false
       }
     },
-    verifyOtp() {
-      try {
-        window.confirmationResult
-          .confirm(this.otp)
-          .then((result) => {
-            // User signed in successfully.
-            console.log(result)
+    async sendOtp() {
+      if ((await this.$refs.observer.validate()) && this.checkRecaptcha()) {
+        const phoneNumber = '+91' + this.contact
+        const appVerifier = window.recaptchaVerifier
+        signInWithPhoneNumber(this.googleAuth, phoneNumber, appVerifier)
+          .then((confirmationResult) => {
+            // SMS sent. Prompt user to type the code from the message, then sign the
+            // user in with confirmationResult.confirm(code).
+            window.confirmationResult = confirmationResult
+            this.$store.dispatch('setSnackbar', {
+              color: 'success',
+              text: 'Otp sent on ' + this.contact,
+            })
+            this.$emit('otpsent', { contact: this.contact })
+            this.otpSent = true
             // ...
           })
           .catch((error) => {
-            // User couldn't sign in (bad verification code?)
-            // ...
-            console.log(error)
+            // Error; SMS not sent
+            this.otpSent = false
+            this.$sentry.captureException(new Error(error))
+            this.$store.dispatch('setSnackbar', {
+              color: 'warning',
+              text: 'Kindly try email verification!',
+            })
           })
-      } catch (e) {
-        // handleError(e)
-        console.log(e)
       }
+    },
+    verifyOtp() {
+      window.confirmationResult
+        .confirm(this.otp)
+        .then((result) => {
+          // User signed in successfully.
+          console.log(result)
+          // ...
+        })
+        .catch((error) => {
+          // User couldn't sign in (bad verification code?)
+          // ...
+          this.$sentry.captureException(new Error(error))
+        })
     },
   },
 }
 </script>
-<style>
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0 !important;
-}
-
-/* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield !important;
-}
-</style>

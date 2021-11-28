@@ -115,20 +115,16 @@ export default {
     }
   },
   async fetch() {
-    try {
-      await this.$axios
-        .$get('events', { params: this.$route.query })
-        .then((res) => {
-          this.events = res.data
-          this.pageData = res.meta
-        })
-        .catch((err) => {
-          this.errorMessage = err
-          this.$sentry.captureException(new Error(err))
-        })
-    } catch (error) {
-      this.$sentry.captureException(new Error(error))
-    }
+    await this.$axios
+      .$get('events', { params: this.$route.query })
+      .then((res) => {
+        this.events = res.data
+        this.pageData = res.meta
+      })
+      .catch((err) => {
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
   },
   head() {
     return {

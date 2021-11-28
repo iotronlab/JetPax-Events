@@ -11,18 +11,24 @@
           <div class="ma-2 text-center">
             <h2 class="text-overline">verify using</h2>
             <v-btn-toggle v-model="verifyUsing" mandatory shaped>
-              <v-btn value="number">
+              <v-btn value="number" :disabled="email">
                 Mobile Number <v-icon right>{{ icons.phone }}</v-icon>
               </v-btn>
-              <v-btn value="email">
+              <v-btn value="email" :disabled="contact">
                 <v-icon left>{{ icons.email }}</v-icon>
                 Email
               </v-btn>
             </v-btn-toggle>
           </div>
 
-          <AuthMobileVerify v-if="verifyUsing == 'number'" />
-          <AuthEmailVerify v-if="verifyUsing == 'email'" />
+          <AuthMobileVerify
+            v-if="verifyUsing == 'number'"
+            @otpsent="otpSentEvent"
+          />
+          <AuthEmailVerify
+            v-if="verifyUsing == 'email'"
+            @otpsent="otpSentEvent"
+          />
         </v-window-item>
 
         <v-window-item :value="2">
@@ -61,10 +67,14 @@ export default {
   data: () => ({
     step: 1,
     verifyUsing: 'number',
+    otpSent: false,
     icons: {
       phone: mdiPhone,
       email: mdiEmail,
     },
+    contact: null,
+    email: null,
+    password: null,
   }),
   computed: {
     currentTitle() {
@@ -78,7 +88,16 @@ export default {
       }
     },
   },
-  async mounted() {},
+  methods: {
+    otpSentEvent(data) {
+      if (data.contact) {
+        this.contact = data.contact
+      } else if (data.email) {
+        this.email = data.email
+      }
+      this.otpSent = true
+    },
+  },
 }
 </script>
 <style >

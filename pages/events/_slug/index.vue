@@ -199,7 +199,7 @@ export default {
       try {
         await navigator.share(shareData)
       } catch (err) {
-        // console.log(err)
+        this.$sentry.captureException(new Error(err))
       }
     },
   },

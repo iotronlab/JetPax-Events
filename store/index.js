@@ -22,6 +22,5 @@ export const actions = {
   setSnackbar({ commit }, snackbar) {
     //   snackbar.showing = true
     commit('SET_SNACKBAR', snackbar)
-    console.log(snackbar)
   },
 }

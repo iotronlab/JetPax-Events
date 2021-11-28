@@ -67,7 +67,7 @@
                       color="#4267B2"
                       class="ma-1"
                       dark
-                      @click.prevent="socialLogin('facebook')"
+                      @click.prevent="loginWithFacebook"
                     >
                       facebook
                       <v-icon right>{{ icon.facebook }}</v-icon>
@@ -137,10 +137,12 @@ export default {
       },
     }
   },
+  mounted() {
+    console.log(process.env.apiUrl)
+  },
   methods: {
     async login() {
       if (this.$refs.observer.validate()) {
-        console.log(this.$refs.observer.validate())
         await this.$auth
           .loginWith('laravelSanctum', {
             data: {
@@ -150,8 +152,16 @@ export default {
           })
           .then((res) => {
             console.log(res)
+            this.$store.dispatch('setSnackbar', {
+              color: 'success',
+              text: res.message,
+            })
           })
           .catch((err) => {
+            this.$store.dispatch('setSnackbar', {
+              color: 'error',
+              text: 'Verify you are not a robot!',
+            })
             this.$sentry.captureException(new Error(err))
           })
       } else {
@@ -160,14 +170,15 @@ export default {
 
       // this.checkLogin()
     },
-    // async loginWithFacebook() {
-    //   window.location.href = `https://api.butiq.co.in/public/api/login/facebook`
-    //   this.checkLogin()
-    // },
-    async loginWithGoogle() {
-      // window.location.href = `https://api.butiq.co.in/public/api/login/google`
+    loginWithFacebook() {
+      window.location.href = process.env.apiUrl + '/login/facebook'
       // this.checkLogin()
-      await this.$auth.loginWith('google')
+      // await this.$auth.loginWith('facebook')
+    },
+    loginWithGoogle() {
+      window.location.href = process.env.apiUrl + '/login/google'
+      // this.checkLogin()
+      //    await this.$auth.loginWith('google')
     },
     // checkLogin() {
     //   console.log(this.$auth.user)
