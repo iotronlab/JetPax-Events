@@ -38,19 +38,22 @@ export default {
     async getUser() {
       console.log('user')
       await this.$axios
-        .$get('http://localhost:8000/sanctum/csrf-cookie', {
+        .$get(process.env.apiUrl + '/sanctum/csrf-cookie', {
           withCredentials: true,
         })
         .then(() => {
           this.$auth
             .setUserToken(true)
-            .then((result) => {})
+            .then((result) => {
+              this.$router.push('/')
+            })
             .catch((err) => {
-              console.log(err)
+              this.$router.push('/')
+              this.$sentry.captureException(new Error(err))
             })
         })
         .catch((err) => {
-          console.log(err)
+          this.$sentry.captureException(new Error(err))
         })
     },
   },

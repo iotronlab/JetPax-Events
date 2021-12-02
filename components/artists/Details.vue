@@ -1,9 +1,15 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12" lg="6">
-      <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+    <v-col cols="12">
+      <v-img
+        :src="
+          artist.displayImage
+            ? artist.displayImage
+            : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Member'
+        "
+      ></v-img>
     </v-col>
-    <v-col cols="12" lg="6" class="pa-2">
+    <v-col cols="12" class="pa-2">
       <h3 class="primary--text">{{ artist.name }}</h3>
 
       <p
@@ -11,13 +17,26 @@
           text-overflow: ellipsis;
           overflow: hidden;
           display: -webkit-box !important;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
         "
+        class="pt-2"
       >
         {{ artist.desc }}
       </p>
-      <v-btn small outlined class="mb-2" color="secondary">view artist</v-btn>
+      <!-- <v-btn
+        small
+        outlined
+        class="mb-2"
+        color="secondary"
+        :to="{
+          name: 'artists-slug',
+          params: {
+            slug: artist.url,
+          },
+        }"
+        >view artist</v-btn
+      > -->
       <SocialDetails :display-data="artist" />
     </v-col>
   </v-row>

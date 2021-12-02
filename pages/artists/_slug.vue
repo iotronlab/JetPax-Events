@@ -279,15 +279,14 @@ export default {
           to: '/',
         },
         {
-          text: 'Influencers',
+          text: 'Artists',
           disabled: false,
-          to: '/influencers',
+          to: '/artists',
           exact: true,
         },
         {
           text: this.$route.params.slug,
           disabled: true,
-          to: '',
         },
       ],
       icons: {
@@ -327,7 +326,7 @@ export default {
   },
   async fetch() {
     await this.$axios
-      .$get(`creators/${this.$route.params.slug}`)
+      .$get(`artists/${this.$route.params.slug}`)
       .then((res) => {
         this.creator = res.data
       })

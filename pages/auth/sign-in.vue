@@ -3,7 +3,7 @@
     <v-row no-gutters justify="center">
       <v-col lg="5">
         <v-container fluid class="card-glass rounded-xl">
-          <v-row no-gutters>
+          <!-- <v-row no-gutters>
             <v-col class="d-flex justify-center align-center">
               <ValidationObserver ref="observer" v-slot="{}">
                 <v-form id="login-form" method="post" @submit.prevent="login">
@@ -62,36 +62,39 @@
                   <br />
                   <p class="text-center grey--text subtitle-2">LOG IN VIA</p>
 
-                  <v-row no-gutters justify="space-around">
-                    <v-btn
-                      color="#4267B2"
-                      class="ma-1"
-                      dark
-                      @click.prevent="loginWithFacebook"
-                    >
-                      facebook
-                      <v-icon right>{{ icon.facebook }}</v-icon>
-                    </v-btn>
 
-                    <v-btn
-                      color="#DB4437"
-                      class="ma-1"
-                      dark
-                      @click.prevent="loginWithGoogle"
-                    >
-                      <v-icon left>{{ icon.google }}</v-icon
-                      >google
-                    </v-btn>
-                  </v-row>
                 </v-form></ValidationObserver
               >
             </v-col>
-          </v-row>
+          </v-row> -->
+          <br />
+          <p class="text-center">Login Via</p>
 
           <br />
-          <hr />
+          <v-row no-gutters justify="center">
+            <v-btn
+              color="#4267B2"
+              class="ma-1"
+              dark
+              @click.prevent="loginWithFacebook"
+            >
+              facebook
+              <v-icon right>{{ icon.facebook }}</v-icon>
+            </v-btn>
+
+            <v-btn
+              color="#DB4437"
+              class="ma-1"
+              dark
+              @click.prevent="loginWithGoogle"
+            >
+              <v-icon left>{{ icon.google }}</v-icon
+              >google
+            </v-btn>
+          </v-row>
           <br />
-          <v-row no-gutters class="my-2" justify="space-around">
+
+          <!-- <v-row no-gutters class="my-2" justify="space-around">
             <v-btn text small :to="{ path: 'register' }" @click="dialog = false"
               >Create an account</v-btn
             >
@@ -99,16 +102,14 @@
             <v-btn text small :to="{ path: 'reset' }" @click="dialog = false"
               >Forgot password</v-btn
             >
-          </v-row>
-          {{ $auth.user }}
-          {{ $auth.loggedIn }}
+          </v-row> -->
         </v-container>
       </v-col></v-row
     >
   </v-container>
 </template>
 <script>
-import { ValidationObserver } from 'vee-validate'
+// import { ValidationObserver } from 'vee-validate'
 import {
   mdiEmail,
   mdiLock,
@@ -118,8 +119,9 @@ import {
   mdiGoogle,
 } from '@mdi/js'
 export default {
+  middleware: ['auth-user'],
   components: {
-    ValidationObserver,
+    // ValidationObserver,
   },
 
   data() {

@@ -1,51 +1,41 @@
 <template>
   <section>
-    <v-row
-      v-if="displayData.genres"
-      no-gutters
-      class="mb-2"
-      align="center"
-      justify="center"
-    >
-      <h4>Genres</h4>
+    <v-row v-if="displayData.genres" no-gutters class="mb-2" align="center">
+      <h4 class="caption">Genres</h4>
       <v-chip
         v-for="(genre, n) in displayData.genres"
         :key="n"
-        class="ml-2"
+        class="ma-1"
         outlined
         >{{ genre }}</v-chip
       >
     </v-row>
-    <v-row
-      v-if="displayData.languages"
-      no-gutters
-      class="mb-2"
-      justify="center"
-      align="center"
-    >
-      <h4>Languages</h4>
+    <v-row v-if="displayData.languages" no-gutters class="mb-2" align="center">
+      <h4 class="caption">Languages</h4>
       <v-chip
         v-for="(language, k) in displayData.languages"
         :key="k"
-        class="ml-2"
+        class="ma-1"
         outlined
         >{{ language }}</v-chip
       >
     </v-row>
+    <h4 class="caption">External links</h4>
     <v-row
-      v-if="displayData.external_links"
+      v-if="displayData.externalLinks"
       no-gutters
       class="mb-2"
-      justify="center"
       align="center"
     >
-      <h4>Socials</h4>
-      <v-chip
-        v-for="(social, l) in displayData.external_links"
+      <v-btn
+        v-for="(link, l) in displayData.externalLinks"
         :key="l"
-        class="ml-2"
-        outlined
-        >{{ social }}</v-chip
+        class="ma-1"
+        :color="link.color"
+        :href="link.url"
+        small
+        target="_blank"
+        >{{ link.site }}</v-btn
       >
     </v-row>
   </section>

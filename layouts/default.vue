@@ -2,7 +2,7 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
-      class="ma-2 rounded-xl card-glass"
+      class="ma-2 rounded-xl card-glass elevated"
       temporary
       fixed
       app
@@ -21,7 +21,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar id="nav" class="nav-transparent" fixed app flat>
+    <v-app-bar id="nav" class="elevated nav-transparent" fixed app flat>
       <v-app-bar-nav-icon
         aria-label="nav-button"
         @click.stop="drawer = !drawer"
@@ -116,10 +116,10 @@ export default {
           title: 'Events',
           to: '/events',
         },
-        {
-          title: 'Artists',
-          to: '/artists',
-        },
+        // {
+        //   title: 'Artists',
+        //   to: '/artists',
+        // },
         // {
         //   title: 'Contact Us',
         //   to: '/contactus',
@@ -181,5 +181,8 @@ export default {
 <style scoped>
 .nav-transparent {
   background-color: transparent !important;
+}
+.elevated {
+  z-index: 100 !important;
 }
 </style>

@@ -50,11 +50,12 @@
           {{ ticket.name }} x {{ ticket.quantity }}
         </h4>
         <v-divider class="my-2"></v-divider>
-        <h3>Total - {{ booking.amount }}</h3>
+        <h3>Total - INR {{ booking.amount / 100 }}</h3>
 
         <v-divider class="my-2"></v-divider>
-      </v-col></section
-  ></v-container>
+      </v-col>
+    </section>
+  </v-container>
 </template>
 
 <script>
@@ -63,7 +64,7 @@ export default {
   middleware: 'auth',
   data() {
     return {
-      booking: null,
+      booking: {},
       errorMessage: null,
       icon: {
         location: mdiMapMarkerStar,
@@ -100,10 +101,10 @@ export default {
         })
         .catch((err) => {
           this.errorMessage = err
-          //  this.$sentry.captureException(new Error(err))
+          this.$sentry.captureException(new Error(err))
         })
     } catch (error) {
-      // this.$sentry.captureException(new Error(error))
+      this.$sentry.captureException(new Error(error))
     }
   },
   //  computed: {
@@ -122,7 +123,7 @@ export default {
     initiatePayment() {
       const self = this
       const rzpOptions = {
-        key: 'rzp_test_0wpfilwI7DwcZd',
+        key: 'rzp_live_aFZgYfG1U1OvhZ',
         amount: this.booking.amount,
         name: this.booking.event.name,
         description: this.booking.event.desc,
@@ -135,29 +136,37 @@ export default {
           // })
           // self.payment_id = response.razorpay_payment_id
           self.$axios
-            .$post(`booking/confirm/${this.booking.uuid}`, response)
-            .then((result) => {})
-            .catch((err) => {
-              this.$sentry.captureException(new Error(err))
+            .$post(`booking/confirm/${self.booking.uuid}`, response)
+            .then((res) => {
+              self.booking = res.data
+              self.$store.dispatch('setSnackbar', {
+                color: 'success',
+                text: res.message,
+              })
             })
-          console.log(response)
+            .catch((err) => {
+              self.$store.dispatch('setSnackbar', {
+                color: 'error',
+                text: 'Payment fail. Please try again!',
+              })
+              self.$sentry.captureException(new Error(err))
+            })
         },
         modal: {
           ondismiss() {
-            // self.$toast.error(`Payment Failed`, {
-            //   position: 'bottom-center',
-            //   theme: 'outline',
-            //   duration: 5000,
-            // })
+            self.$store.dispatch('setSnackbar', {
+              color: 'error',
+              text: 'Please complete payment to confirm!',
+            })
           },
         },
         prefill: {
-          email: 'test@email.com',
-          contact: +914455667788,
+          email: this.booking.booking_email,
+          contact: this.booking.booking_contact,
         },
         notes: {
-          name: 'Customer Name',
-          item: 'Item',
+          name: this.booking.booking_name,
+          item: this.booking.event.name,
         },
         theme: {
           color: '#667eea',
@@ -167,13 +176,17 @@ export default {
       /* eslint no-undef: "error" */
       const rzp1 = new Razorpay(rzpOptions)
       rzp1.on('payment.failed', function (response) {
-        alert(response.error.code)
-        alert(response.error.description)
-        alert(response.error.source)
-        alert(response.error.step)
-        alert(response.error.reason)
-        alert(response.error.metadata.order_id)
-        alert(response.error.metadata.payment_id)
+        // alert(response.error.code)
+        // alert(response.error.description)
+        // alert(response.error.source)
+        // alert(response.error.step)
+        // alert(response.error.reason)
+        // alert(response.error.metadata.order_id)
+        // alert(response.error.metadata.payment_id)
+        self.$store.dispatch('setSnackbar', {
+          color: 'error',
+          text: 'Payment failed, please try again!',
+        })
       })
       rzp1.open()
     },

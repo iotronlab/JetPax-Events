@@ -40,7 +40,7 @@
         <!-- events for loop -->
         <section v-for="(event, i) in events" :key="i">
           <v-row no-gutters justify="center"
-            ><v-col cols="12" lg="8" md="7" sm="6">
+            ><v-col cols="12" lg="7" md="7" sm="6">
               <nuxt-link
                 :to="{
                   name: 'events-slug',
@@ -51,7 +51,11 @@
                 :aria-label="event.name"
               >
                 <v-img
-                  :src="require('@/assets/images/events/placeholder.png')"
+                  :src="
+                    event.images[0]
+                      ? event.images[0].url
+                      : 'https://via.placeholder.com/150/000000/FFFFFF/?text=event'
+                  "
                   max-height="900"
                   class="fill-height"
                   :alt="event.name"
@@ -61,7 +65,7 @@
             </v-col>
             <v-col
               cols="12"
-              lg="4"
+              lg="5"
               md="5"
               sm="6"
               style="z-index: 10"
@@ -73,7 +77,7 @@
           ></v-row>
           <v-divider class="my-2"></v-divider>
         </section>
-        <h2 class="text-body-1 text-center">
+        <h2 class="text-body-1 text-center mb-6">
           <v-pagination
             v-model="pageData.current_page"
             :length="pageData.last_page"

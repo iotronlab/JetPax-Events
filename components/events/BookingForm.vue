@@ -154,9 +154,18 @@
           </ul>
         </v-col>
 
-        <v-col>
-          <v-text-field label="Promo Code"></v-text-field>
+        <v-col class="pa-2">
+          <v-text-field
+            v-model="form.promo"
+            label="Promo Code"
+            outlined
+            :success-messages="promoSuccess"
+            :error-messages="promoError"
+          ></v-text-field>
+          <v-btn @click="checkPromo">Apply</v-btn>
+          <v-divider class="my-2"></v-divider>
           <p>Total - {{ total }}</p>
+          <p v-if="promo">Discount - {{ promo.discount }}</p>
         </v-col>
       </v-row>
     </validation-observer>
@@ -182,6 +191,7 @@ export default {
       booking_name: null,
       booking_contact: null,
       tickets: [],
+      promo: null,
     },
     user: null,
     selectedTicket: null,
@@ -191,6 +201,9 @@ export default {
       select: mdiCheckboxMarkedOutline,
       deselect: mdiCheckboxBlankOutline,
     },
+    promoError: null,
+    promoSuccess: null,
+    promo: null,
   }),
   computed: {
     total() {
@@ -198,15 +211,26 @@ export default {
       this.form.tickets.forEach((el) => {
         total += el.price * el.quantity
       })
+      if (this.promo) {
+        total = total - this.promo.discount
+      }
       return total
+    },
+  },
+  watch: {
+    total(newValue, oldValue) {
+      this.$emit('setTotal', newValue)
     },
   },
   methods: {
     updateTickets(data) {
       if (data) {
+        this.promo = null
+        this.promoSuccess = null
+        this.promoError = null
         const bookingTickets = this.form.tickets
         const ticketIndex = bookingTickets.findIndex(
-          (el) => el.event_ticket_id === this.selectedTicket.id
+          (el) => el.id === this.selectedTicket.id
         )
         if (ticketIndex === -1) {
           // add ticket
@@ -219,10 +243,12 @@ export default {
           // update ticket
           bookingTickets[ticketIndex].quantity = data
         }
-        this.$emit('setTotal', this.total)
       }
     },
     removeTickets(ticketId) {
+      this.promo = null
+      this.promoSuccess = null
+      this.promoError = null
       const ticketIndex = this.form.tickets.findIndex(
         (el) => el.event_ticket_id === ticketId
       )
@@ -236,17 +262,64 @@ export default {
           await this.$axios
             .$post(`booking/new/${this.event.url}`, this.form)
             .then((res) => {
-              console.log(res)
+              this.$store.dispatch('setSnackbar', {
+                color: 'success',
+                text: 'Redirecting to payment!',
+              })
               this.$router.push(`/booking/${res.bookingUuid}`)
             })
             .catch((err) => {
               this.$sentry.captureException(new Error(err))
-              console.log(err)
+              this.$store.dispatch('setSnackbar', {
+                color: 'error',
+                text: 'Booking error, contact support!',
+              })
             })
         } else {
+          this.$store.dispatch('setSnackbar', {
+            color: 'warning',
+            text: 'Enter booking details!',
+          })
           this.$vuetify.goTo('#details')
         }
       } else {
+        this.$store.dispatch('setSnackbar', {
+          color: 'warning',
+          text: 'Select passes to continue!',
+        })
+        this.$vuetify.goTo('#tickets')
+      }
+    },
+    async checkPromo() {
+      if (this.total > 0) {
+        this.promo = null
+        if (this.form.promo) {
+          await this.$axios
+            .$post(`booking/promo/${this.event.url}`, this.form)
+            .then((res) => {
+              this.promoSuccess = res.message
+              this.promo = res
+              this.promoError = null
+              this.$emit('setTotal', this.total)
+            })
+            .catch((err) => {
+              this.promoError = err.response
+                ? err.response.data.message
+                : err.message
+
+              this.$store.dispatch('setSnackbar', {
+                color: 'error',
+                text: this.promoError,
+              })
+            })
+        } else {
+          this.promoError = 'Enter Promo'
+        }
+      } else {
+        this.$store.dispatch('setSnackbar', {
+          color: 'warning',
+          text: 'Select passes to continue!',
+        })
         this.$vuetify.goTo('#tickets')
       }
     },

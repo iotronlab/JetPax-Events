@@ -27,6 +27,6 @@
         >
       </v-col>
     </v-row>
-    <LazyIndexMentions class="mt-8" />
+    <!-- <LazyIndexMentions class="mt-8" /> -->
   </v-container>
 </template>

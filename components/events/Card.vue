@@ -50,12 +50,18 @@
       {{ event.name }}
     </h2>
     <v-divider class="my-2"></v-divider>
-    <v-btn text class="mb-2">
+
+    <v-btn
+      text
+      class="mb-2"
+      :href="`https://plus.codes/${event.locationCode}`"
+      target="_blank"
+    >
       <v-icon left>{{ location }}</v-icon
       >View on map</v-btn
     >
     <div class="text-body-2">
-      <h3 class="mb-4">Venue - {{ event.location }}</h3>
+      <h3 class="mb-4 text-body-1">Venue - {{ event.location }}</h3>
       <v-row v-if="event.genres" no-gutters class="mb-2" align="center">
         <h4>Genres</h4>
         <v-chip
@@ -76,32 +82,33 @@
           >{{ language }}</v-chip
         >
       </v-row>
-      <!-- <v-row
-                  v-if="event.socials"
-                  no-gutters
-                  class="mb-2"
-                  align="center"
-                >
-                  <h4>Socials</h4>
-                  <v-chip
-                    v-for="(social, l) in event.socials"
-                    :key="l"
-                    class="ml-2"
-                    outlined
-                    >{{ social }}</v-chip
-                  >
-                </v-row> -->
+      <v-row v-if="event.externalLinks" no-gutters class="mb-2" align="center">
+        <h4>External links</h4>
+        <v-btn
+          v-for="(link, l) in event.externalLinks"
+          :key="l"
+          class="ml-2"
+          :color="link.color"
+          :href="link.url"
+          target="_blank"
+          >{{ link.site }}</v-btn
+        >
+      </v-row>
     </div>
     <section class="text-center">
       <h2 class="text-h4 my-4">Line Up</h2>
       <v-row no-gutters justify="center"
-        ><v-col v-for="(artist, z) in event.artists" :key="z" cols="6" lg="4">
+        ><v-col v-for="(artist, z) in event.artists" :key="z" cols="6" lg="3">
           <v-avatar class="profile" color="grey" size="9rem">
             <v-img
-              src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+              :src="
+                artist.displayImage
+                  ? artist.displayImage
+                  : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Member'
+              "
             ></v-img>
           </v-avatar>
-          <h3>{{ artist.name }}</h3>
+          <h3 class="font-weight-bold mx-2">{{ artist.name }}</h3>
         </v-col></v-row
       >
     </section>
