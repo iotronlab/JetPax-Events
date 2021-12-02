@@ -19,7 +19,7 @@
           Independent Artist Association is a community that believes in equal
           and fair opportunities for all performing artists.
         </h3>
-        <v-btn class="mt-1" outlined large disabled
+        <v-btn class="mt-1" outlined large to="events"
           ><strong>Upcoming events</strong></v-btn
         >
         <v-btn class="mt-1" outlined large to="joinus"
@@ -27,6 +27,6 @@
         >
       </v-col>
     </v-row>
-    <!-- <LazyIndexMentions class="mt-8" /> -->
+    <LazyIndexMentions class="mt-8" />
   </v-container>
 </template>

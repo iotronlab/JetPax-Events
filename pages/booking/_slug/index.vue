@@ -26,6 +26,9 @@
             >retry payment</v-btn
           >
         </div>
+        <div v-else>
+          <v-btn class="primary my-2" @click="downloadInvoice">Download</v-btn>
+        </div>
         <EventsMiniCard :event="booking.event" />
         <h1 class="overline mt-2 secondary--text">Booking Details</h1>
 
@@ -79,7 +82,7 @@ export default {
         {
           text: 'Bookings',
           disabled: false,
-          to: '/bookings',
+          to: '/booking',
           exact: true,
         },
         {
@@ -107,34 +110,17 @@ export default {
       this.$sentry.captureException(new Error(error))
     }
   },
-  //  computed: {
-  //   currentTitle() {
-  //     switch (data) {
-  //       case 1:
-  //         return 'sign-up'
-  //       case 2:
-  //         return 'Create a password'
-  //       default:
-  //         return 'Account created'
-  //     }
-  //   },
-  // },
+
   methods: {
     initiatePayment() {
       const self = this
       const rzpOptions = {
-        key: 'rzp_live_aFZgYfG1U1OvhZ',
+        key: 'rzp_test_JchczqNat5H6dx',
         amount: this.booking.amount,
         name: this.booking.event.name,
         description: this.booking.event.desc,
         order_id: this.booking.payment.generated_id,
         handler(response) {
-          // self.$toast.success(`Payment Succesful`, {
-          //   position: 'bottom-center',
-          //   theme: 'outline',
-          //   duration: 5000,
-          // })
-          // self.payment_id = response.razorpay_payment_id
           self.$axios
             .$post(`booking/confirm/${self.booking.uuid}`, response)
             .then((res) => {
@@ -183,12 +169,38 @@ export default {
         // alert(response.error.reason)
         // alert(response.error.metadata.order_id)
         // alert(response.error.metadata.payment_id)
+        self.$sentry.captureException(new Error(response.error))
         self.$store.dispatch('setSnackbar', {
           color: 'error',
           text: 'Payment failed, please try again!',
         })
       })
       rzp1.open()
+    },
+
+    async downloadInvoice() {
+      await this.$axios({
+        url: `booking/invoice/${this.booking.uuid}`,
+        method: 'GET',
+        responseType: 'blob', // important
+      })
+
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', this.booking.event.name + '.pdf')
+          document.body.appendChild(link)
+          link.click()
+        })
+
+        .catch((err) => {
+          this.$store.dispatch('setSnackbar', {
+            color: 'error',
+            text: 'Download failed, contact support!',
+          })
+          this.$sentry.captureException(new Error(err))
+        })
     },
   },
 }

@@ -48,8 +48,15 @@
           can afford it to be a profession. We provide equal and fair
           opportunities on our platform to every performing Art.
         </h3>
-        <v-btn text class="mt-4" color="accent">our team</v-btn>
-        <v-btn text class="mt-4 font-weight-bold" color="primary" to="joinus"
+        <v-btn
+          text
+          class="mt-4"
+          color="accent"
+          :to="{ hash: 'team' }"
+          @click.native="scrollTo('#team')"
+          >our team</v-btn
+        >
+        <v-btn text class="mt-4 font-weight-bold" color="primary" to="/joinus"
           >join our network</v-btn
         >
       </v-col></v-row
@@ -59,7 +66,7 @@
       <v-divider class="my-2"></v-divider>
       <LazyAboutArtForms />
     </section>
-    <section id="team" class="glow-red mt-8 px-1">
+    <section id="team" class="glow-red pt-8 px-1">
       <LazyAboutTeam />
     </section>
     <section id="associates" class="mt-8 px-1">
@@ -68,5 +75,23 @@
   </v-container>
 </template>
 <script>
-export default {}
+export default {
+  methods: {
+    scrollTo(hash) {
+      this.$nextTick(function () {
+        const el = document.querySelector(hash)
+        if (el) {
+          setTimeout(() => {
+            return this.$vuetify.goTo(el)
+            // if ('scrollBehavior' in document.documentElement.style) {
+            //   return window.scrollTo({ top: el.offsetTop, behavior: 'smooth' })
+            // } else {
+            //   return window.scrollTo(0, el.offsetTop)
+            // }
+          }, 500)
+        }
+      })
+    },
+  },
+}
 </script>
