@@ -2,7 +2,7 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
-      class="ma-2 rounded-xl card-glass elevated"
+      class="ma-2 rounded-xl card-glass elevated-1"
       temporary
       fixed
       app
@@ -10,6 +10,20 @@
       <v-list nav rounded class="text-center">
         <v-list-item
           v-for="(item, i) in navItems"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-list v-if="$auth.loggedIn">
+        <v-divider></v-divider>
+        <v-list-item
+          v-for="(item, i) in accountItems"
           :key="i"
           :to="item.to"
           router
@@ -90,7 +104,6 @@ export default {
   data() {
     return {
       drawer: false,
-
       icons: {
         menu: mdiMenu,
         call: mdiPhone,
@@ -127,6 +140,16 @@ export default {
         {
           title: 'Join Us',
           to: '/joinus',
+        },
+      ],
+      accountItems: [
+        {
+          title: 'Account',
+          to: '/account',
+        },
+        {
+          title: 'Bookings',
+          to: '/booking',
         },
       ],
       socialLinks: [
@@ -184,5 +207,8 @@ export default {
 }
 .elevated {
   z-index: 100 !important;
+}
+.elevated-1 {
+  z-index: 200 !important;
 }
 </style>

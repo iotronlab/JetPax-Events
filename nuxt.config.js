@@ -69,16 +69,17 @@ export default {
   ],
   env: {
     // baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    apiUrl: process.env.API_URL || 'http://localhost:8000',
+    // apiUrl: process.env.API_URL || 'http://localhost:8000',
     // baseUrl: process.env.BASE_URL || 'https://dev.iaa.org.in',
     //  apiUrl: process.env.API_URL || 'https://devapi.iaa.org.in',
     // baseUrl: process.env.BASE_URL || 'https://iaa.org.in',
-    //  apiUrl: process.env.API_URL || 'https://api.iaa.org.in',
+    apiUrl: process.env.API_URL || 'https://api.iaa.org.in',
+    paymentKey: 'rzp_live_aFZgYfG1U1OvhZ',
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: 'https://api.iaa.org.in/api',
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://api.iaa.org.in/api',
+    //  baseURL: 'http://localhost:8000/api',
     //  baseURL: 'https://devapi.iaa.org.in/api',
     // ,
     credentials: true,
@@ -96,8 +97,8 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        //   url: 'https://api.iaa.org.in',
-        url: 'http://localhost:8000',
+        url: 'https://api.iaa.org.in',
+        // url: 'http://localhost:8000',
         //  url: 'https://devapi.iaa.org.in',
         // url: 'https://api.iaa.org.in',
         user: {

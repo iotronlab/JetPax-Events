@@ -50,7 +50,7 @@
               <p v-if="ticket.quantity < 100">{{ ticket.quantity }} left!</p>
               <h2>{{ ticket.price }}</h2>
               <h3 class="text-button">{{ ticket.name }}</h3>
-              <p>{{ ticket.desc }}</p>
+              <p v-html="ticket.desc"></p>
             </v-card>
           </v-item>
         </v-col>
@@ -164,8 +164,11 @@
           ></v-text-field>
           <v-btn @click="checkPromo">Apply</v-btn>
           <v-divider class="my-2"></v-divider>
-          <p>Total - {{ total }}</p>
-          <p v-if="promo">Discount - {{ promo.discount }}</p>
+          <p>Total - {{ total }} INR</p>
+          <div v-if="promo">
+            <p>Original - {{ originalAmount }} INR</p>
+            <p>Discount - {{ promo.discount }} INR</p>
+          </div>
         </v-col>
       </v-row>
     </validation-observer>
@@ -204,6 +207,7 @@ export default {
     promoError: null,
     promoSuccess: null,
     promo: null,
+    originalAmount: 0,
   }),
   computed: {
     total() {
@@ -219,6 +223,7 @@ export default {
   },
   watch: {
     total(newValue, oldValue) {
+      this.originalAmount = oldValue
       this.$emit('setTotal', newValue)
     },
   },

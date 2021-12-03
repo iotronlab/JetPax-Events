@@ -115,7 +115,7 @@ export default {
     initiatePayment() {
       const self = this
       const rzpOptions = {
-        key: 'rzp_test_JchczqNat5H6dx',
+        key: 'rzp_live_aFZgYfG1U1OvhZ',
         amount: this.booking.amount,
         name: this.booking.event.name,
         description: this.booking.event.desc,
@@ -152,7 +152,7 @@ export default {
         },
         notes: {
           name: this.booking.booking_name,
-          item: this.booking.event.name,
+          item: this.booking.uuid,
         },
         theme: {
           color: '#667eea',
