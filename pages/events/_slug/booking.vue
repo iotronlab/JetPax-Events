@@ -14,16 +14,22 @@
         <h1 class="text-h3 text-center mt-2">Booking Form</h1>
         <v-divider class="my-2"></v-divider>
         <v-card class="card-glass rounded-xl pa-1">
-          <EventsBookingForm ref="form" :event="event" @setTotal="setTotal" />
+          <EventsBookingForm
+            ref="form"
+            :event="event"
+            @setTotal="setTotal"
+            @setLoading="setLoading"
+          />
           <!-- <EventsGuestForm :event="event" /> -->
         </v-card>
       </v-col>
       <v-app-bar bottom fixed
-        >Total: {{ bookingTotal }}
+        >Total: INR {{ bookingTotal }}
         <v-btn
           width="50%"
           class="ml-auto"
           color="primary"
+          :loading="loading"
           @click="confirmBooking"
           >Confirm Booking</v-btn
         ></v-app-bar
@@ -41,6 +47,7 @@ export default {
       event: {},
       errorMessage: null,
       bookingTotal: 0,
+      loading: false,
       icon: {
         location: mdiMapMarkerStar,
         calender: mdiCalendarHeart,
@@ -100,6 +107,9 @@ export default {
     },
     confirmBooking() {
       this.$refs.form.confirmBooking()
+    },
+    setLoading(data) {
+      this.loading = data
     },
   },
 }

@@ -164,10 +164,10 @@
           ></v-text-field>
           <v-btn @click="checkPromo">Apply</v-btn>
           <v-divider class="my-2"></v-divider>
-          <p>Total - {{ total }} INR</p>
+          <p>Total: INR {{ total }}</p>
           <div v-if="promo">
-            <p>Original - {{ originalAmount }} INR</p>
-            <p>Discount - {{ promo.discount }} INR</p>
+            <p>Original: {{ originalAmount }}</p>
+            <p>Discount: {{ promo.discount }}</p>
           </div>
         </v-col>
       </v-row>
@@ -264,6 +264,7 @@ export default {
     async confirmBooking() {
       if (this.total > 0) {
         if (await this.$refs.observer.validate()) {
+          this.$emit('setLoading', true)
           await this.$axios
             .$post(`booking/new/${this.event.url}`, this.form)
             .then((res) => {
@@ -274,6 +275,7 @@ export default {
               this.$router.push(`/booking/${res.bookingUuid}`)
             })
             .catch((err) => {
+              this.$emit('setLoading', false)
               this.$sentry.captureException(new Error(err))
               this.$store.dispatch('setSnackbar', {
                 color: 'error',

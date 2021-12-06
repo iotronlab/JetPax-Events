@@ -20,8 +20,13 @@
             <br />
             Booking Date - {{ booking.updated }}
             <br />
-            Status - {{ booking.status }}
-            <br />
+            <h1 class="overline font-weight-bold">
+              Booking status -
+              <span v-if="booking.status == 'confirm'" class="success--text">{{
+                booking.status
+              }}</span>
+              <span v-else class="warning--text">{{ booking.status }}</span>
+            </h1>
             <v-btn
               class="mt-4"
               color="primary"

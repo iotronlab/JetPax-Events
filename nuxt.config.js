@@ -18,6 +18,16 @@ export default {
         content:
           'Independent Artist Association is an event organizer community of performing artists based in Kolkata, India. The growth and development of underground artists is the primary focus of our organization.',
       },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: `Artist, artists in India,contemporary artists in India, Underground musicians,emerging musicians in India, IndependentAssociation, Performance, Platform,
+          Stage, Musician, Dancer, Art, platform for musicians, concert stage in india`,
+      },
+      {
+        name: 'google-site-verification',
+        content: 'E1MrJYuyLZvN7leVNKi7vxRhXw_M_1JYhnZcjR84k8s',
+      },
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -64,24 +74,26 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/sentry',
     '@nuxtjs/auth-next',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
 
     // https://go.nuxtjs.dev/pwa
   ],
   env: {
-    // baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     // apiUrl: process.env.API_URL || 'http://localhost:8000',
-    // baseUrl: process.env.BASE_URL || 'https://dev.iaa.org.in',
+
     //  apiUrl: process.env.API_URL || 'https://devapi.iaa.org.in',
-    // baseUrl: process.env.BASE_URL || 'https://iaa.org.in',
+
     apiUrl: process.env.API_URL || 'https://api.iaa.org.in',
-    paymentKey: 'rzp_live_aFZgYfG1U1OvhZ',
+    payKey: 'rzp_live_aFZgYfG1U1OvhZ',
+    // payKey: 'rzp_test_buXW2crbs23nuy',
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'https://api.iaa.org.in/api',
-    //  baseURL: 'http://localhost:8000/api',
+    // baseURL: 'http://localhost:8000/api',
     //  baseURL: 'https://devapi.iaa.org.in/api',
-    // ,
+
     credentials: true,
   },
   auth: {
@@ -121,6 +133,19 @@ export default {
         },
       },
     },
+  },
+
+  sitemap: {
+    hostname: 'https://www.iaa.org.in',
+    gzip: true,
+    routes: ['about#team'],
+  },
+
+  robots: {
+    UserAgent: '*',
+    Host: 'https://www.iaa.org.in',
+    Disallow: '/_nuxt',
+    Sitemap: 'https://www.iaa.org.in/sitemap.xml',
   },
   // sentry config
   sentry: {

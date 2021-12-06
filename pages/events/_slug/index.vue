@@ -195,9 +195,14 @@ export default {
       title: this.event.name,
       meta: [
         {
-          hid: 'description',
+          //  hid: 'description',
           name: 'description',
-          content: this.event.desc,
+          content: this.event.description,
+        },
+        {
+          //  hid: 'og:title',
+          name: 'og:title',
+          content: this.event.name,
         },
       ],
     }

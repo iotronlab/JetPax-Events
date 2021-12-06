@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="fill-height glow-pink">
     <v-row no-gutters justify="center">
-      <v-col lg="5">
+      <v-col lg="5" md="8">
         <v-container fluid class="card-glass rounded-xl">
           <!-- <v-row no-gutters>
             <v-col class="d-flex justify-center align-center">
@@ -72,7 +72,7 @@
 
           <br />
           <v-row no-gutters justify="center">
-            <v-btn
+            <!-- <v-btn
               color="#4267B2"
               class="ma-1"
               dark
@@ -80,7 +80,7 @@
             >
               facebook
               <v-icon right>{{ icon.facebook }}</v-icon>
-            </v-btn>
+            </v-btn> -->
 
             <v-btn
               color="#DB4437"
@@ -166,8 +166,6 @@ export default {
             })
             this.$sentry.captureException(new Error(err))
           })
-      } else {
-        console.log('invalid formwa')
       }
 
       // this.checkLogin()

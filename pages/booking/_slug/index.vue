@@ -12,22 +12,23 @@
         <!-- <Breadcrumb :breadcrumb-items="breadcrumbItems" /> -->
         <Breadcrumb :breadcrumb-items="breadcrumbItems" />
         <v-divider></v-divider>
-        <h1 class="overline">
+        <h1 class="overline font-weight-bold">
           Booking status -
-          <span v-if="booking.status" class="warning--text">{{
+          <span v-if="booking.status == 'confirm'" class="success--text">{{
             booking.status
           }}</span>
+          <span v-else class="warning--text">{{ booking.status }}</span>
         </h1>
         <div v-if="!booking.payment_success">
           <p class="caption mb-1">
             Kindly complete the payment within 24hrs to avoid cancellation
           </p>
-          <v-btn color="primary" class="mb-2" @click="initiatePayment"
+          <v-btn color="primary" class="mb-4" @click="initiatePayment"
             >retry payment</v-btn
           >
         </div>
         <div v-else>
-          <v-btn class="primary my-2" @click="downloadInvoice">Download</v-btn>
+          <v-btn class="primary mb-4" @click="downloadInvoice">Download</v-btn>
         </div>
         <EventsMiniCard :event="booking.event" />
         <h1 class="overline mt-2 secondary--text">Booking Details</h1>
@@ -57,6 +58,16 @@
 
         <v-divider class="my-2"></v-divider>
       </v-col>
+
+      <v-overlay
+        :value="loading"
+        class="text-center"
+        opacity="0.8"
+        z-index="500"
+      >
+        <p>Saving payment, do not refresh or close!</p>
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </section>
   </v-container>
 </template>
@@ -90,6 +101,7 @@ export default {
           disabled: true,
         },
       ],
+      loading: false,
     }
   },
   async fetch() {
@@ -115,12 +127,13 @@ export default {
     initiatePayment() {
       const self = this
       const rzpOptions = {
-        key: 'rzp_live_aFZgYfG1U1OvhZ',
+        key: process.env.payKey,
         amount: this.booking.amount,
         name: this.booking.event.name,
         description: this.booking.event.desc,
         order_id: this.booking.payment.generated_id,
         handler(response) {
+          self.loading = true
           self.$axios
             .$post(`booking/confirm/${self.booking.uuid}`, response)
             .then((res) => {
@@ -129,6 +142,7 @@ export default {
                 color: 'success',
                 text: res.message,
               })
+              self.loading = false
             })
             .catch((err) => {
               self.$store.dispatch('setSnackbar', {
@@ -136,6 +150,7 @@ export default {
                 text: 'Payment fail. Please try again!',
               })
               self.$sentry.captureException(new Error(err))
+              self.loading = false
             })
         },
         modal: {
