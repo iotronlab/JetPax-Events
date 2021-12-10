@@ -25,7 +25,7 @@
     "@pixi/filter-godray": "^4.1.5",
     "@pixi/sound": "^4.0.6",
     "core-js": "^3.19.1",
-    "firebase": "^9.4.1",
+    "firebase": "^9.6.1",
     "nuxt": "^2.15.7",
     "pixi.js": "^6.2.0",
     "vee-validate": "^3.4.14",
