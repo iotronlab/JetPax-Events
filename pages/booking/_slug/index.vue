@@ -105,56 +105,60 @@ export default {
     }
   },
   async fetch() {
-    try {
-      await this.$axios
-        .$get(`booking/${this.$route.params.slug}`)
-        .then((res) => {
-          this.booking = res.data
-          if (this.booking.payment_success === 0) {
-            this.initiatePayment()
-          }
-        })
-        .catch((err) => {
-          this.errorMessage = err
-          this.$sentry.captureException(new Error(err))
-        })
-    } catch (error) {
-      this.$sentry.captureException(new Error(error))
-    }
+    await this.$axios
+      .$get(`booking/${this.$route.params.slug}`)
+      .then((res) => {
+        this.booking = res.data
+        if (this.booking.payment_success === 0) {
+          this.initiatePayment()
+        }
+      })
+      .catch((err) => {
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
+  },
+
+  mounted() {
+    this.$fetch()
   },
 
   methods: {
     initiatePayment() {
       const self = this
+      this.loading = true
       const rzpOptions = {
         key: process.env.payKey,
         amount: this.booking.amount,
         name: this.booking.event.name,
         description: this.booking.event.desc,
         order_id: this.booking.payment.generated_id,
-        handler(response) {
-          self.loading = true
-          self.$axios
-            .$post(`booking/confirm/${self.booking.uuid}`, response)
-            .then((res) => {
-              self.booking = res.data
-              self.$store.dispatch('setSnackbar', {
-                color: 'success',
-                text: res.message,
-              })
-              self.loading = false
-            })
-            .catch((err) => {
-              self.$store.dispatch('setSnackbar', {
-                color: 'error',
-                text: 'Payment fail. Please try again!',
-              })
-              self.$sentry.captureException(new Error(err))
-              self.loading = false
-            })
-        },
+        // handler(response) {
+        //   self.loading = true
+        //   self.$axios
+        //     .$post(`booking/confirm/${self.booking.uuid}`, response)
+        //     .then((res) => {
+        //       self.booking = res.data
+        //       self.$store.dispatch('setSnackbar', {
+        //         color: 'success',
+        //         text: res.message,
+        //       })
+        //       self.loading = false
+        //     })
+        //     .catch((err) => {
+        //       self.$store.dispatch('setSnackbar', {
+        //         color: 'error',
+        //         text: 'Payment fail. Please try again!',
+        //       })
+        //       self.$sentry.captureException(new Error(err))
+        //       self.loading = false
+        //     })
+        // },
+        callback_url:
+          process.env.apiUrl + '/api/booking/confirm/' + this.booking.uuid,
         modal: {
           ondismiss() {
+            self.loading = false
             self.$store.dispatch('setSnackbar', {
               color: 'error',
               text: 'Please complete payment to confirm!',
@@ -176,18 +180,11 @@ export default {
       /* global Razorpay */
       /* eslint no-undef: "error" */
       const rzp1 = new Razorpay(rzpOptions)
-      rzp1.on('payment.failed', function (response) {
-        // alert(response.error.code)
-        // alert(response.error.description)
-        // alert(response.error.source)
-        // alert(response.error.step)
-        // alert(response.error.reason)
-        // alert(response.error.metadata.order_id)
-        // alert(response.error.metadata.payment_id)
-        self.$sentry.captureException(new Error(response.error))
+      rzp1.on('payment.failed', function () {
+        self.loading = false
         self.$store.dispatch('setSnackbar', {
           color: 'error',
-          text: 'Payment failed, please try again!',
+          text: 'Payment failed, contact support!',
         })
       })
       rzp1.open()

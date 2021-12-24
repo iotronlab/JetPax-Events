@@ -176,19 +176,15 @@ export default {
   },
 
   async fetch() {
-    try {
-      await this.$axios
-        .$get(`events/${this.$route.params.slug}`)
-        .then((res) => {
-          this.event = res.data
-        })
-        .catch((err) => {
-          this.errorMessage = err
-          //  this.$sentry.captureException(new Error(err))
-        })
-    } catch (error) {
-      // this.$sentry.captureException(new Error(error))
-    }
+    await this.$axios
+      .$get(`events/${this.$route.params.slug}`)
+      .then((res) => {
+        this.event = res.data
+      })
+      .catch((err) => {
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
   },
   head() {
     return {
