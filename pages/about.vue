@@ -76,6 +76,11 @@
 </template>
 <script>
 export default {
+  head() {
+    return {
+      title: 'About US',
+    }
+  },
   methods: {
     scrollTo(hash) {
       this.$nextTick(function () {

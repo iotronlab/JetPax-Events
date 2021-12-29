@@ -31,13 +31,6 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    script: [
-      {
-        hid: 'rzpay',
-        src: 'https://checkout.razorpay.com/v1/checkout.js',
-        defer: true,
-      },
-    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -48,7 +41,7 @@ export default {
     {
       src: '~/plugins/vee-validate.js',
     },
-    { src: '~/plugins/firebase.js', mode: 'client', ssr: false },
+    //    { src: '~/plugins/firebase.js', mode: 'client', ssr: false },
 
     { src: '~/plugins/pixi.js', mode: 'client', ssr: false },
   ],
@@ -160,17 +153,6 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    icon: {
-      /* icon options */
-      source: '/icon.png',
-    },
-    manifest: {
-      lang: 'en',
-      name: 'Independent Artist Association',
-      short_name: 'IAA',
-      description: `Independent Artist Association is an event organizer community of performing artists based in Kolkata, India.
-      The growth and development of underground artists is the primary focus of our organization.`,
-    },
     meta: {
       theme_color: '#121212',
       nativeUI: true,
@@ -179,6 +161,13 @@ export default {
       description: `Independent Artist Association is an event organizer community of performing artists based in Kolkata, India.
       The growth and development of underground artists is the primary focus of our organization.`,
       ogHost: 'https://www.iaa.org.in',
+    },
+    manifest: {
+      name: 'Independent Artist Association',
+      short_name: 'IAA',
+      description: `Independent Artist Association is an event organizer community of performing artists based in Kolkata, India.
+      The growth and development of underground artists is the primary focus of our organization.`,
+      background_color: '#121212',
     },
   },
   googleFonts: {
@@ -226,7 +215,7 @@ export default {
     },
     optimization: {
       splitChunks: {
-        //  maxSize: 200000,
+        // maxSize: 200000,
         cacheGroups: {
           styles: {
             name: 'styles',

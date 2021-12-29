@@ -1,52 +1,57 @@
 <template>
   <v-container fluid>
-    <v-row no-gutters justify="center" align="center">
+    <v-row no-gutters justify="center" class="text-center">
       <v-col cols="12" lg="3">
         <NuxtLink to="/"
           ><v-img
             src="/icon.png"
-            max-width="220"
+            max-width="110"
             contain
             class="mx-auto"
             alt="JetPax Logo"
         /></NuxtLink>
         <section class="text-center">
           <v-divider class="my-2" />
-          <v-btn class="ma-2">Join our network</v-btn>
+          <v-row no-gutters justify="space-around" class="mb-4">
+            <a href="tel:+91 7439 790 770">
+              <v-icon>{{ icons.phone }} </v-icon>&nbsp;+91 7439 790 770
+            </a>
+            <a href="mailto:contactus@iaa.org.in">
+              <v-icon>{{ icons.email }}</v-icon
+              >&nbsp;contactus@iaa.org.in
+            </a>
+          </v-row>
+
+          <v-btn class="ma-2" to="/joinus" outlined>Join our network</v-btn>
           <p class="caption">find us on</p>
           <v-row no-gutters justify="space-around" class="my-4">
-            <v-btn v-for="(social, i) in socialLinks" :key="i" icon
-              ><v-icon>{{ social.icon }}</v-icon></v-btn
+            <v-btn
+              v-for="(social, i) in socialLinks"
+              :key="i"
+              icon
+              :href="social.url"
+              target="_blank"
+              rel="noopener"
+              ><v-icon :aria-label="social.name">{{
+                social.icon
+              }}</v-icon></v-btn
             >
-          </v-row>
-          <v-divider class="my-2" />
-          <v-row no-gutters justify="space-around">
-            <p class="caption">
-              <v-icon>{{ icons.phone }} </v-icon>&nbsp;+91 7980 123 456
-            </p>
-            <p class="caption">
-              <v-icon>{{ icons.email }}</v-icon
-              >&nbsp;contactus@jetpax.org
-            </p>
           </v-row>
         </section></v-col
       >
-      <v-col cols="12" lg="3">
-        <p v-for="(link, i) in navItems" :key="i" class="subtitle-2 mb-1">
+
+      <v-col cols="12" lg="3" class="pa-2">
+        <p v-for="(link, i) in navItems" :key="i" class="subtitle-1 mb-1">
           <NuxtLink :to="link.to">{{ link.title }}</NuxtLink>
         </p></v-col
       >
       <v-col cols="12" lg="3">
-        <section v-for="(link, i) in helpLinks" :key="i">
-          <p class="caption mb-1">
-            <NuxtLink :to="link.to">{{ link.title }}</NuxtLink>
-          </p>
-          <p
-            v-for="(subLink, i) in link.children"
-            :key="i"
-            class="subtitle-2 mb-1"
-          >
-            <NuxtLink :to="link.to">{{ subLink.title }}</NuxtLink>
+        <section>
+          <p class="caption mb-1">Policies</p>
+          <p v-for="(policy, i) in policies" :key="i" class="subtitle-1 mb-1">
+            <NuxtLink :to="'/policy/' + policy.url">
+              {{ policy.title }}
+            </NuxtLink>
           </p>
         </section></v-col
       >
@@ -58,105 +63,59 @@
 </template>
 
 <script>
-import { mdiEmail } from '@mdi/js'
-import { mdiPhone } from '@mdi/js'
-import { mdiFacebook } from '@mdi/js'
-import { mdiInstagram } from '@mdi/js'
-import { mdiYoutube } from '@mdi/js'
-import { mdiLinkedin } from '@mdi/js'
+import {
+  mdiEmail,
+  mdiYoutube,
+  mdiPhone,
+  mdiInstagram,
+  mdiFacebook,
+} from '@mdi/js'
 
 export default {
+  props: {
+    navItems: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       icons: {
         email: mdiEmail,
         phone: mdiPhone,
       },
-      navItems: [
-        {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/',
-        },
-
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Influencers',
-          to: '/influencers',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Portfolio',
-          to: '/portfolio',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'About US',
-          to: '/aboutus',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Contact US',
-          to: '/aboutus#contact',
-        },
-      ],
-      helpLinks: [
-        {
-          title: 'Services for Companies',
-          to: '/inspire',
-          children: [
-            {
-              title: 'Service A',
-              to: '/inspire',
-            },
-            {
-              title: 'Service B',
-              to: '/inspire',
-            },
-          ],
-        },
-        {
-          title: 'Services for Influencers',
-          to: '/inspire',
-          children: [
-            {
-              title: 'Service A',
-              to: '/inspire',
-            },
-            {
-              title: 'Service B',
-              to: '/inspire',
-            },
-          ],
-        },
-        {
-          title: 'knowlegde base',
-          to: '/inspire',
-          children: [
-            {
-              title: 'FAQ for companies',
-              to: '/inspire',
-            },
-            {
-              title: 'FAQ for Influencers',
-              to: '/inspire',
-            },
-          ],
-        },
-      ],
+      policies: [],
+      errorMessage: null,
       socialLinks: [
-        { icon: mdiFacebook, url: '' },
-        { icon: mdiYoutube, url: '' },
-        { icon: mdiInstagram, url: '' },
-        { icon: mdiLinkedin, url: 'Privacy Policy' },
+        {
+          name: 'Facebook',
+          url: 'https://www.facebook.com/independentartistassociation',
+          icon: mdiFacebook,
+        },
+        {
+          name: 'Instagram',
+          url: 'https://www.instagram.com/independentartistassociation',
+          icon: mdiInstagram,
+        },
+        {
+          name: 'Youtube',
+          url: 'https://www.youtube.com/channel/UC0Q1WPPZBPwfXj3G7ZtGPUQ',
+          icon: mdiYoutube,
+        },
       ],
     }
+  },
+  async fetch() {
+    await this.$axios
+      .$get('policy')
+      .then((res) => {
+        this.policies = res.data
+      })
+      .catch((err) => {
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
   },
 }
 </script>
 
-<style scoped>
-p a:hover {
-  color: #6ee7b7;
-}
-</style>

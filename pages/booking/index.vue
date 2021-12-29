@@ -64,6 +64,11 @@ export default {
         this.$sentry.captureException(new Error(err))
       })
   },
+  head() {
+    return {
+      title: 'Bookings',
+    }
+  },
 }
 </script>
 

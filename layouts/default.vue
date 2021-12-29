@@ -63,7 +63,7 @@
     <v-main>
       <Nuxt />
     </v-main>
-
+    <LazyFooter :nav-items="navItems" />
     <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -89,16 +89,7 @@
 </template>
 
 <script>
-import {
-  mdiMenu,
-  mdiPhone,
-  mdiWhatsapp,
-  mdiEmail,
-  mdiFacebook,
-  mdiInstagram,
-  mdiYoutube,
-  mdiAccount,
-} from '@mdi/js'
+import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount } from '@mdi/js'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -133,13 +124,14 @@ export default {
         //   title: 'Artists',
         //   to: '/artists',
         // },
-        // {
-        //   title: 'Contact Us',
-        //   to: '/contactus',
-        // },
+
         {
           title: 'Join Us',
           to: '/joinus',
+        },
+        {
+          title: 'Contact Us',
+          to: '/contactus',
         },
       ],
       accountItems: [
@@ -150,23 +142,6 @@ export default {
         {
           title: 'Bookings',
           to: '/booking',
-        },
-      ],
-      socialLinks: [
-        {
-          name: 'Facebook',
-          url: 'https://www.facebook.com/signetlogo',
-          icon: mdiFacebook,
-        },
-        {
-          name: 'Instagram',
-          url: 'https://www.instagram.com/signetlogo',
-          icon: mdiInstagram,
-        },
-        {
-          name: 'Youtube',
-          url: 'https://www.youtube.com/channel/UCTHNYidV3Jv-tRoEB_iUmTQ',
-          icon: mdiYoutube,
         },
       ],
     }

@@ -215,6 +215,11 @@ export default {
         this.$sentry.captureException(new Error(err))
       })
   },
+  head() {
+    return {
+      title: 'Join US',
+    }
+  },
   methods: {
     async submit() {
       if (await this.$refs.observer.validate()) {

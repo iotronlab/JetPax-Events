@@ -11,7 +11,7 @@
         :src="
           event.images[0]
             ? event.images[0].url
-            : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Member'
+            : `https://via.placeholder.com/150/000000/FFFFFF/?text=${event.name}`
         "
         height="360"
         :alt="event.name"

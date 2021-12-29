@@ -76,6 +76,7 @@
 import { mdiMapMarkerStar, mdiCalendarHeart } from '@mdi/js'
 export default {
   middleware: 'auth',
+
   data() {
     return {
       booking: {},
@@ -118,7 +119,19 @@ export default {
         this.$sentry.captureException(new Error(err))
       })
   },
-
+  head() {
+    return {
+      title: 'Booking',
+      script: [
+        {
+          hid: 'rzpay',
+          src: 'https://checkout.razorpay.com/v1/checkout.js',
+          defer: true,
+        },
+      ],
+    }
+  },
+  // always fetch and not load from cache
   mounted() {
     this.$fetch()
   },

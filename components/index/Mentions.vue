@@ -3,7 +3,7 @@
     <h1 class="text-h2 text-center">Featured in</h1>
     <v-divider class="my-2"></v-divider>
     <section v-if="$fetchState.pending">
-      <Loading message="fetching events..." />
+      <Loading message="fetching mentions..." />
     </section>
     <section v-else-if="errorMessage != null">
       <LazyFetchError />
