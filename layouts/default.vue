@@ -120,10 +120,10 @@ export default {
           title: 'Events',
           to: '/events',
         },
-        // {
-        //   title: 'Artists',
-        //   to: '/artists',
-        // },
+        {
+          title: 'Artists',
+          to: '/artists',
+        },
 
         {
           title: 'Join Us',

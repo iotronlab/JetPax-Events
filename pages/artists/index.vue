@@ -30,7 +30,7 @@
             <span v-if="pageData.total > 1">artists</span>
             <span v-else>artist</span>
           </h2>
-          <v-btn class="mt-2" @click.stop="drawer = !drawer">filter</v-btn>
+          <!-- <v-btn class="mt-2" @click.stop="drawer = !drawer">filter</v-btn> -->
         </v-col>
       </v-row>
       <v-col cols="12" lg="10" class="mx-auto">
@@ -132,6 +132,7 @@ export default {
       filterParams: {},
       creators: {},
       pageData: {},
+      errorMessage: null,
       dropdownIcon: mdiMenuDown,
       nextArrow: mdiArrowRight,
       prevArrow: mdiArrowLeft,
@@ -177,15 +178,6 @@ export default {
         this.errorMessage = err
         this.$sentry.captureException(new Error(err))
       })
-
-    // await this.$axios
-    //   .$get('filter')
-    //   .then((ress) => {
-    //     this.filterMenu = ress.data
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
   },
   head() {
     return {
@@ -214,7 +206,7 @@ export default {
           this.creators = res.data
         })
         .catch((err) => {
-          console.log(err)
+          this.$sentry.captureException(new Error(err))
         })
     },
 

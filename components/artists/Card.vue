@@ -63,7 +63,7 @@
         {{ category }}</v-chip
       >
     </h4>
-    <h4 class="caption ml-2 mt-2">
+    <h4 v-if="creator.externalLinks" class="caption ml-2 mt-2">
       Links
       <v-chip
         v-for="(link, i) in creator.externalLinks"

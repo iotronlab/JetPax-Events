@@ -2,7 +2,7 @@
   <v-container>
     <div v-if="!formSubmitted" class="pa-1">
       <validation-observer ref="observer">
-        <v-col cols="12" lg="8" class="mx-auto card-glass rounded-xl">
+        <v-col cols="12" class="mx-auto card-glass rounded-xl">
           <validation-provider
             v-slot="{ errors }"
             name="Full Name"
@@ -69,99 +69,44 @@
               v-model="form.category"
               :items="categoryOptions"
               :error-messages="errors"
-              label="Category"
+              label="Are you a business or person?"
               outlined
             ></v-select>
           </validation-provider>
+
           <validation-provider
             v-slot="{ errors }"
-            name="Genres"
-            rules="required"
-          >
-            <v-combobox
-              v-model="form.genres"
-              :items="genreOptions"
-              item-text="name"
-              item-value="name"
-              :search-input.sync="search"
-              hide-selected
-              hint="select or add your own"
-              label="Genres"
-              multiple
-              outlined
-              persistent-hint
-              small-chips
-              :error-messages="errors"
-            >
-              <template #no-data>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      No results for "<strong>{{ search }}</strong
-                      >". Press <kbd>enter</kbd> to create a new one
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
-            </v-combobox>
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="Languages"
-            rules="required"
-          >
-            <v-combobox
-              v-model="form.languages"
-              :items="languageOptions"
-              item-text="name"
-              item-value="name"
-              :search-input.sync="search"
-              hide-selected
-              hint="select or add your own"
-              label="Languages"
-              multiple
-              outlined
-              persistent-hint
-              small-chips
-              :error-messages="errors"
-            >
-              <template #no-data>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      No results for "<strong>{{ search }}</strong
-                      >". Press <kbd>enter</kbd> to create a new one
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
-            </v-combobox></validation-provider
-          >
-          <validation-provider
-            v-slot="{ errors }"
-            name="Video Link"
-            rules="required"
+            name="Business Link(optional)"
           >
             <v-text-field
-              v-model="form.video_link"
+              v-model="form.business_link"
               outlined
-              hint="Enter your Video Link"
-              label="Video Link"
+              hint="link to social media page or website"
+              label="Business Link"
+              :error-messages="errors"
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider v-slot="{ errors }" name="Referrer">
+            <v-text-field
+              v-model="form.referrer"
+              outlined
+              hint="link to social media page or website"
+              label="Referrer"
               :error-messages="errors"
             ></v-text-field>
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
-            name="Profile Link"
+            name="Query"
             rules="required"
           >
-            <v-text-field
-              v-model="form.profile_link"
+            <v-textarea
+              v-model="form.query"
               outlined
-              hint="Enter your Profile Link"
-              label="Profile Link"
+              hint="Describe your query in summary"
+              label="Query"
               :error-messages="errors"
-            ></v-text-field>
+            ></v-textarea>
           </validation-provider>
 
           <v-btn block color="primary" class="mb-2" @click="submit"
@@ -174,7 +119,7 @@
       >
     </div>
     <div v-else class="ma-2">
-      <v-alert v-if="message" type="success" outlined>
+      <v-alert v-if="message" type="success" outlined :icon="icons.check">
         {{ message }}
       </v-alert>
     </div>
@@ -183,48 +128,33 @@
 
 
 <script>
+import { mdiCheckDecagram } from '@mdi/js'
 export default {
   data: () => ({
     form: {
-      email: null,
       name: null,
-      contact: null,
       location: null,
+      email: null,
+      contact: null,
       category: null,
-      genres: null,
-      languages: null,
-      video_link: null,
-      profile_link: null,
+      business_link: null,
+      referrer: null,
+      query: null,
     },
-    genreOptions: [],
-    languageOptions: [],
-    categoryOptions: ['Solo', 'Duo/Trio', 'Band/Musicians'],
-    agreeTerms: false,
-    search: null,
+    icons: {
+      check: mdiCheckDecagram,
+    },
+    categoryOptions: ['Personal', 'Business'],
+
     message: null,
     formSubmitted: false,
   }),
-  async fetch() {
-    await this.$axios
-      .$get('filters')
-      .then((res) => {
-        this.genreOptions = res.data.Genres
-        this.languageOptions = res.data.Languages
-      })
-      .catch((err) => {
-        this.$sentry.captureException(new Error(err))
-      })
-  },
-  head() {
-    return {
-      title: 'Join US',
-    }
-  },
+
   methods: {
     async submit() {
       if (await this.$refs.observer.validate()) {
         await this.$axios
-          .$post('forms/artist', this.form)
+          .$post('forms/contact', this.form)
           .then((res) => {
             this.message = res.message
             this.formSubmitted = true

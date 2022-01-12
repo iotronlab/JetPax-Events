@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <section v-if="$fetchState.pending">
       <Loading :message="'fetching event ' + url" />
     </section>
@@ -11,14 +11,14 @@
         :src="
           event.images[0]
             ? event.images[0].url
-            : `https://via.placeholder.com/150/000000/FFFFFF/?text=${event.name}`
+            : `https://via.placeholder.com/450/000000/FFFFFF/?text=${event.name}`
         "
-        height="360"
+        height="300"
         :alt="event.name"
       ></v-parallax>
       <v-row no-gutters justify="center">
-        <v-col cols="12" lg="5">
-          <v-container fluid class="card-glass rounded-xl mt-n16">
+        <v-col cols="12" lg="5" class="pa-1">
+          <v-sheet class="card-glass rounded-xl mt-n16">
             <Breadcrumb :breadcrumb-items="breadcrumbItems" />
 
             <v-divider class="my-2"></v-divider>
@@ -40,7 +40,7 @@
               </v-col></v-row
             >
             <v-divider class="my-2"></v-divider>
-            <v-row no-gutters class="mb-2" align="center" justify="center">
+            <v-row no-gutters class="pb-4" align="center" justify="center">
               <v-btn
                 v-if="event.isBookingOpen == true"
                 rounded
@@ -63,12 +63,13 @@
                 >Line Up</v-btn
               >
             </v-row>
-          </v-container>
+          </v-sheet>
         </v-col>
 
         <v-col cols="12" lg="5">
           <div class="text-body-2 ma-2">
             <v-btn
+              v-if="event.locationCode"
               text
               class="my-2"
               :href="`https://plus.codes/${event.locationCode}`"

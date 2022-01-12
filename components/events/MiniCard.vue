@@ -18,7 +18,7 @@
       </v-col></v-row
     >
     <v-divider class="my-2"></v-divider>
-    <h3 class="my-4 text-body-1">
+    <h3 class="mt-3 text-body-1">
       <v-icon left>{{ icon.location }}</v-icon> Venue -
       {{ event.location }}
     </h3>

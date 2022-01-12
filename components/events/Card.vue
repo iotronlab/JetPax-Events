@@ -52,6 +52,7 @@
     <v-divider class="my-2"></v-divider>
 
     <v-btn
+      v-if="event.locationCode"
       text
       class="mb-2"
       :href="`https://plus.codes/${event.locationCode}`"
