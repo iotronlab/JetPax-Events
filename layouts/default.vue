@@ -67,6 +67,19 @@
     <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+    <v-btn
+      fab
+      fixed
+      bottom
+      right
+      color="primary"
+      href="https://wa.me/918100487524"
+      target="_blank"
+      rel="noreferrer"
+      style="z-index: 120"
+    >
+      <v-icon x-large>{{ icons.whatsapp }} </v-icon>
+    </v-btn>
     <v-scroll-y-transition>
       <v-snackbar
         v-model="snackbar.showing"

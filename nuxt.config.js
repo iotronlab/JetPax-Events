@@ -41,7 +41,7 @@ export default {
     {
       src: '~/plugins/vee-validate.js',
     },
-    //    { src: '~/plugins/firebase.js', mode: 'client', ssr: false },
+    { src: '~/plugins/firebase.js', mode: 'client', ssr: false },
 
     { src: '~/plugins/pixi.js', mode: 'client', ssr: false },
   ],
@@ -84,6 +84,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8000/api',
+    // baseURL: 'https://api.iaa.org.in/api',
+
     // baseURL: 'https://devapi.iaa.org.in/api',
     // baseURL: 'https://api.iaa.org.in/api',
 

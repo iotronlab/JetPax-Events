@@ -10,8 +10,8 @@
       <v-img
         :aspect-ratio="$vuetify.breakpoint.smAndUp ? 16 / 2.5 : 16 / 9"
         :src="
-          artist.bannerImage
-            ? artist.bannerImage
+          artist.bannerImage.url
+            ? artist.bannerImage.url
             : require('@/assets/images/index/landing.webp')
         "
         :lazy-src="require('@/assets/images/index/landing.webp')"
@@ -23,10 +23,11 @@
             <v-avatar size="200" class="mt-n16">
               <v-img
                 :src="
-                  artist.displayImage
-                    ? artist.displayImage
+                  artist.displayImage.url
+                    ? artist.displayImage.url
                     : require('@/assets/images/index/landing.webp')
                 "
+                :lazy-src="require('@/assets/images/index/landing.webp')"
               ></v-img
             ></v-avatar>
           </v-container>
@@ -94,7 +95,16 @@
             lg="4"
             class="pa-1"
           >
-            <EventsMiniCard :event="event" /></v-col
+            <NuxtLink
+              :to="{
+                name: 'events-slug',
+                params: {
+                  slug: event.url,
+                },
+              }"
+            >
+              <EventsMiniCard :event="event" />
+            </NuxtLink> </v-col
         ></v-row>
       </section>
     </section>

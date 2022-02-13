@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 glow-red">
+  <v-container fluid class="pa-0 glow-pink">
     <!-- Nav bar right -->
     <section v-if="$fetchState.pending">
       <h1 class="text-lg-h1 text-h2 text-center">Artists</h1>

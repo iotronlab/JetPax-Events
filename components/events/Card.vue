@@ -103,8 +103,8 @@
           <v-avatar class="profile" color="grey" size="9rem">
             <v-img
               :src="
-                artist.displayImage
-                  ? artist.displayImage
+                artist.displayImage.url
+                  ? artist.displayImage.url
                   : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Member'
               "
             ></v-img>

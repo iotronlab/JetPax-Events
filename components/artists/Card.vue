@@ -1,10 +1,15 @@
 <template>
   <!-- <v-container>{{creator}}</v-container> -->
 
-  <v-card rounded="lg" class="pb-4 card-glass" elevation="6">
+  <v-card rounded="lg" class="card-glass" elevation="6">
     <v-img
       height="10rem"
-      :src="require('@/assets/images/index/landing.webp')"
+      :src="
+        creator.bannerImage.url
+          ? creator.bannerImage.url
+          : require('@/assets/images/index/landing.webp')
+      "
+      :lazy-src="require('@/assets/images/index/landing.webp')"
       gradient="to top, rgba(0, 0, 0, 0.8) 0%, transparent 70%"
       dark
     >
@@ -25,59 +30,24 @@
             -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
           "
-        >
-          Bio:
-          {{ creator.desc }}
-        </h6></v-col
+          v-html="creator.desc"
+        ></h6></v-col
       ><v-col cols="6">
         <v-img
-          :src="require('@/assets/images/index/landing.webp')"
+          :src="
+            creator.displayImage.url
+              ? creator.displayImage.url
+              : require('@/assets/images/index/landing.webp')
+          "
+          :lazy-src="require('@/assets/images/index/landing.webp')"
           max-width="150"
           :aspect-ratio="1 / 1"
           class="mt-n16 ml-auto mr-4 rounded-lg"
       /></v-col>
     </v-row>
-    <h4 class="caption ml-2 mt-2">
-      Languages
-      <v-chip
-        v-for="(lang, i) in creator.languages"
-        :key="i"
-        small
-        label
-        outlined
-        class="ma-1"
-      >
-        {{ lang }}</v-chip
-      >
-    </h4>
-    <h4 class="caption ml-2 mt-2">
-      Genres
-      <v-chip
-        v-for="(category, i) in creator.genres"
-        :key="i"
-        small
-        label
-        outlined
-        class="ma-1"
-      >
-        {{ category }}</v-chip
-      >
-    </h4>
-    <h4 v-if="creator.externalLinks" class="caption ml-2 mt-2">
-      Links
-      <v-chip
-        v-for="(link, i) in creator.externalLinks"
-        :key="i"
-        class="ma-1"
-        dark
-        small
-        label
-        outlined
-      >
-        <!-- <v-icon left v-if="social.type == 'Instagram'"> mdi-instagram </v-icon> -->
-        {{ link }}</v-chip
-      >
-    </h4>
+    <v-row no-gutters class="pa-2">
+      <SocialDetails :display-data="creator" />
+    </v-row>
   </v-card>
 </template>
 <script>

@@ -23,7 +23,7 @@
           </v-row>
 
           <v-btn class="ma-2" to="/joinus" outlined>Join our network</v-btn>
-          <p class="caption">find us on</p>
+          <p class="text-subtitle-2">find us on</p>
           <v-row no-gutters justify="space-around" class="my-4">
             <v-btn
               v-for="(social, i) in socialLinks"
@@ -69,6 +69,7 @@ import {
   mdiPhone,
   mdiInstagram,
   mdiFacebook,
+  mdiGoogle,
 } from '@mdi/js'
 
 export default {
@@ -101,6 +102,11 @@ export default {
           name: 'Youtube',
           url: 'https://www.youtube.com/channel/UC0Q1WPPZBPwfXj3G7ZtGPUQ',
           icon: mdiYoutube,
+        },
+        {
+          name: 'Google',
+          url: 'https://goo.gl/maps/Q6jKTGNSywZPSHj59',
+          icon: mdiGoogle,
         },
       ],
     }

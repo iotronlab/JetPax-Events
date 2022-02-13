@@ -3,8 +3,8 @@
     <v-col cols="12">
       <v-img
         :src="
-          artist.displayImage
-            ? artist.displayImage
+          artist.displayImage.url
+            ? artist.displayImage.url
             : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Member'
         "
       ></v-img>
@@ -20,11 +20,11 @@
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
         "
-        class="pt-2"
-      >
-        {{ artist.desc }}
-      </p>
-      <!-- <v-btn
+        class="pt-2 caption"
+        v-html="artist.desc"
+      ></p>
+      <v-btn
+        v-if="artist.status"
         small
         outlined
         class="mb-2"
@@ -36,7 +36,7 @@
           },
         }"
         >view artist</v-btn
-      > -->
+      >
       <SocialDetails :display-data="artist" />
     </v-col>
   </v-row>

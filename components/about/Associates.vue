@@ -18,15 +18,17 @@
             lg="4"
             md="6"
           >
-            <v-img
-              :src="
-                associate.image
-                  ? associate.image
-                  : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Brand'
-              "
-              max-height="100"
-              contain
-            ></v-img>
+            <a :href="associate.url" target="_blank">
+              <v-img
+                :src="
+                  associate.image
+                    ? associate.image
+                    : 'https://via.placeholder.com/150/000000/FFFFFF/?text=Brand'
+                "
+                max-height="100"
+                contain
+              ></v-img
+            ></a>
             <h1 class="text-overline text--secondary">{{ associate.name }}</h1>
           </v-col></v-row
         ></v-col

@@ -74,6 +74,7 @@
               outlined
             ></v-select>
           </validation-provider>
+
           <validation-provider
             v-slot="{ errors }"
             name="Genres"
@@ -93,6 +94,7 @@
               persistent-hint
               small-chips
               :error-messages="errors"
+              :return-object="false"
             >
               <template #no-data>
                 <v-list-item>
@@ -125,6 +127,7 @@
               persistent-hint
               small-chips
               :error-messages="errors"
+              :return-object="false"
             >
               <template #no-data>
                 <v-list-item>
@@ -175,7 +178,7 @@
       >
     </div>
     <div v-else class="ma-2">
-      <v-alert v-if="message" type="success" outlined>
+      <v-alert v-if="message" type="success" outlined :icon="icons.check">
         {{ message }}
       </v-alert>
     </div>
@@ -183,6 +186,7 @@
 </template>
 
 <script>
+import { mdiCheckDecagram } from '@mdi/js'
 export default {
   data: () => ({
     form: {
@@ -195,6 +199,9 @@ export default {
       languages: null,
       video_link: null,
       profile_link: null,
+    },
+    icons: {
+      check: mdiCheckDecagram,
     },
     genreOptions: [],
     languageOptions: [],
