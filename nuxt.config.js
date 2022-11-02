@@ -43,7 +43,7 @@ export default {
     },
     { src: '~/plugins/firebase.js', mode: 'client', ssr: false },
 
-    { src: '~/plugins/pixi.js', mode: 'client', ssr: false },
+    // { src: '~/plugins/pixi.js', mode: 'client', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -212,12 +212,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['vee-validate/dist/rules'],
     extractCSS: {
       ignoreOrder: true,
     },
     optimization: {
       splitChunks: {
-        // maxSize: 200000,
+        maxSize: 200000,
         cacheGroups: {
           styles: {
             name: 'styles',
@@ -227,6 +228,9 @@ export default {
           },
         },
       },
+    },
+    analyze: {
+      analyzerMode: 'static',
     },
   },
 }

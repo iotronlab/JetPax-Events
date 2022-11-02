@@ -7,15 +7,11 @@
       <LazyFetchError />
     </section>
     <section v-else>
-      <v-parallax
-        :src="
-          event.images[0]
-            ? event.images[0].url
-            : `https://via.placeholder.com/450/000000/FFFFFF/?text=${event.name}`
-        "
-        height="300"
-        :alt="event.name"
-      ></v-parallax>
+      <v-parallax :src="
+        event.images
+          ? event.images.url
+          : `https://via.placeholder.com/450/000000/FFFFFF/?text=${event.name}`
+      " height="300" :alt="event.name"></v-parallax>
       <v-row no-gutters justify="center">
         <v-col cols="12" lg="5" class="pa-1">
           <v-sheet class="card-glass rounded-xl mt-n16">
@@ -28,110 +24,74 @@
 
             <v-row no-gutters class="mb-4" justify="center">
               <v-col cols="auto">
-                <v-icon left size="5rem">{{ icon.calender }}</v-icon></v-col
-              ><v-col cols="auto">
-                <h1
-                  class="primary--text pl-2 pt-2"
-                  style="border-left: 0.5rem dotted #de3163; font-size: 1.5rem"
-                >
+                <v-icon left size="5rem">{{ icon.calender }}</v-icon>
+              </v-col>
+              <v-col cols="auto">
+                <h1 class="primary--text pl-2 pt-2" style="border-left: 0.5rem dotted #de3163; font-size: 1.5rem">
                   {{ event.startOn }}
                   <span class="secondary--text"><br />- {{ event.endOn }}</span>
                 </h1>
-              </v-col></v-row
-            >
+              </v-col>
+            </v-row>
             <v-divider class="my-2"></v-divider>
             <v-row no-gutters class="pb-4" align="center" justify="center">
-              <v-btn
-                v-if="event.isBookingOpen == true"
-                rounded
-                color="primary"
-                :to="{
-                  name: 'events-slug-booking',
-                  params: {
-                    slug: event.url,
-                  },
-                }"
-                >Book Now</v-btn
-              >
+              <v-btn v-if="event.isBookingOpen == true" rounded color="primary" :to="{
+                name: 'events-slug-booking',
+                params: {
+                  slug: event.url,
+                },
+              }">Book Now</v-btn>
               <v-btn v-else text disabled>Booking Closed</v-btn>
-              <v-btn
-                class="ml-2"
-                rounded
-                outlined
-                :to="{ hash: 'lineup' }"
-                @click.native="scrollTo('#lineup')"
-                >Line Up</v-btn
-              >
+              <v-btn class="ml-2" rounded outlined :to="{ hash: 'lineup' }" @click.native="scrollTo('#lineup')">Line Up
+              </v-btn>
             </v-row>
           </v-sheet>
         </v-col>
 
         <v-col cols="12" lg="5">
           <div class="text-body-2 ma-2">
-            <v-btn
-              v-if="event.locationCode"
-              text
-              class="my-2"
-              :href="`https://plus.codes/${event.locationCode}`"
-              target="_blank"
-            >
-              <v-icon left>{{ icon.location }}</v-icon
-              >View on map</v-btn
-            >
+            <v-btn v-if="event.locationCode" text class="my-2" :href="`https://plus.codes/${event.locationCode}`"
+              target="_blank">
+              <v-icon left>{{ icon.location }}</v-icon>View on map
+            </v-btn>
             <v-btn text class="my-2" @click="share">
-              <v-icon left>{{ icon.share }}</v-icon
-              >Share</v-btn
-            >
-            <v-btn
-              v-if="event.isBookingOpen == true"
-              text
-              class="my-2"
-              :href="`tel:${event.organizerContact}`"
-              target="_blank"
-            >
-              <v-icon left>{{ icon.phone }}</v-icon
-              >Contact Organizer</v-btn
-            >
+              <v-icon left>{{ icon.share }}</v-icon>Share
+            </v-btn>
+            <v-btn v-if="event.isBookingOpen == true" text class="my-2" :href="`tel:${event.organizerContact}`"
+              target="_blank">
+              <v-icon left>{{ icon.phone }}</v-icon>Contact Organizer
+            </v-btn>
             <h3 class="my-4 text-body-1">Venue - {{ event.location }}</h3>
-            <SocialDetails :display-data="event" /></div
-        ></v-col>
+            <SocialDetails :display-data="event" />
+          </div>
+        </v-col>
       </v-row>
       <v-row no-gutters justify="center">
         <v-col cols="12" md="5">
           <section id="lineup" class="pt-6">
             <h2 class="text-h2 text-center my-4">Line Up</h2>
             <v-divider class="mb-2"></v-divider>
-            <v-row no-gutters justify="center"
-              ><v-col
-                v-for="(artist, z) in event.artists"
-                :key="z"
-                cols="12"
-                lg="4"
-                md="6"
-                sm="6"
-              >
-                <ArtistsDetails :artist="artist" /> </v-col
-            ></v-row></section
-        ></v-col>
+            <v-row no-gutters justify="center">
+              <v-col v-for="(artist, z) in event.artists" :key="z" cols="12" lg="4" md="6" sm="6">
+                <ArtistsDetails :artist="artist" />
+              </v-col>
+            </v-row>
+          </section>
+        </v-col>
 
         <v-col cols="12" md="5" class="pa-2">
-          <v-sheet color="transparent" v-html="event.description"></v-sheet
-        ></v-col>
+          <v-sheet color="transparent" v-html="event.description"></v-sheet>
+        </v-col>
       </v-row>
 
       <section>
         <h2 class="text-h2 text-center my-4">Event Passes</h2>
         <v-divider class="mb-2"></v-divider>
-        <v-row no-gutters justify="center"
-          ><v-col
-            v-for="(ticket, z) in event.tickets"
-            :key="z"
-            cols="12"
-            lg="5"
-            class="pa-1"
-          >
-            <EventsTicket :ticket="ticket" :event="event" /> </v-col
-        ></v-row>
+        <v-row no-gutters justify="center">
+          <v-col v-for="(ticket, z) in event.tickets" :key="z" cols="12" lg="5" class="pa-1">
+            <EventsTicket :ticket="ticket" :event="event" />
+          </v-col>
+        </v-row>
       </section>
     </section>
   </v-container>
