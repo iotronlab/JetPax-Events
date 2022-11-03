@@ -1,31 +1,39 @@
 <template>
   <v-container>
-    <v-list-item>
-        <v-card-title class="text-lg-h4 text-md-h4 text-sm-h6">Change your city</v-card-title>
-        <v-spacer></v-spacer>
-        <v-btn rounded text><v-icon class="mb-1 mr-4">{{ icons.marker }}</v-icon>
-            <span class="hidden-md-and-down">Current location</span>
-        </v-btn>
-    </v-list-item>
-    <v-card tile flat class="ma-4">
-        
-        <v-row align="center" class="pt-6">
-            <v-col cols="12">
-            <v-autocomplete
-                outlined :items="City" item-text="name"
-                label="Search all cities" class="ma-4"
-            ></v-autocomplete>
-            </v-col>
-        </v-row>
+    <section v-if="$fetchState.pending">
+      <h1 class="text-lg-h1 text-h2 text-center">Locations</h1>
+      <Loading message="fetching locations..." />
+    </section>
+    <section v-else-if="errorMessage != null">
+      <LazyFetchError />
+    </section>
+    <section v-else>
+      <v-list-item>
+          <v-card-title class="text-lg-h4 text-md-h4 text-sm-h6">Change your city</v-card-title>
+          <v-spacer></v-spacer>
+          <v-btn rounded text><v-icon class="mb-1 mr-4">{{ icons.marker }}</v-icon>
+              <span class="hidden-md-and-down">Current location</span>
+          </v-btn>
+      </v-list-item>
+      <v-card tile flat class="ma-4">
+          
+          <v-row align="center" class="pt-6">
+              <v-col cols="12">
+              <v-autocomplete
+                  outlined :items="City" item-text="name"
+                  label="Search all cities" class="ma-4"
+              ></v-autocomplete>
+              </v-col>
+          </v-row>
 
-        <v-row class="mx-auto ma-4 justify-space-around d-flex py-2">
-            <v-col v-for="(city, i) in City" :key="i" class="mr-2 text-md-body-1 text-sm-h1" sm="6" md="3">
-                <v-btn text tile class="ma-0 pa-0"><v-icon class="mr-2 mb-1">{{ icons.circle }}</v-icon> <span class="hover-underline-animation">{{ city.name }}</span></v-btn>
-            </v-col>
-        </v-row>
+          <v-row class="mx-auto ma-4 justify-space-around d-flex py-2">
+              <v-col v-for="(city, i) in City" :key="i" class="mr-2 text-md-body-1 text-sm-h1" sm="6" md="3">
+                  <v-btn text tile class="ma-0 pa-0"><v-icon class="mr-2 mb-1">{{ icons.circle }}</v-icon> <span class="hover-underline-animation">{{ city.name }}</span></v-btn>
+              </v-col>
+          </v-row>
 
-    </v-card>
-
+      </v-card>
+    </section>
   </v-container>
 </template>
 
