@@ -7,6 +7,12 @@
       fixed
       app
     >
+      <v-list-item>
+        <v-spacer></v-spacer>
+        <v-btn text rounded class="text-body-2 py-4 my-4" small to="/location">
+          <v-icon class="mb-2 mr-2">{{ icons.location }}</v-icon>City
+        </v-btn>
+      </v-list-item>
       <v-list nav rounded class="text-center">
         <v-list-item
           v-for="(item, i) in navItems"
@@ -102,7 +108,7 @@
 </template>
 
 <script>
-import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount } from '@mdi/js'
+import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount, mdiMapMarkerRadius } from '@mdi/js'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -114,6 +120,7 @@ export default {
         email: mdiEmail,
         whatsapp: mdiWhatsapp,
         account: mdiAccount,
+        location: mdiMapMarkerRadius,
       },
       navItems: [
         {
