@@ -68,6 +68,7 @@
     </v-app-bar>
     <v-main>
       <Nuxt />
+      <v-overlay :value="noCity" opacity="0.8"></v-overlay>
     </v-main>
     <LazyFooter :nav-items="navItems" />
     <v-footer absolute app>
@@ -114,6 +115,7 @@ export default {
   data() {
     return {
       drawer: false,
+      noCity: false,
       icons: {
         menu: mdiMenu,
         call: mdiPhone,
@@ -192,8 +194,32 @@ export default {
         myNav.classList.add('card-glass')
       }
     }
-    // this.tawk()
+
+    this.checkCity()
   },
+
+  methods: {
+    getCookie(city) {
+      const cookieArr = document.cookie.split(";")
+      for(let i = 0; i < cookieArr.length; i++) {
+          const cookiePair = cookieArr[i].split("=")
+          if(city === cookiePair[0].trim()) {
+              return decodeURIComponent(cookiePair[1])
+          }
+      }
+      return null
+    },
+
+    checkCity() {
+      const defCity = this.getCookie("defaultCity")
+      if (defCity !== null) {
+        // Already selected !
+      } else {
+        this.noCity = true
+      }
+    },
+  },
+
 }
 </script>
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-    <v-card class="my-12 mx-4 pb-2 pt-1" style="border-radius: 25px;">
+    <v-card class="mb-12 mx-4 pb-2 pt-1" style="border-radius: 10px;">
         <template slot="progress">
         <v-progress-linear
             color="deep-purple"
@@ -11,10 +11,10 @@
         <v-img
         height="250"
         src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-        style="border-radius: 25px;"
+        style="border-radius: 10px;"
         >
         <v-list-item class="my-2">
-          <v-btn text tile class="white py-8" style="border-radius: 25px;">
+          <v-btn text tile class="white py-8" style="border-radius: 10px;">
             <div>
               <v-card-title class="ma-0 pa-0 text--lighten black--text mt-1 ml-2">{{ StartDate(event.startOn).split(' ')[0] }}</v-card-title>
               <v-card-text class="ma-0 pa-0 text--lighten black--text text-body-2">{{ StartDate(event.startOn).split(' ')[1] }}</v-card-text>
