@@ -1,80 +1,41 @@
 <template>
-  <v-container fluid class="fill-height align-center bg ma-0">
-    <v-card class="mx-auto">
-      <v-card-title class="justify-space-between">
-        <h1 class="text-button">{{ currentTitle }}</h1>
-        <v-avatar color="primary" size="24" v-text="step"></v-avatar>
-      </v-card-title>
+  <v-container fluid class="fill-height align-center">
+    <v-col cols="12" sm="8" md="6" lg="4" class="mx-auto">
+      <v-card class="nucard" rounded="xl" min-width="40%" min-height="330">
+        <v-card-title class="justify-space-between">
+          <h1 class="text-button">{{ currentTitle }}</h1>
+          <v-avatar color="secondary" size="24" v-text="step"></v-avatar>
+        </v-card-title>
+        <v-window v-model="step" touchless>
+          <v-window-item :value="1">
+            <!-- <v-img :src="require('@/assets/images/logo-white.png')" contain alt="artify logo" max-width="100"
+              class="mx-auto mb-10" /> -->
 
-      <v-window v-model="step">
-        <v-window-item :value="1">
-          <div class="ma-2 text-center">
-            <h2 class="text-overline">verify using</h2>
-            <v-btn-toggle v-model="verifyUsing" mandatory shaped>
-              <v-btn value="number" :disabled="email">
-                Mobile Number <v-icon right>{{ icons.phone }}</v-icon>
-              </v-btn>
-              <v-btn value="email" :disabled="contact">
-                <v-icon left>{{ icons.email }}</v-icon>
-                Email
-              </v-btn>
-            </v-btn-toggle>
-          </div>
+            <AuthMobileVerify type="register" @otpsent="otpSentEvent" @success="verifiedContact" />
+          </v-window-item>
 
-          <AuthMobileVerify
-            v-if="verifyUsing == 'number'"
-            @otpsent="otpSentEvent"
-          />
-          <AuthEmailVerify
-            v-if="verifyUsing == 'email'"
-            @otpsent="otpSentEvent"
-          />
-        </v-window-item>
-
-        <v-window-item :value="2">
-          <v-card-text>
-            <v-text-field label="Password" type="password"></v-text-field>
-            <v-text-field
-              label="Confirm Password"
-              type="password"
-            ></v-text-field>
-            <span class="text-caption grey--text text--darken-1">
-              Please enter a password for your account
-            </span>
-          </v-card-text>
-        </v-window-item>
-
-        <v-window-item :value="3">
-          <div class="pa-4 text-center">
-            <v-img
-              class="mb-4"
-              contain
-              height="128"
-              src="https://cdn.vuetifyjs.com/images/logos/v.svg"
-            ></v-img>
-            <h3 class="text-h6 font-weight-light mb-2">Welcome to Vuetify</h3>
-            <span class="text-caption grey--text">Thanks for signing up!</span>
-          </div>
-        </v-window-item>
-      </v-window>
-    </v-card>
+          <v-window-item :value="2">
+            <AuthRegisterForm :contact="contact" />
+          </v-window-item>
+        </v-window>
+      </v-card>
+    </v-col>
   </v-container>
 </template>
 
 <script>
 import { mdiPhone, mdiEmail } from '@mdi/js'
 export default {
+  name: 'RegisterPage',
+  layout: 'auth',
   data: () => ({
     step: 1,
-    verifyUsing: 'number',
     otpSent: false,
     icons: {
       phone: mdiPhone,
       email: mdiEmail,
     },
-    contact: null,
-    email: null,
-    password: null,
+    contact: '',
   }),
   computed: {
     currentTitle() {
@@ -84,7 +45,7 @@ export default {
         case 2:
           return 'Create a password'
         default:
-          return 'Account created'
+          return 'verify'
       }
     },
   },
@@ -97,12 +58,10 @@ export default {
       }
       this.otpSent = true
     },
+    verifiedContact(data) {
+      this.contact = data.contact
+      this.step = 2
+    },
   },
 }
 </script>
-<style >
-.bg {
-  background-image: url('@/assets/images/auth/iaa-bg.webp');
-  background-size: cover;
-}
-</style>

@@ -1,12 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      class="ma-2 rounded-xl card-glass elevated-1"
-      temporary
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" class="ma-2 rounded-xl card-glass elevated-1" temporary fixed app>
       <v-list-item>
         <v-spacer></v-spacer>
         <v-btn text rounded class="text-body-2 py-4 my-4" small to="/location">
@@ -14,13 +8,7 @@
         </v-btn>
       </v-list-item>
       <v-list nav rounded class="text-center">
-        <v-list-item
-          v-for="(item, i) in navItems"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" router exact>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
@@ -28,13 +16,7 @@
       </v-list>
       <v-list v-if="$auth.loggedIn">
         <v-divider></v-divider>
-        <v-list-item
-          v-for="(item, i) in accountItems"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-item v-for="(item, i) in accountItems" :key="i" :to="item.to" router exact>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
@@ -42,12 +24,10 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar id="nav" class="elevated nav-transparent" fixed app flat>
-      <v-app-bar-nav-icon
-        aria-label="nav-button"
-        @click.stop="drawer = !drawer"
-      >
-        <v-icon slot="default">{{ icons.menu }}</v-icon></v-app-bar-nav-icon
-      >
+      <v-app-bar-nav-icon aria-label="nav-button" @click.stop="drawer = !drawer">
+        <v-icon slot="default">{{ icons.menu }}</v-icon>
+      </v-app-bar-nav-icon>
+      {{ cities }}
       <nuxt-link :to="{ name: 'index' }">
         <v-img src="/icon.png" max-width="60" contain alt="logo"></v-img>
       </nuxt-link>
@@ -74,27 +54,12 @@
     <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
-    <v-btn
-      fab
-      fixed
-      bottom
-      right
-      color="primary"
-      href="https://wa.me/918100487524"
-      target="_blank"
-      rel="noreferrer"
-      style="z-index: 120"
-    >
+    <v-btn fab fixed bottom right color="primary" href="https://wa.me/918100487524" target="_blank" rel="noreferrer"
+      style="z-index: 120">
       <v-icon x-large>{{ icons.whatsapp }} </v-icon>
     </v-btn>
     <v-scroll-y-transition>
-      <v-snackbar
-        v-model="snackbar.showing"
-        top
-        text
-        :color="snackbar.color"
-        :timeout="4000"
-      >
+      <v-snackbar v-model="snackbar.showing" top text :color="snackbar.color" :timeout="4000">
         <v-icon dark class="mr-2">{{ snackbar.icon }}</v-icon>
         {{ snackbar.text }}
 
@@ -103,14 +68,14 @@
             Close
           </v-btn>
         </template>
-      </v-snackbar></v-scroll-y-transition
-    >
+      </v-snackbar>
+    </v-scroll-y-transition>
   </v-app>
 </template>
 
 <script>
 import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount, mdiMapMarkerRadius } from '@mdi/js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -168,10 +133,10 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters({
       snackbar: 'snackbar',
+      cities: 'cities'
     }),
   },
   watch: {
@@ -181,6 +146,9 @@ export default {
         this.snackbar.showing = true
       }, 100)
     },
+  },
+  created() {
+    this.getCities()
   },
   mounted() {
     const myNav = document.getElementById('nav')
@@ -199,13 +167,14 @@ export default {
   },
 
   methods: {
+    ...mapActions(['getCities']),
     getCookie(city) {
       const cookieArr = document.cookie.split(";")
-      for(let i = 0; i < cookieArr.length; i++) {
-          const cookiePair = cookieArr[i].split("=")
-          if(city === cookiePair[0].trim()) {
-              return decodeURIComponent(cookiePair[1])
-          }
+      for (let i = 0; i < cookieArr.length; i++) {
+        const cookiePair = cookieArr[i].split("=")
+        if (city === cookiePair[0].trim()) {
+          return decodeURIComponent(cookiePair[1])
+        }
       }
       return null
     },
@@ -220,15 +189,20 @@ export default {
     },
   },
 
+  // this.tawk()
+
+
 }
 </script>
 <style scoped>
 .nav-transparent {
   background-color: transparent !important;
 }
+
 .elevated {
   z-index: 100 !important;
 }
+
 .elevated-1 {
   z-index: 200 !important;
 }

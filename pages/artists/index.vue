@@ -11,21 +11,16 @@
     <section v-else>
       <v-row no-gutters justify="center" align="center" class="text-center">
         <v-col cols="12" lg="3" md="3">
-          <Breadcrumb :breadcrumb-items="breadcrumbItems"
-        /></v-col>
+          <Breadcrumb :breadcrumb-items="breadcrumbItems" />
+        </v-col>
         <v-col cols="12" lg="3" md="3">
           <h1 class="text-lg-h1 text-h2">Artists</h1>
           <v-divider class="my-2"></v-divider>
         </v-col>
         <v-col cols="12" lg="3" md="3">
           <h2 class="text-body-1">
-            <v-pagination
-              v-model="pageData.current_page"
-              :length="pageData.last_page"
-              :next-icon="nextArrow"
-              :prev-icon="prevArrow"
-              @input="updateQuery(pageData.current_page)"
-            ></v-pagination>
+            <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
+              :prev-icon="prevArrow" @input="updateQuery(pageData.current_page)"></v-pagination>
             showing ({{ pageData.from }} - {{ pageData.to }})
             <span v-if="pageData.total > 1">artists</span>
             <span v-else>artist</span>
@@ -63,23 +58,14 @@
           ></v-row
         > -->
         <v-row no-gutters>
-          <v-col
-            v-for="(creator, i) in creators"
-            :key="i"
-            cols="12"
-            lg="3"
-            md="4"
-            class="pa-1"
-          >
-            <NuxtLink
-              :to="{
-                name: 'artists-slug',
-                params: {
-                  slug: creator.url,
-                },
-              }"
-            >
-              <ArtistsCard :creator="creator" />
+          <v-col v-for="(creator, i) in creators" :key="i" cols="12" lg="3" md="4" class="pa-1">
+            <NuxtLink :to="{
+              name: 'artists-slug',
+              params: {
+                slug: creator.url,
+              },
+            }">
+              <!-- <ArtistsCard :creator="creator" /> -->
             </NuxtLink>
           </v-col>
         </v-row>
@@ -105,14 +91,8 @@
         <v-btn class="mt-4" block color="red" @click="reset"> Reset </v-btn>
       </v-navigation-drawer> -->
       <h2 class="text-body-1 text-center mb-6">
-        <v-pagination
-          v-model="pageData.current_page"
-          :length="pageData.last_page"
-          :next-icon="nextArrow"
-          :prev-icon="prevArrow"
-          total-visible="10"
-          @input="updateQuery(pageData.current_page)"
-        ></v-pagination>
+        <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
+          :prev-icon="prevArrow" total-visible="10" @input="updateQuery(pageData.current_page)"></v-pagination>
         showing ({{ pageData.from }} - {{ pageData.to }})
         <span v-if="pageData.total > 1">artists</span>
         <span v-else>artist</span>
