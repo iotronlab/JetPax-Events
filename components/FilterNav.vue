@@ -8,6 +8,7 @@
       temporary
       fixed
       app
+      right
       class="ma-2 rounded-xl card-glass elevated-1 visualIndex"
     >
     <div class="pa-3">
