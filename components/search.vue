@@ -1,7 +1,7 @@
 <template>
   <div class="mx-16 mt-16">
     <h3>{{greet}}, User</h3>
-    <v-text-field  label="Search amazing events" class="mt-1" outlined placeholder="Type"></v-text-field>
+    <v-text-field  label="Search amazing events" class="mt-4" outlined placeholder="Type"></v-text-field>
   </div>
 </template>
 

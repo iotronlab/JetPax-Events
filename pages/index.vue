@@ -19,6 +19,7 @@
       <section v-else>
 
         <v-card flat class="mx-lg-16 px-lg-16 mx-md-16 px-md-16 transparent">
+
           <Search />
 
           <v-card flat class="transparent">
@@ -30,11 +31,9 @@
 
             <v-col cols="12" lg="12" class="mx-auto pa-0 ma-0 mt-4">
               <v-row no-gutters justify="center" class="ma-0">
-                <v-col v-for="(event, i) in events.slice(0, 4)" :key="i" cols="12" lg="4" md="5" sm="5"
+                <v-col v-for="(event, i) in events.slice(0, 3)" :key="i" cols="12" lg="4" md="5" sm="5"
                   style="z-index: 10" class="pa-0 ma-0">
-                  <v-card flat class="white mx-2 py-4 pb-0 mb-0" style="border-radius: 10px;">
-                    <NewEventCard :event="event" />
-                  </v-card>
+                    <EventCardNew :event="event" />
                 </v-col>
               </v-row>
             </v-col>
@@ -42,8 +41,8 @@
           </v-card>
         </v-card>
 
-        <v-card tile flat class="white hidden-sm-and-down" height="450" style="margin-top: -450px;">
-          Spacing
+        <v-card tile flat class="gray gray--text hidden-sm-and-down" height="350" style="margin-top: -250px;">
+          .
         </v-card>
 
         <v-card tile flat class="transparent py-4">
