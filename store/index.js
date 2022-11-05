@@ -2,6 +2,7 @@ export const strict = false
 export const state = () => ({
   snackbar: {},
   cities: [],
+  defaultCity: null,
 })
 
 export const getters = {
@@ -10,6 +11,9 @@ export const getters = {
   },
   cities(state) {
     return state.cities
+  },
+  defaultCity(state) {
+    return state.defaultCity
   },
 }
 
@@ -20,8 +24,13 @@ export const mutations = {
     snackbar.color = snackbar.color || 'success'
     state.snackbar = snackbar
   },
+
   SET_CITIES(state, cities) {
     state.cities = cities
+  },
+
+  SET_CITY(state, city) {
+    state.defaultCity = city
   },
 }
 
@@ -30,6 +39,12 @@ export const actions = {
     //   snackbar.showing = true
     commit('SET_SNACKBAR', snackbar)
   },
+
+  setCity({ commit }, city) {
+    document.cookie = "defaultCity=" + city;
+    commit('SET_CITY', city)
+  },
+
   async getCities({ commit }) {
     await this.$axios
       .$get('all-cities')

@@ -122,12 +122,6 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-
-  methods: {
-    updateQuery(data) {
-      this.$router.push({ query: { page: data } })
-    },
-  },
 }
 </script>
 
