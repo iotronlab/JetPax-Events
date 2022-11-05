@@ -65,7 +65,7 @@
                 slug: creator.url,
               },
             }">
-              <!-- <ArtistsCard :creator="creator" /> -->
+              <ArtistsCard :creator="creator" />
             </NuxtLink>
           </v-col>
         </v-row>

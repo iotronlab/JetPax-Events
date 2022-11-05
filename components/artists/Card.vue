@@ -2,23 +2,18 @@
   <!-- <v-container>{{creator}}</v-container> -->
 
   <v-card rounded="lg" class="card-glass" elevation="6">
-    <!-- <v-img
-      height="10rem"
-      :src="
-        creator.bannerImage.url
-          ? creator.bannerImage.url
-          : require('@/assets/images/index/landing.webp')
-      "
-      :lazy-src="require('@/assets/images/index/landing.webp')"
-      gradient="to top, rgba(0, 0, 0, 0.8) 0%, transparent 70%"
-      dark
-    >
+    <v-img height="10rem" :src="
+      creator.bannerImage
+        ? creator.bannerImage.url
+        : require('@/assets/images/index/landing.webp')
+    " :lazy-src="require('@/assets/images/index/landing.webp')"
+      gradient="to top, rgba(0, 0, 0, 0.8) 0%, transparent 70%" dark>
       <v-row no-gutters class="fill-height" align="end">
-        <v-col cols="6"
-          ><h4 class="text-subtitle-2 ml-4">{{ creator.name }}</h4></v-col
-        >
-      </v-row></v-img
-    > -->
+        <v-col cols="6">
+          <h4 class="text-subtitle-2 ml-4">{{ creator.name }}</h4>
+        </v-col>
+      </v-row>
+    </v-img>
     <v-row no-gutters>
       <v-col cols="6">
         <h6 class="text-caption ml-4 mt-1" style="
@@ -31,7 +26,7 @@
       </v-col>
       <v-col cols="6">
         <v-img :src="
-          creator.displayImage.url
+          creator.displayImage
             ? creator.displayImage.url
             : require('@/assets/images/index/landing.webp')
         " :lazy-src="require('@/assets/images/index/landing.webp')" max-width="150" :aspect-ratio="1 / 1"

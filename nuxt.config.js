@@ -7,8 +7,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Independent Artist Association',
-    title: 'Welcome to IAA',
+    titleTemplate: '%s - JetPax Events',
+    title: 'Curated experiences for you',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
