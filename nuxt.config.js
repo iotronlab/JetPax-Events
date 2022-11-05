@@ -177,6 +177,9 @@ export default {
       'Josefin Sans': {
         wght: [400, 700],
       },
+      'Bebas Neue': {
+        wght: [400],
+      },
     },
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

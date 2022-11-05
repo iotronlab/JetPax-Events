@@ -1,7 +1,7 @@
 <template>
-  <div class="mx-16 mt-16">
-    <h3>{{greet}}, User</h3>
-    <v-text-field  label="Search amazing events" class="mt-4" outlined placeholder="Type"></v-text-field>
+  <div class="mt-8 mx-5">
+    <h1 class="text-h4">{{ greet }}, Friend!</h1>
+    <v-text-field label="Search amazing events" rounded class="mt-4" outlined placeholder="Type"></v-text-field>
   </div>
 </template>
 
@@ -12,20 +12,20 @@ export default {
       greet: ""
     }
   },
-mounted() {
+  mounted() {
     const current = new Date()
     // current.setHours(12);
     const currentHours = current.getHours()
     console.log(currentHours)
-    if (currentHours>0 && currentHours < 12)
+    if (currentHours > 0 && currentHours < 12)
       this.greet = "Good Morning"
 
-    else if (currentHours>=12 && currentHours < 18)
+    else if (currentHours >= 12 && currentHours < 18)
       this.greet = "Good Afternoon"
 
-    else 
+    else
       this.greet = "Good Evening"
-}
+  }
 }
 </script>
 
