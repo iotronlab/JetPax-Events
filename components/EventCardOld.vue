@@ -83,7 +83,7 @@
 import { mdiMapMarkerStar, mdiCalendarMonth, mdiHeart } from '@mdi/js'
 
 export default {
-  name: 'NewEventCard',
+  name: 'EventCardOld',
   props: {
     event: {
       type: Object,

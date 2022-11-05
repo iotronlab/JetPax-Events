@@ -37,7 +37,7 @@
         <v-col cols="12" lg="10" class="mx-auto pa-0 ma-0">
           <v-row no-gutters justify="center" class="ma-0">
             <v-col v-for="(event, i) in events" :key="i" cols="12" lg="4" md="5" sm="5" style="z-index: 10" class="pa-0 ma-0">
-              <NewEventCard :event="event" />
+              <ArtistNewCard :event="event" />
             </v-col>
           </v-row>
         </v-col>

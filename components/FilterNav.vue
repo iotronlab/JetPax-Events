@@ -1,6 +1,6 @@
 <template>
   <div>
-      <v-icon @click.stop="drawer = !drawer" class="mb-2 mr-2" size="30">{{icon.filter}}</v-icon>
+      <v-icon class="mb-2 mr-2" size="30" @click.stop="drawer = !drawer">{{icon.filter}}</v-icon>
   <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"> hello </v-app-bar-nav-icon> -->
   <v-navigation-drawer
       v-model="drawer"
@@ -101,7 +101,7 @@ import { mdiFilter } from '@mdi/js';
       async fetchFilterList () {
         const fetchedList = await this.$axios.$get("filter-options")
         this.filterList = {...fetchedList}
-        console.log(this.filterList)
+        // console.log(this.filterList)
       }
     },
   }

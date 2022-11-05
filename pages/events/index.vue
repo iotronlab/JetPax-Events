@@ -37,30 +37,16 @@
         </v-row>
 
         <!-- events for loop -->
-        <section v-for="(event, i) in events" :key="i">
-          <v-row no-gutters justify="center">
-            <v-col cols="12" lg="7" md="7" sm="6">
-              <nuxt-link :to="{
-                name: 'events-slug',
-                params: {
-                  slug: event.url,
-                },
-              }" :aria-label="event.name">
-                <v-img :src="
-                  event.images
-                    ? event.images.url
-                    : 'https://via.placeholder.com/150/000000/FFFFFF/?text=event'
-                " max-height="900" class="fill-height" :alt="event.name">
-                </v-img>
-              </nuxt-link>
-            </v-col>
-            <v-col cols="12" lg="5" md="5" sm="6" style="z-index: 10" :class="i % 2 == 1 ? 'mr-sm-n16' : 'ml-sm-n16'"
-              class="pa-1" :order-sm="i % 2 == 1 ? 'first' : null">
-              <EventsCard :event="event" />
+        <section>
+          <v-col cols="12" lg="10" class="mx-auto pa-0 ma-0">
+          <v-row no-gutters justify="center" class="ma-0">
+            <v-col v-for="(event, i) in events" :key="i" cols="12" lg="4" md="5" sm="5" style="z-index: 10" class="pa-0 ma-0 my-4">
+              <EventCardNew :event="event" />
             </v-col>
           </v-row>
-          <v-divider class="my-2"></v-divider>
+        </v-col>
         </section>
+
         <h2 class="text-body-1 text-center mb-6">
           <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
             :prev-icon="prevArrow" total-visible="10" @input="updateQuery(pageData.current_page)"></v-pagination>
