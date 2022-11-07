@@ -76,6 +76,8 @@
 
 <script>
 import { mdiMagnify } from '@mdi/js'
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -111,15 +113,29 @@ export default {
         this.$sentry.captureException(new Error(err))
       })
   },
+
   head() {
     return {
       title: 'Home',
     }
   },
 
+  computed: {
+    ...mapGetters({
+      defaultCity: 'defaultCity'
+    }),
+  },
+
   watch: {
     '$route.query': '$fetch',
   },
+
+  mounted() {
+    if (this.defaultCity !== null) {
+      this.$router.push(`/${this.defaultCity}`)
+    }
+  },
+
 }
 </script>
 

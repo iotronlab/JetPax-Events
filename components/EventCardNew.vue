@@ -58,6 +58,7 @@
 
 <script>
 import { mdiMapMarkerStar, mdiCalendarMonth, mdiHeart } from '@mdi/js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'EventCardNew',
@@ -75,6 +76,12 @@ export default {
         heart: mdiHeart,
       },
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      defaultCity: 'defaultCity'
+    }),
   },
 
   methods: {
