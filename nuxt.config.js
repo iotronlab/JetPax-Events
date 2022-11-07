@@ -59,6 +59,7 @@ export default {
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
     '@nuxtjs/pwa',
+    'nuxt-gsap-module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
