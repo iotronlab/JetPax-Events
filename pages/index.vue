@@ -84,7 +84,6 @@ export default {
   data() {
     return {
       events: [],
-      AllCities: [],
       CityURL: {},
       goURL: '',
       errorMessage: null,
