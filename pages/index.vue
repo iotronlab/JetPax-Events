@@ -147,11 +147,8 @@ export default {
   created() {
     if (this.defaultCity !== null) {
       this.getAllCities()
+      this.$router.push(`/${this.goURL}`)
     }
-  },
-
-  mounted() {
-    this.$router.push(`/${this.goURL}`)
   },
 
 }
