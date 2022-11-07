@@ -9,11 +9,27 @@
 
       <v-img height="10rem" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
         gradient="to top, rgba(0, 0, 0, 0.8) 0%, transparent 70%" dark>
-        <v-row no-gutters class="fill-height" align="end">
-          <v-col cols="6">
-            <h4 class="text-subtitle-2 ml-4">{{ event.name }}</h4>
-          </v-col>
-        </v-row>
+
+        <v-list-item class="my-2">
+          <v-btn text tile class="white py-8" style="border-radius: 10px;">
+            <div>
+              <v-card-title class="ma-0 pa-0 text--lighten black--text mt-1 ml-2">{{ StartDate(event.startOn).split(' ')[0] }}</v-card-title>
+              <v-card-text class="ma-0 pa-0 text--lighten black--text text-body-2">{{ StartDate(event.startOn).split(' ')[1] }}</v-card-text>
+            </div>
+          </v-btn>
+        </v-list-item>
+
+
+        <v-list-item class="d-flex align-end pt-4">
+          <v-row no-gutters class="align-end">
+            <v-col cols="6">
+              <h4 class="text-subtitle-2 ml-1">{{ event.name }}</h4>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-btn icon class="red"><v-icon class="">{{ icons.heart }}</v-icon></v-btn>
+          </v-row>
+        
+        </v-list-item>
       </v-img>
 
     </nuxt-link>
@@ -38,10 +54,10 @@
 
         </h6>
       </v-col>
-      <v-col cols="6">
+      <!-- <v-col cols="6">
         <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png" max-width="150" :aspect-ratio="1 / 1"
           class="mt-n16 ml-auto mr-4 rounded-lg" />
-      </v-col>
+      </v-col> -->
     </v-row>
     <v-row no-gutters class="pa-2">
       <v-row no-gutters align="center" class="ml-1">

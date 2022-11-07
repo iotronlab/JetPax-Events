@@ -65,8 +65,8 @@
           <v-chip v-for="(language, k) in event.languages" :key="k" class="mr-2">{{ language }}</v-chip>
         </v-chip-group>
       </v-card-text>
-
-        </v-card-text>
+<!-- 
+        </v-card-text> -->
 
         <v-card-actions class="mx-2 mt-2">
         <v-btn color="deep-purple lighten-2" rounded text>

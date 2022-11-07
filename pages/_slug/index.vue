@@ -104,7 +104,7 @@ export default {
   },
   async fetch() {
     await this.$axios
-      .$get('events', { params: { page: 1 } })
+      .$get(`events/${this.city}/get`, { params: { page: 1 } })
       .then((res) => {
         this.events = res.data
       })
