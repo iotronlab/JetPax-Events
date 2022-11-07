@@ -2,16 +2,9 @@
 <v-card tile flat class="mx-auto">
 
   <div class="wrapper">
-    <div class="box">2</div>
-    <div class="box">3</div>
-    <div class="box">4</div>
-    <div class="box">5</div>
-    <div class="box">6</div>
-    <div class="box">7</div>
-    <div class="box">8</div>
-    <div class="box">9</div>
-    <div class="box">10</div>
-    <div class="box">11</div>
+    <div v-for="(event, i) in events" :key="i" class="box">
+      <EventCardNew :event="event" />
+    </div>
   </div>
 
 </v-card>
@@ -31,10 +24,27 @@ export default {
   },
   data() {
     return {
+      events: [],
       icons: {
 
       },
     }
+  },
+
+  async fetch() {
+    await this.$axios
+      .$get('events', { params: { page: 1 } })
+      .then((res) => {
+        this.events = res.data
+      })
+      .catch((err) => {
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
+  },
+
+  watch: {
+    '$route.query': '$fetch',
   },
 
   mounted() {
@@ -262,7 +272,7 @@ export default {
       return tl;
     }
     }
-  }
+  },
 }
 </script>
 

@@ -22,6 +22,8 @@
 
           <Search />
 
+          {{ this.goURL }}
+
           <v-card flat class="transparent">
             <v-list-item>
               <v-card-title class="hidden-sm-and-down">Events nearby</v-card-title>
@@ -82,6 +84,9 @@ export default {
   data() {
     return {
       events: [],
+      AllCities: [],
+      CityURL: {},
+      goURL: '',
       errorMessage: null,
       icons: {
         serach: mdiMagnify,
@@ -102,6 +107,7 @@ export default {
       ],
     }
   },
+
   async fetch() {
     await this.$axios
       .$get('events', { params: { page: 1 } })
@@ -120,9 +126,17 @@ export default {
     }
   },
 
+  methods: {
+    getAllCities() {
+        this.CityURL = this.cities.filter(city => (city.name === this.defaultCity) ? city.url : '')
+        this.goURL = this.CityURL[0].url
+    }
+  },
+
   computed: {
     ...mapGetters({
-      defaultCity: 'defaultCity'
+      defaultCity: 'defaultCity',
+      cities: 'cities'
     }),
   },
 
@@ -130,10 +144,14 @@ export default {
     '$route.query': '$fetch',
   },
 
-  mounted() {
+  created() {
     if (this.defaultCity !== null) {
-      this.$router.push(`/${this.defaultCity}`)
+      this.getAllCities()
     }
+  },
+
+  mounted() {
+    this.$router.push(`/${this.goURL}`)
   },
 
 }
