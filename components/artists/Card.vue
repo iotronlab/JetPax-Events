@@ -10,13 +10,13 @@
       gradient="to top, rgba(0, 0, 0, 0.8) 0%, transparent 70%" dark>
       <v-row no-gutters class="fill-height" align="end">
         <v-col cols="6">
-          <h4 class="text-subtitle-2 ml-4">{{ creator.name }}</h4>
+          <h4 class="text-subtitle-1 ml-4">{{ creator.name }}</h4>
         </v-col>
       </v-row>
     </v-img>
     <v-row no-gutters>
       <v-col cols="6">
-        <h6 class="text-caption ml-4 mt-1" style="
+        <h6 class="text-subtitle-2 ml-4 mt-1" style="
             text-overflow: ellipsis;
             overflow: hidden;
             display: -webkit-box !important;

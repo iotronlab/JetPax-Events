@@ -201,10 +201,10 @@ export default {
       },
       themes: {
         dark: {
-          primary: '#60A5FA',
+          primary: '#ed2f7b',
           // accent: colors.grey.darken3,
           secondary: '#C084FC',
-          accent: '#93FFC5',
+          accent: '#793AFF',
           info: '#6366F1',
           warning: '#F59E0B',
           error: '#EF4444',

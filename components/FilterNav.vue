@@ -1,80 +1,40 @@
 <template>
   <div>
     <v-icon class="mb-2 mr-2" size="30" @click.stop="drawer = !drawer">{{
-      icon.filter
+        icons.filter
     }}</v-icon>
-    <v-navigation-drawer
-      v-model="drawer"
-      bottom
-      temporary
-      fixed
-      app
-      right
-      class="ma-2 rounded-xl card-glass elevated-1 visualIndex"
-    >
+
+    <v-navigation-drawer v-model="drawer" temporary fixed app right class="ma-2 rounded card-glass visualIndex">
       <v-list>
-        <v-list-group :value="false" no-action sub-group class="listBorder">
-          <template v-slot:activator>
+        <v-list-group v-for="(filter, i) in filterList" :key="i" no-action sub-group>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title class="text-left">
-                <h3>City</h3>
+                {{ filter.name }}
               </v-list-item-title>
             </v-list-item-content>
           </template>
-          <v-list-item v-for="city in filterList.city" :key="city.name" link>
+          <template #appendIcon>
+            <v-icon>{{
+                icons.expand
+            }}</v-icon>
+          </template>
+          <v-list dense>
+            <v-list-item v-for="(option, index) in filter.options" :key="index" dense>
+              <v-checkbox v-model="selected" :label="option.name" :value="option.name" :off-icon="icons.checkboxOff"
+                :on-icon="icons.checkboxOn">
+              </v-checkbox>
+
+
+            </v-list-item>
+
+          </v-list>
+          <!-- <v-list-item  link>
             <v-list-item-title class="text-left align-self-left">
               <input type="checkbox" :name="city.name" :value="city.name" />
               <label>{{ city.name }}</label>
             </v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group :value="false" no-action sub-group class="listBorder">
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title class="text-left">
-                <h3>Genre</h3>
-              </v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <v-list-item v-for="genre in filterList.genre" :key="genre.name" link>
-            <v-list-item-title class="text-left align-self-left">
-              <input type="checkbox" :name="genre.name" :value="genre.name" />
-              <label>{{ genre.name }}</label>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group :value="false" no-action sub-group class="listBorder">
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title class="text-left">
-                <h3>Language</h3>
-              </v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <v-list-item v-for="language in filterList.language" :key="language.name" link>
-            <v-list-item-title class="text-left align-self-left">
-              <input type="checkbox" :name="language.name" :value="language.name" />
-              <label>{{ language.name }}</label>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group :value="false" no-action sub-group class="listBorder">
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title class="text-left">
-                <h3>Time</h3>
-              </v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <v-list-item v-for="time in filterList.time" :key="time.name" link>
-            <v-list-item-title class="text-left align-self-left">
-              <input type="checkbox" :name="time.name" :value="time.name" />
-              <label>{{ time.name }}</label>
-            </v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
@@ -83,8 +43,8 @@
 
 
 <script>
-import { mdiFilter } from '@mdi/js'
-// import axios from 'axios';
+import { mdiFilter, mdiChevronDown, mdiCheckboxBlankOutline, mdiCheckboxOutline } from '@mdi/js'
+
 export default {
   name: 'FilterNav',
   data: () => ({
@@ -92,23 +52,27 @@ export default {
     checkbox: true,
     group: null,
     filterList: {},
-    icon: {
+    icons: {
       filter: mdiFilter,
+      expand: mdiChevronDown,
+      checkboxOff: mdiCheckboxBlankOutline,
+      checkboxOn: mdiCheckboxOutline
     },
   }),
+  async fetch() {
+    await this.$axios
+      .$get('filter-options')
+      .then((res) => {
+        this.filterList = res.data
+      })
+      .catch((err) => {
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
+  },
   watch: {
     group() {
       this.drawer = false
-    },
-  },
-  created() {
-    return this.fetchFilterList()
-  },
-  methods: {
-    async fetchFilterList() {
-      const fetchedList = await this.$axios.$get('filter-options')
-      this.filterList = { ...fetchedList }
-      // console.log(this.filterList)
     },
   },
 }
@@ -122,7 +86,7 @@ export default {
 input[type='checkbox'] {
   accent-color: #ed2f7b;
   cursor: pointer;
-  transform : scale(1.5);
+  transform: scale(1.5);
   margin-right: 0.5rem;
 }
 

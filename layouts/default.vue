@@ -28,7 +28,7 @@
         <v-icon slot="default">{{ icons.menu }}</v-icon>
       </v-app-bar-nav-icon>
       <nuxt-link :to="{ name: 'index' }">
-        <v-img src="/icon.png" max-width="60" contain alt="logo"></v-img>
+        <v-img src="/logo.webp" max-width="180" contain alt="logo"></v-img>
       </nuxt-link>
 
       <AppBarMenu v-if="$vuetify.breakpoint.lgAndUp" :nav-items="navItems" />
