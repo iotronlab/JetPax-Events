@@ -9,6 +9,23 @@
       <LazyFetchError />
     </section>
     <section v-else>
+      <v-row no-gutters justify="center" align="center" class="text-center">
+        <Breadcrumb :breadcrumb-items="breadcrumbItems" />
+        <v-col cols="12" lg="3" md="3">
+          <h1 class="text-lg-h1 text-h2">Events</h1>
+          <v-divider class="my-2"></v-divider>
+        </v-col>
+        <h2 class="text-body-1 mb-2">
+          <div class="alignment-box">
+            <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
+              :prev-icon="prevArrow" @input="updateQuery(pageData.current_page)"></v-pagination>
+            <FilterNav />
+          </div>
+          showing ({{ pageData.from }} - {{ pageData.to }})
+          <span v-if="pageData.total > 1">events</span>
+          <span v-else>event</span>
+        </h2>
+      </v-row>
       <section v-if="events.length < 1">
         <v-card height="480" rounded="xl" class="text-center ma-2">
           <h1 class="text-body-1 pa-2 pt-4">
@@ -18,23 +35,7 @@
       </section>
       <section v-else>
         <!-- page body start -->
-        <v-row no-gutters justify="center" align="center" class="text-center">
-          <Breadcrumb :breadcrumb-items="breadcrumbItems" />
-          <v-col cols="12" lg="3" md="3">
-            <h1 class="text-lg-h1 text-h2">Events</h1>
-            <v-divider class="my-2"></v-divider>
-          </v-col>
-          <h2 class="text-body-1 mb-2">
-            <div class="alignment-box">
-              <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
-                :prev-icon="prevArrow" @input="updateQuery(pageData.current_page)"></v-pagination>
-              <FilterNav />
-            </div>
-            showing ({{ pageData.from }} - {{ pageData.to }})
-            <span v-if="pageData.total > 1">events</span>
-            <span v-else>event</span>
-          </h2>
-        </v-row>
+
 
         <!-- events for loop -->
         <section>
