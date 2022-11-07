@@ -43,7 +43,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.20.0",
-    "husky": "^6.0.0",
+    "husky": "^8.0.1",
     "lint-staged": "^10.5.4",
     "nuxt-gsap-module": "^1.7.2",
     "prettier": "^2.5.1",
