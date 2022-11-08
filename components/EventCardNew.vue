@@ -44,12 +44,12 @@
                 -webkit-box-orient: vertical;
                 ">
 
-          <div class="grey--text">
-            <v-icon small class="mr-1">{{ icons.calendar }}</v-icon> {{ FullDate(event.startOn, event.endOn) }}
+          <div class="grey--text mt-1">
+            <v-icon small class="mr-1 mb-1">{{ icons.calendar }}</v-icon> {{ FullDate(event.startOn, event.endOn) }}
           </div>
 
-          <div class="mt-1 mb-2">
-            <v-icon small class="mr-1">{{ icons.marker }}</v-icon> {{ event.location }}
+          <div class="mt-2 mb-2">
+            <v-icon small class="mr-1 mb-1">{{ icons.marker }}</v-icon> {{ event.location }}
           </div>
 
         </h6>
