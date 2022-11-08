@@ -13,8 +13,10 @@
         <v-list-item class="my-2">
           <v-btn text tile class="white py-8" style="border-radius: 10px;">
             <div>
-              <v-card-title class="ma-0 pa-0 text--lighten black--text mt-1 ml-2">{{ StartDate(event.startOn).split(' ')[0] }}</v-card-title>
-              <v-card-text class="ma-0 pa-0 text--lighten black--text text-body-2">{{ StartDate(event.startOn).split(' ')[1] }}</v-card-text>
+              <v-card-title class="ma-0 pa-0 primary--text mt-1 ml-2">{{ StartDate(event.startOn).split(' ')[0] }}
+              </v-card-title>
+              <v-card-text class="ma-0 pa-0 primary--text text-body-2">{{ StartDate(event.startOn).split(' ')[1] }}
+              </v-card-text>
             </div>
           </v-btn>
         </v-list-item>
@@ -26,9 +28,11 @@
               <h4 class="text-subtitle-2 ml-1">{{ event.name }}</h4>
             </v-col>
             <v-spacer></v-spacer>
-            <v-btn icon class="red"><v-icon class="">{{ icons.heart }}</v-icon></v-btn>
+            <v-btn icon class="red">
+              <v-icon class="">{{ icons.heart }}</v-icon>
+            </v-btn>
           </v-row>
-        
+
         </v-list-item>
       </v-img>
 

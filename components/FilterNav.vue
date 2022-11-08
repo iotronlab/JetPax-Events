@@ -5,15 +5,16 @@
     }}</v-icon>
     {{ selected }}
     <v-navigation-drawer v-model="drawer" temporary fixed app right class="ma-2 rounded card-glass visualIndex">
-
+      <div class="mt-4">
+        <v-btn class="primary" @click="applyFilter">Apply filter</v-btn>
+        <v-btn @click="reset" outlined>Reset</v-btn>
+      </div>
       <v-list>
-        <v-btn @click="applyFilter">Apply filter</v-btn>
-        <v-btn @click="reset">Reset</v-btn>
-        <v-list-group v-for="(filter, i) in filterList" :key="i" no-action sub-group>
+        <v-list-group v-for="(filter, i) in filterList" :key="i">
           <template #activator>
             <v-list-item-content>
               <v-list-item-title class="text-left">
-                {{ filter.name }}
+                {{ filter.name.charAt(0).toUpperCase() + filter.name.slice(1) }}
               </v-list-item-title>
             </v-list-item-content>
           </template>
@@ -22,22 +23,12 @@
                 icons.expand
             }}</v-icon>
           </template>
-          <v-list dense>
-            <v-list-item v-for="(option, index) in filter.options" :key="index" dense>
-              <v-checkbox v-model="selected[filter.name]" :label="option.name" :value="option.name"
-                :off-icon="icons.checkboxOff" :on-icon="icons.checkboxOn" multiple>
-              </v-checkbox>
 
+          <v-checkbox v-for="(option, index) in filter.options" :key="index" v-model="selected[filter.name]"
+            class="my-2 mx-4" :label="option.name" :value="option.name" :off-icon="icons.checkboxOff"
+            :on-icon="icons.checkboxOn" hide-details multiple>
+          </v-checkbox>
 
-            </v-list-item>
-
-          </v-list>
-          <!-- <v-list-item  link>
-            <v-list-item-title class="text-left align-self-left">
-              <input type="checkbox" :name="city.name" :value="city.name" />
-              <label>{{ city.name }}</label>
-            </v-list-item-title>
-          </v-list-item> -->
         </v-list-group>
       </v-list>
 
@@ -75,10 +66,8 @@ export default {
         this.$sentry.captureException(new Error(err))
       })
   },
-  watch: {
-    group() {
-      this.drawer = false
-    },
+  mounted() {
+    this.parseQuery();
   },
   methods: {
     applyFilter() {
@@ -91,6 +80,9 @@ export default {
     reset() {
       this.$router.push(this.$route.path)
     },
+    parseQuery() {
+      console.log(this.$route.query)
+    }
   },
 }
 </script>
