@@ -61,7 +61,7 @@ export default {
   }),
   watch: {
     filterList() {
-      this.parseQuery()
+      this.parseQueryFilters()
     }
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
     reset() {
       this.$router.push(this.$route.path)
     },
-    parseQuery() {
+    parseQueryFilters() {
       const queryFilters = this.$route.query
       console.log(this.filterList)
       this.filterList.forEach(el => {
