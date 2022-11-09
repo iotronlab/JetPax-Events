@@ -19,7 +19,7 @@
           <div class="alignment-box">
             <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
               :prev-icon="prevArrow" @input="updateQuery(pageData.current_page)"></v-pagination>
-            <FilterNav />
+            <LazyFilterNav ref="filterNav" :filter-list="filterList" />
           </div>
           showing ({{ pageData.from }} - {{ pageData.to }})
           <span v-if="pageData.total > 1">events</span>
@@ -52,7 +52,6 @@
         <h2 class="text-body-1 text-center mb-6">
           <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
             :prev-icon="prevArrow" total-visible="10" @input="updateQuery(pageData.current_page)"></v-pagination>
-          <FilterNav />
           showing ({{ pageData.from }} - {{ pageData.to }})
           <span v-if="pageData.total > 1">events</span>
           <span v-else>event</span>
@@ -69,6 +68,7 @@ export default {
   data() {
     return {
       events: [],
+      filterList: [],
       pageData: {},
       errorMessage: null,
       nextArrow: mdiArrowRight,
@@ -92,11 +92,14 @@ export default {
       .then((res) => {
         this.events = res.data
         this.pageData = res.meta
+        this.getFilters()
       })
       .catch((err) => {
         this.errorMessage = err
         this.$sentry.captureException(new Error(err))
       })
+
+
   },
   head() {
     return {
@@ -110,6 +113,18 @@ export default {
     updateQuery(data) {
       this.$router.push({ query: { page: data } })
     },
+    async getFilters() {
+      await this.$axios
+        .$get('events/filters/all')
+        .then((res) => {
+          this.filterList = res.data
+          // this.$refs.filterNav.parseQuery();
+        })
+        .catch((err) => {
+          this.errorMessage = err
+          this.$sentry.captureException(new Error(err))
+        })
+    }
   },
 }
 </script>
