@@ -19,19 +19,24 @@
           <div class="alignment-box">
             <v-pagination v-model="pageData.current_page" :length="pageData.last_page" :next-icon="nextArrow"
               :prev-icon="prevArrow" @input="updateQuery(pageData.current_page)"></v-pagination>
-            <LazyFilterNav ref="filterNav" :filter-list="filterList" />
+
           </div>
           showing ({{ pageData.from }} - {{ pageData.to }})
           <span v-if="pageData.total > 1">events</span>
           <span v-else>event</span>
         </h2>
+
       </v-row>
+
+      <LazyFilterNav ref="filterNav" :filter-list="filterList" />
+
       <section v-if="events.length < 1">
-        <v-card height="480" rounded="xl" class="text-center ma-2">
-          <h1 class="text-body-1 pa-2 pt-4">
-            There are no events to display.
-          </h1>
-        </v-card>
+
+        <h1 class="text-body-1 pa-4 text-center">
+          There are no events to display.
+        </h1>
+
+
       </section>
       <section v-else>
         <!-- page body start -->

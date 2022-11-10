@@ -1,8 +1,18 @@
 <template>
-  <div>
-    <v-icon class="mb-2 mr-2" size="30" @click.stop="drawer = !drawer">{{
-        icons.filter
-    }}</v-icon>
+  <v-row no-gutters align="center" justify="center">
+    <v-col cols="12" class="d-flex justify-center mb-4">
+      <v-btn outlined @click.stop="drawer = !drawer">Filter<v-icon right>{{
+          icons.filter
+      }}</v-icon>
+      </v-btn>
+    </v-col>
+    {{ selected }}
+    <div v-for="(filter, index) in selected" :key="index">-{{ index }}-<v-chip v-for="(option, i) in filter" :key="i"
+        class="ma-1 font-weight-black" color="primary" outlined label close :close-icon="icons.closeChip"
+        @click:close="removeFilter(index, option)">{{ option }}
+      </v-chip>
+    </div>
+
     <v-navigation-drawer v-model="drawer" temporary fixed app right class="ma-2 rounded card-glass visualIndex">
       <div class="mt-4">
         <v-btn class="primary" @click="applyFilter">Apply filter</v-btn>
@@ -32,12 +42,12 @@
       </v-list>
 
     </v-navigation-drawer>
-  </div>
+  </v-row>
 </template>
 
 
 <script>
-import { mdiFilter, mdiChevronDown, mdiCheckboxBlankOutline, mdiCheckboxOutline } from '@mdi/js'
+import { mdiFilter, mdiChevronDown, mdiCheckboxBlankOutline, mdiCheckboxOutline, mdiCloseOutline } from '@mdi/js'
 
 export default {
   name: 'FilterNav',
@@ -56,14 +66,17 @@ export default {
       filter: mdiFilter,
       expand: mdiChevronDown,
       checkboxOff: mdiCheckboxBlankOutline,
-      checkboxOn: mdiCheckboxOutline
+      checkboxOn: mdiCheckboxOutline,
+      closeChip: mdiCloseOutline
     },
   }),
+
   watch: {
     filterList() {
       this.parseQueryFilters()
     }
   },
+
   methods: {
     applyFilter() {
       const filters = this.selected
@@ -72,15 +85,31 @@ export default {
       });
       this.$router.push({ query: filters })
     },
+    // applyFilter() {
+    //   const filters = this.selected
+    //   for (const key in filters) {
+    //     if (filters[key].length > 0) {
+    //       filters[key] = filters[key].toString();
+    //       this.filterCount++;
+    //     }
+    //     else delete filters[key]
+    //   }
+    //   this.$router.push({ query: filters })
+    // },
+    removeFilter(filter, option) {
+      this.selected[filter] = this.selected[filter].filter(function (element) {
+        return element !== option;
+      })
+      this.applyFilter()
+    },
     reset() {
       this.$router.push(this.$route.path)
     },
     parseQueryFilters() {
       const queryFilters = this.$route.query
-      console.log(this.filterList)
+
       this.filterList.forEach(el => {
         // check if route query filters exists in fetched filters array
-        console.log(el)
         if (queryFilters[el.name]) {
           // set filters to selected if exists
           this.selected[el.name] = queryFilters[el.name].split(",")
