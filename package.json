@@ -25,6 +25,7 @@
     "core-js": "^3.20.1",
     "firebase": "^9.6.1",
     "gsap": "npm:@gsap/shockingly@^3.11.3",
+    "jquery": "^3.6.1",
     "minify-css-string": "^1.0.0",
     "nuxt": "^2.15.7",
     "vee-validate": "^3.4.14",

@@ -62,6 +62,14 @@ export default {
             paused: true,
             draggable: true,
             center: true,
+
+
+      /* rotateY: (i)=> i*-36,
+      transformOrigin: '50% 50% 500px',
+      z: -500,
+      backfaceVisibility:'hidden', */
+
+     
             onChange: (element, index) => {
               activeElement && activeElement.classList.remove("active");
               element.classList.add("active");
@@ -70,7 +78,7 @@ export default {
           });
           boxes.forEach((box, i) => box.addEventListener("click", () => loop.toIndex(i, {
             duration: 0.8,
-            ease: "power1.inOut"
+            ease: "power2.inOut"
           })));
           function horizontalLoop(items, config) {
             items = gsap.utils.toArray(items);
@@ -81,9 +89,11 @@ export default {
 
             const onChange = config.onChange;
             let lastIndex = 0;
+
             const tl = gsap.timeline({
               repeat: config.repeat,
               onUpdate: onChange && function () {
+              
                 const i = tl.closestIndex();
                 if (lastIndex !== i) {
                   lastIndex = i;
@@ -96,6 +106,7 @@ export default {
               },
               onReverseComplete: () => tl.totalTime(tl.rawTime() + tl.duration() * 100)
             });
+
             const length = items.length;
             const startX = items[0].offsetLeft;
             const times = [];
@@ -284,7 +295,6 @@ export default {
 .main-wrapper {
   overflow: hidden;
 }
-
 
 .wrapper {
   display: flex;

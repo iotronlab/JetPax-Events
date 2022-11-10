@@ -1,7 +1,7 @@
 <template>
 <v-card tile flat class="mx-auto" style="background-color: transparent;">
 
-  <GsapCards />
+  <GsapRoundCards />
 
 </v-card>
 </template>
