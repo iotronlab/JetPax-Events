@@ -1,5 +1,5 @@
 <template>
-<v-card tile flat class="mx-auto">
+<v-card tile flat class="mx-auto" style="background-color: transparent;">
 
   <GsapCards />
 

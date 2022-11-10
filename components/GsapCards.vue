@@ -1,21 +1,24 @@
 <template>
-  <v-container class="pa-0">
+  <div class="pa-0 ma-0 py-4 main-wrapper">
 
-    <div class="wrapper">
-      <div class="box" v-for="(event, i) in events" :key="i">
-        <EventCardNew :event="event" />
-      </div>
-      <div class="box">
-        2
-      </div>
-      <div class="box">
-        2
-      </div>
-      <div class="box">
-        2
+    <div class="secondary-wrapper">
+      <div class="wrapper">
+        <div class="box" v-for="(event, i) in events" :key="i">
+          <EventCardNew :event="event" />
+        </div>
+        <div class="box">
+          2
+        </div>
+        <div class="box">
+          2
+        </div>
+        <div class="box">
+          2
+        </div>
       </div>
     </div>
-  </v-container>
+
+  </div>
 </template>
 
 <script>
@@ -264,35 +267,33 @@ export default {
 
         })
       })
-
-
     }
-
   },
 }
 </script>
 
 <style scoped>
+
+.main-wrapper, .wrapper, .box {
+  width:100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+.main-wrapper {
+  overflow: hidden;
+}
+
+
 .wrapper {
-  height: 80%;
-  width: 100%;
-  background: transparent;
-  position: relative;
   display: flex;
   align-items: center;
   overflow: hidden;
 }
 
-.carousel {
-  background: blue;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.secondary-wrapper {
+  perspective: 2000px;
 }
 
 .box {
@@ -300,39 +301,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 300px;
+  height: 400px;
   width: 400px;
   margin: 10px;
   padding: 0;
   position: relative;
   flex-shrink: 0;
   font-size: 21px;
-  cursor: pointer;
-}
-
-.box.active {
-  color: white;
-  height: 400px;
-}
-
-.prev {
-  position: absolute;
-  top: 10%;
-  left: 15%;
-}
-
-.next {
-  position: absolute;
-  top: 10%;
-  right: 15%;
-}
-
-.toggle {
-  position: absolute;
-  top: 10%;
-}
-
-.show-overflow {
-  overflow: visible;
 }
 </style>
