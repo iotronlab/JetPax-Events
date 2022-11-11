@@ -28,24 +28,24 @@ export default {
       const card = document.querySelectorAll('.carde')
       const ring = document.querySelectorAll('.ring')
 
+      gsap.set(ring, { rotationY: 180, cursor: 'drag' }) // set initial rotationY so the parallax jump happens off screen
+      gsap.set(card, { // apply transform rotations to each image
+        rotateY: (i) => getRotate(i),
+        transformOrigin: '50% 50% 500px',
+        z: -500,
+        backgroundImage: (i) => 'url(https://picsum.photos/id/' + (i + 32) + '/600/400/)',
+        backgroundPosition: (i) => getBgPos(i),
+        backfaceVisibility: 'hidden',
+      })
       console.log(card, ring)
       gsap.timeline()
-        // .set(ring, { rotationY: 180, cursor: 'drag' }) // set initial rotationY so the parallax jump happens off screen
-        .set(card, { // apply transform rotations to each image
-          rotateY: (i) => getRotate(i),
-          transformOrigin: '50% 50% 500px',
-          z: -500,
-          backgroundImage: (i) => 'url(https://picsum.photos/id/' + (i + 32) + '/600/400/)',
-          backgroundPosition: (i) => getBgPos(i),
-          backfaceVisibility: 'hidden',
+        .from(card, {
+          duration: 1.5,
+          y: 200,
+          opacity: 0,
+          stagger: 0.1,
+          ease: 'expo'
         })
-      // .from(card, {
-      //   duration: 1.5,
-      //   y: 200,
-      //   opacity: 0,
-      //   stagger: 0.1,
-      //   // ease:'expo'
-      // })
 
       function getBgPos(i) { // returns the background-position string to create parallax movement in each image
         return (100 - gsap.utils.wrap(0, 360, gsap.getProperty('.ring', 'rotationY') - 180 - i * 36) / 360 * 500) + 'px 0px';
