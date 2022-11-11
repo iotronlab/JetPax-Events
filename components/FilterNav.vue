@@ -107,12 +107,14 @@ export default {
     },
     parseQueryFilters() {
       const queryFilters = this.$route.query
+      this.selected = {}
 
       this.filterList.forEach(el => {
         // check if route query filters exists in fetched filters array
         if (queryFilters[el.name]) {
           // set filters to selected if exists
-          this.selected[el.name] = queryFilters[el.name].split(",")
+          // this.selected[el.name] = queryFilters[el.name].split(",")
+          this.$set(this.selected, el.name, queryFilters[el.name].split(","))
         }
       });
     }

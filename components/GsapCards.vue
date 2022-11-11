@@ -54,6 +54,15 @@ export default {
           const gsap = this.$gsap;
           gsap.registerPlugin(Draggable, InertiaPlugin);
 
+          gsap.timeline()
+            .set('.box',  {
+              rotateY: (i)=> i*-36,
+              transformOrigin: '50% 50% 500px',
+              z: -500,
+              backfaceVisibility:'hidden'
+            })    
+    
+
           const boxes = gsap.utils.toArray(".box");
           console.clear();
 
@@ -62,12 +71,6 @@ export default {
             paused: true,
             draggable: true,
             center: true,
-
-
-      /* rotateY: (i)=> i*-36,
-      transformOrigin: '50% 50% 500px',
-      z: -500,
-      backfaceVisibility:'hidden', */
 
      
             onChange: (element, index) => {

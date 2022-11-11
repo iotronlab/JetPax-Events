@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style scoped>
-.stagex, .ringx, .imgx {
+html, body, .stagex, .ringx, .imgx {
   width: 100% !important;
   height: 300px !important;
   transform-style: preserve-3d !important;
