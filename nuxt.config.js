@@ -84,7 +84,7 @@ export default {
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'http://localhost:8000/api/v1',
     // baseURL: 'https://api.iaa.org.in/api',
 
     // baseURL: 'https://devapi.iaa.org.in/api',
@@ -174,6 +174,7 @@ export default {
     },
   },
   googleFonts: {
+    download: false,
     families: {
       'Josefin Sans': {
         wght: [400, 700],
