@@ -3,20 +3,17 @@
   <div class="stage" id="stage">
     <div class="wrapper" id="wrapper">
       <div class="ring" id="ring">
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <div class="card-item"></div>
-        <!-- div v-for="(event, i) in events" :key="i" class="card-item">
+        <div class="card-item">1</div>
+        <div class="card-item">2</div>
+        <div class="card-item">3</div>
+        <div class="card-item">4</div>
+        <div class="card-item">5</div>
+        <div class="card-item">6</div>
+        <div class="card-item">7</div>
+        <div class="card-item">8</div>
+        <div v-for="(event, i) in events" :key="i" class="card-item">
           <EventCardNew :event="event" />
-        </div -->
+        </div>
       </div>
     </div>
   </div>
@@ -125,6 +122,7 @@ export default {
 
 .stage {
   overflow: hidden;
+  width: 100vw;
   position: absolute;
 }
 
@@ -144,9 +142,6 @@ export default {
 }
 
 .card-item {
-  flex-shrink: 0;
-  width: 300px;
-  height: 300px;
   margin-left: 20px;
   background-color: white;
 }
