@@ -128,7 +128,7 @@ export default {
   width: 310px;
   min-height: 400px;
   left: 50%;
-  top: 50%;
+  top: 25%;
   transform: translate(-50%, -50%);
 }
 </style>

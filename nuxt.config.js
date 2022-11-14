@@ -70,6 +70,7 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
+    '@nuxtjs/algolia',
 
     // https://go.nuxtjs.dev/pwa
   ],
@@ -91,6 +92,10 @@ export default {
     // baseURL: 'https://api.iaa.org.in/api',
 
     credentials: true,
+  },
+  algolia: {
+    apiKey: '59EY5CH98E',
+    applicationId: '6ce4114a8c3e029c0e0768c169afd193',
   },
   auth: {
     redirect: {
@@ -182,6 +187,29 @@ export default {
       'Bebas Neue': {
         wght: [400],
       },
+    },
+  },
+
+  // gsap
+  gsap: {
+    extraPlugins: {
+      // scrollTo: true,
+      // scrollTrigger: true,
+      // text: true,
+      draggable: true,
+    },
+    clubPlugins: {
+      // drawSVG: true,
+      // morphSVG: true,
+      // gsDevTools: true,
+      // scrollSmoother: true,
+      // scrambleText: true,
+      // splitText: true,
+    },
+    extraEases: {
+      // expoScaleEase: true,
+      // slowMo: true,
+      // roughEase: true,
     },
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
