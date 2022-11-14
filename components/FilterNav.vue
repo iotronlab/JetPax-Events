@@ -81,7 +81,11 @@ export default {
     applyFilter() {
       const filters = this.selected
       Object.keys(filters).forEach(key => {
-        filters[key] = filters[key].toString();
+        if (filters[key].length > 0) {
+          filters[key] = filters[key].toString();
+        } else {
+          this.$delete(filters, key)
+        }
       });
       this.$router.push({ query: filters })
     },
@@ -96,15 +100,18 @@ export default {
     //   }
     //   this.$router.push({ query: filters })
     // },
+
     removeFilter(filter, option) {
       this.selected[filter] = this.selected[filter].filter(function (element) {
         return element !== option;
       })
       this.applyFilter()
     },
+
     reset() {
       this.$router.push(this.$route.path)
     },
+
     parseQueryFilters() {
       const queryFilters = this.$route.query
       this.selected = {}

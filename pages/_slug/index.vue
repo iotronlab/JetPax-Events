@@ -15,11 +15,16 @@
       </section>
       <section v-else>
         <Search />
-        <EventSlider />
 
-        <!-- <v-card tile flat class="transparent py-4">
-          <v-list-item>
-            <v-card-title>Events by genre</v-card-title>
+        <div id="SlideComponent">
+          <EventSlider />
+        </div>
+
+        <div id="ShiftedDiv" style="margin-top: 800px;">
+
+        <v-card tile flat class="transparent py-4 mx-lg-16 px-lg-8">
+          <v-list-item class="mx-8">
+            <v-card-title>Events by genre {{ heightx }}</v-card-title>
             <v-spacer></v-spacer>
             <v-card-title class="hidden-sm-and-down">View all</v-card-title>
           </v-list-item>
@@ -51,7 +56,9 @@
               </v-row>
             </v-col>
           </v-card>
-        </v-card> -->
+        </v-card>
+
+        </div>
       </section>
     </section>
   </v-container>
@@ -63,6 +70,7 @@ import { mdiMagnify } from "@mdi/js";
 export default {
   data() {
     return {
+      heightx: "",
       events: [],
       errorMessage: null,
       city: this.$route.params.slug,
@@ -105,6 +113,18 @@ export default {
 
   watch: {
     "$route.query": "$fetch",
+  },
+
+  methods: {
+    getHeightx() {
+      // this.heightx = this.$refs.SlideComponent.clientHeight
+      // alert(this.$refs.SlideComponent.clientHeight)
+      // document.getElementById("ShiftedDiv").style.top = (266 + document.getElementById("SlideComponent").offsetHeight) + "px";
+    }
+ },
+
+  mounted() {
+    this.getHeightx()
   },
 };
 </script>

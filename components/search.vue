@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" lg="8" class="mx-auto">
+  <v-col cols="12" lg="8" class="mx-auto mt-16">
     <v-row no-gutters justify="center">
       <h1 class="ma-4">{{ greet }}, Friend!</h1>
       <v-text-field

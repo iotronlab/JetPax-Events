@@ -49,34 +49,6 @@
       <div style="min-height:100vh">
         <Nuxt />
       </div>
-      <v-overlay :value="noCity" opacity="0.8" z-index="55" class="pa-0">
-
-        <v-card flat style="background-color: #1565C0;" width="80vw">
-          <v-card-title>
-            Find safe and exicting events around you
-          </v-card-title>
-
-          <v-row>
-            <v-col cols="12">
-              <v-autocomplete outlined :items="cities" item-text="name" label="Search all cities" class="ma-4"
-                item-value="name" v-model="citySelection"></v-autocomplete>
-            </v-col>
-          </v-row>
-
-          <v-list-item class="pt-0 mt-0 pb-1">
-            <v-btn rounded text @click="noCity = false">
-              <span>Skip & continue</span>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn rounded text>
-              <v-icon class="mb-1 mr-4">{{ icons.location }}</v-icon>
-              <span class="hidden-md-and-down">Current location</span>
-            </v-btn>
-          </v-list-item>
-
-        </v-card>
-
-      </v-overlay>
     </v-main>
     <LazyFooter :nav-items="navItems" />
     <v-footer absolute app>
@@ -103,7 +75,7 @@
 
 <script>
 import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount, mdiMapMarkerRadius } from '@mdi/js'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -172,10 +144,10 @@ export default {
   },
 
   watch: {
-    citySelection(oldVal, newVal) {
+    /* citySelection(oldVal, newVal) {
       this.setCity(this.citySelection)
       this.noCity = false
-    },
+    }, */
 
     snackbar() {
       this.snackbar.showing = false
@@ -185,9 +157,9 @@ export default {
     },
   },
 
-  created() {
+  /* created() {
     this.getCities()
-  },
+  }, */
 
   mounted() {
     const myNav = document.getElementById('nav')
@@ -202,11 +174,11 @@ export default {
       }
     }
 
-    this.getCookie()
+    /* this.getCookie() */
   },
 
   methods: {
-    ...mapActions(['getCities']),
+    /* ...mapActions(['getCities']),
     ...mapActions(['setCity']),
 
     getCookie() {
@@ -225,7 +197,7 @@ export default {
         this.noCity = true
         return null
       }
-    },
+    }, */
 
   },
 
