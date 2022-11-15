@@ -115,6 +115,10 @@ export default {
     "$route.query": "$fetch",
   },
 
+  mounted() {
+    this.getHeightx()
+  },
+
   methods: {
     getHeightx() {
       // this.heightx = this.$refs.SlideComponent.clientHeight
@@ -122,9 +126,5 @@ export default {
       // document.getElementById("ShiftedDiv").style.top = (266 + document.getElementById("SlideComponent").offsetHeight) + "px";
     }
  },
-
-  mounted() {
-    this.getHeightx()
-  },
 };
 </script>

@@ -10,8 +10,8 @@
 
         <v-row>
           <v-col cols="12">
-            <v-autocomplete outlined :items="cities" item-text="name" label="Search all cities" class="ma-4"
-              item-value="name" v-model="citySelection"></v-autocomplete>
+            <v-autocomplete v-model="citySelection" outlined :items="cities" item-text="name" label="Search all cities" class="ma-4"
+              item-value="name"></v-autocomplete>
           </v-col>
         </v-row>
 
@@ -50,8 +50,6 @@
         <v-card flat class="mx-lg-16 px-lg-16 mx-md-16 px-md-16 transparent">
 
           <Search />
-
-          {{ this.goURL }}
 
           <v-card flat class="transparent">
             <v-list-item>
@@ -157,6 +155,35 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      defaultCity: 'defaultCity',
+      cities: 'cities'
+    }),
+  },
+
+  watch: {
+    citySelection(oldVal, newVal) {
+      this.setCity(this.citySelection)
+      this.noCity = false
+      this.RedirectCity()
+    },
+
+    '$route.query': '$fetch',
+  },
+
+  created() {
+    this.getCities()
+  },
+
+  mounted() {
+    if (this.defaultCity !== null) {
+      this.RedirectCity()
+    }
+
+    this.getCookie()
+  },
+
   methods: {
     ...mapActions(['getCities']),
     ...mapActions(['setCity']),
@@ -186,35 +213,6 @@ export default {
     },
 
   },
-
-  computed: {
-    ...mapGetters({
-      defaultCity: 'defaultCity',
-      cities: 'cities'
-    }),
-  },
-
-  watch: {
-    citySelection(oldVal, newVal) {
-      this.setCity(this.citySelection)
-      this.noCity = false
-      this.RedirectCity()
-    },
-
-    '$route.query': '$fetch',
-  },
-
-  created() {
-    this.getCities()
-  },
-
-  mounted() {
-    if (this.defaultCity !== null) {
-      this.RedirectCity()
-    }
-
-    this.getCookie()
-  }
 
 }
 </script>
