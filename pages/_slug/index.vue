@@ -16,11 +16,11 @@
       <section v-else>
         <Search />
 
-        <div id="SlideComponent">
+        <div class="box">
           <EventSlider />
         </div>
 
-        <div id="ShiftedDiv" style="margin-top: 800px;">
+        <div class="section">
 
         <v-card tile flat class="transparent py-4 mx-lg-16 px-lg-8">
           <v-list-item class="mx-8">
@@ -128,3 +128,29 @@ export default {
  },
 };
 </script>
+
+<style scoped>
+#SlideComponent {
+  /* position: relative !important;
+  border: 2px solid white;
+  height: 800px; */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.section {
+  margin-top: 20px;
+  width: 100%;
+  height: 100vh;
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+</style>

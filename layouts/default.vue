@@ -75,13 +75,13 @@
 
 <script>
 import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount, mdiMapMarkerRadius } from '@mdi/js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
     return {
       drawer: false,
-      noCity: false,
+      // cityMapping: [],
       citySelection: "",
       icons: {
         menu: mdiMenu,
@@ -157,9 +157,9 @@ export default {
     },
   },
 
-  /* created() {
+  created() {
     this.getCities()
-  }, */
+  },
 
   mounted() {
     const myNav = document.getElementById('nav')
@@ -174,11 +174,11 @@ export default {
       }
     }
 
-    /* this.getCookie() */
+    this.getCookie()
   },
 
   methods: {
-    /* ...mapActions(['getCities']),
+    ...mapActions(['getCities']),
     ...mapActions(['setCity']),
 
     getCookie() {
@@ -190,14 +190,12 @@ export default {
           if (city === cookiePair[0].trim()) {
             const cityData = decodeURIComponent(cookiePair[1])
             this.setCity(cityData)
-            this.noCity = false
             return null
           }
         }
-        this.noCity = true
         return null
       }
-    }, */
+    },
 
   },
 

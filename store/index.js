@@ -50,6 +50,7 @@ export const actions = {
       .$get('all-cities')
       .then((res) => {
         commit('SET_CITIES', res.data)
+        return res.data
       })
       .catch((err) => {
         this.$sentry.captureException(new Error(err))

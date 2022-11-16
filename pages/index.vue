@@ -53,7 +53,7 @@
 
           <v-card flat class="transparent">
             <v-list-item>
-              <v-card-title class="hidden-sm-and-down">Events nearby</v-card-title>
+              <v-card-title class="hidden-sm-and-down">Events nearby {{ CityData }}</v-card-title>
               <v-spacer></v-spacer>
               <v-btn text to="/events">View all</v-btn>
             </v-list-item>
@@ -112,6 +112,7 @@ export default {
     return {
       events: [],
       CityURL: {},
+      CityData: [],
       noCity: false,
       citySelection: "",
       goURL: '',
@@ -173,23 +174,23 @@ export default {
   },
 
   created() {
-    this.getCities()
+    this.CityData = this.getCities()
   },
 
   mounted() {
     if (this.defaultCity !== null) {
-      this.RedirectCity()
+      this.RedirectCity(this.defaultCity)
+    } else {
+      this.getCookie()
     }
-
-    this.getCookie()
   },
 
   methods: {
     ...mapActions(['getCities']),
     ...mapActions(['setCity']),
 
-    RedirectCity() {
-        this.CityURL = this.cities.filter(city => (city.name === this.defaultCity) ? city.url : '')
+    RedirectCity(cityGo) {
+        this.CityURL = this.cities.filter(city => (city.name === cityGo) ? city.url : '')
         this.goURL = this.CityURL[0].url
         this.$router.push(`/${this.goURL}`)
     },
@@ -204,7 +205,12 @@ export default {
             const cityData = decodeURIComponent(cookiePair[1])
             this.setCity(cityData)
             this.noCity = false
-            return null
+            // this.RedirectCity(cityData)
+
+
+            // !!!!!!!!!!!
+
+            return 1
           }
         }
         this.noCity = true

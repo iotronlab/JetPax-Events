@@ -1,4 +1,5 @@
 <template>
+
   <div class="stage" id="stage">
     <div class="wrapper" id="wrapper">
       <div class="ring" id="ring">
@@ -8,6 +9,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -128,7 +130,7 @@ export default {
   width: 310px;
   min-height: 400px;
   left: 50%;
-  top: 25%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 </style>
