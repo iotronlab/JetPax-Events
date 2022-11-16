@@ -1,34 +1,39 @@
 <template>
-  <v-container fluid class="fill-height glow-pink">
+  <v-container fluid class="fill-height glow-pink ma-0 pa-0">
     <v-row no-gutters justify="center">
-      <v-col lg="5" md="8">
-        <v-container fluid class="card-glass rounded-xl">
-          <!-- <v-row no-gutters>
-            <v-col class="d-flex justify-center align-center">
+      <v-col lg="6" md="8">
+        <v-container fluid class="card-glass rounded-xl ma-0 pa-0">
+
+          <v-row no-gutters class="ma-0 pa-0">
+            <v-col class="d-flex justify-center align-center ma-0 pa-0" cols="12">
               <ValidationObserver ref="observer" v-slot="{}">
-                <v-form id="login-form" method="post" @submit.prevent="login">
+                <v-form id="login-form" method="post" @submit.prevent="login" class="ma-0 pa-0">
                   <v-img
                     :src="require('@/assets/images/index/logo.webp')"
                     contain
                     alt="iaa logo"
-                    max-width="200"
-                    class="mx-auto"
+                    max-width="100"
+                    class="mx-auto ma-16"
                   />
                   <ValidationProvider
                     v-slot="{ errors }"
                     name="Email"
                     rules="required|email"
                   >
+                  <v-col
+                    cols="12"
+                  >
                     <v-text-field
                       v-model="email"
                       :prepend-icon="icon.email"
                       label="Email ID"
                       name="email"
-                      type="email"
+                      type="email" filled
                       :error-messages="errors"
-                      required
-                    ></v-text-field
-                  ></ValidationProvider>
+                    ></v-text-field>
+                  </v-col>
+
+                  </ValidationProvider>
                   <ValidationProvider
                     v-slot="{ errors }"
                     name="Password"
@@ -66,13 +71,14 @@
                 </v-form></ValidationObserver
               >
             </v-col>
-          </v-row> -->
+          </v-row>
+
           <br />
           <p class="text-center">Login Via</p>
 
           <br />
           <v-row no-gutters justify="center">
-            <!-- <v-btn
+            <v-btn
               color="#4267B2"
               class="ma-1"
               dark
@@ -80,7 +86,7 @@
             >
               facebook
               <v-icon right>{{ icon.facebook }}</v-icon>
-            </v-btn> -->
+            </v-btn>
 
             <v-btn
               color="#DB4437"
