@@ -15,14 +15,11 @@
       </section>
       <section v-else>
         <Search />
-
-        <div class="box">
+        <div style="position: relative; min-height: 70vh">
           <EventSlider />
         </div>
 
-        <div class="section">
-
-        <v-card tile flat class="transparent py-4 mx-lg-16 px-lg-8">
+        <v-card tile flat class="transparent">
           <v-list-item class="mx-8">
             <v-card-title>Events by genre {{ heightx }}</v-card-title>
             <v-spacer></v-spacer>
@@ -57,8 +54,6 @@
             </v-col>
           </v-card>
         </v-card>
-
-        </div>
       </section>
     </section>
   </v-container>
@@ -70,7 +65,6 @@ import { mdiMagnify } from "@mdi/js";
 export default {
   data() {
     return {
-      heightx: "",
       events: [],
       errorMessage: null,
       city: this.$route.params.slug,
@@ -114,43 +108,5 @@ export default {
   watch: {
     "$route.query": "$fetch",
   },
-
-  mounted() {
-    this.getHeightx()
-  },
-
-  methods: {
-    getHeightx() {
-      // this.heightx = this.$refs.SlideComponent.clientHeight
-      // alert(this.$refs.SlideComponent.clientHeight)
-      // document.getElementById("ShiftedDiv").style.top = (266 + document.getElementById("SlideComponent").offsetHeight) + "px";
-    }
- },
 };
 </script>
-
-<style scoped>
-#SlideComponent {
-  /* position: relative !important;
-  border: 2px solid white;
-  height: 800px; */
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.section {
-  margin-top: 20px;
-  width: 100%;
-  height: 100vh;
-}
-
-.box {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-}
-</style>

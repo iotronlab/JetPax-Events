@@ -1,5 +1,4 @@
 <template>
-
   <div class="stage" id="stage">
     <div class="wrapper" id="wrapper">
       <div class="ring" id="ring">
@@ -9,7 +8,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -22,13 +20,26 @@ export default {
     };
   },
 
+  computed: {
+    cardWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "md":
+          return 500;
+        case "lg":
+          return 600;
+        case "xl":
+          return 800;
+        default:
+          return 500;
+      }
+    },
+  },
   mounted() {
     this.$axios.$get(`events`, { params: { page: 1 } }).then((res) => {
       this.events = res.data;
       this.init();
     });
   },
-
   methods: {
     init() {
       this.$nextTick(() => {
@@ -130,7 +141,7 @@ export default {
   width: 310px;
   min-height: 400px;
   left: 50%;
-  top: 50%;
+  top: 30%;
   transform: translate(-50%, -50%);
 }
 </style>
