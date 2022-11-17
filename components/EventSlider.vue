@@ -26,7 +26,7 @@ export default {
         case "md":
           return 500;
         case "lg":
-          return 600;
+          return 700;
         case "xl":
           return 800;
         default:
@@ -49,6 +49,7 @@ export default {
 
           let xPos = 0;
           const card = document.querySelectorAll(".card-item");
+          const cardWidth = this.cardWidth;
 
           const ring = document.getElementById("ring");
           const wrapper = document.getElementById("wrapper");
@@ -57,8 +58,8 @@ export default {
           gsap.set(ring, { rotationY: 180, cursor: "drag" });
           gsap.set(card, {
             rotateY: (i) => getRotate(i),
-            transformOrigin: "50% 50% 500px",
-            z: -500,
+            transformOrigin: `50% 50% ${cardWidth}px`,
+            z: -(cardWidth),
             backfaceVisibility: "hidden",
           });
 

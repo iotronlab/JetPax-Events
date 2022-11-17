@@ -1,20 +1,11 @@
 <template>
   <v-container fluid class="fill-height glow-pink ma-0 pa-0">
     <v-row no-gutters justify="center">
-      <v-col lg="6" md="8">
+      <v-col lg="5" md="8">
         <v-container fluid class="card-glass rounded-xl ma-0 pa-0">
 
-          <v-row no-gutters class="ma-0 pa-0">
-            <v-col class="d-flex justify-center align-center ma-0 pa-0" cols="12">
               <ValidationObserver ref="observer" v-slot="{}">
-                <v-form id="login-form" method="post" @submit.prevent="login" class="ma-0 pa-0">
-                  <v-img
-                    :src="require('@/assets/images/index/logo.webp')"
-                    contain
-                    alt="iaa logo"
-                    max-width="100"
-                    class="mx-auto ma-16"
-                  />
+                <v-form id="login-form" method="post" @submit.prevent="login" class="mx-16 px-16 mt-16 pt-16">
                   <ValidationProvider
                     v-slot="{ errors }"
                     name="Email"
@@ -28,7 +19,7 @@
                       :prepend-icon="icon.email"
                       label="Email ID"
                       name="email"
-                      type="email" filled
+                      type="email"
                       :error-messages="errors"
                     ></v-text-field>
                   </v-col>
@@ -51,27 +42,30 @@
                       @click:append="showPass = !showPass"
                     ></v-text-field>
                   </ValidationProvider>
-                  <div class="d-flex justify-center">
+                  <v-list-item class="ma-0 pa-0">
+                    <div class="d-flex justify-center mt-8">
+                      <v-btn
+                        color="secondary"
+                        tile large
+                        text
+                        type="submit"
+                        class="mx-4 pa-4 mt-n5"
+                        ><b>LogIn</b>
+                      </v-btn>
+                    </div><v-spacer></v-spacer>
                     <v-btn
-                      color="secondary"
-                      rounded
-                      outlined
-                      type="submit"
-                      class="mt-4"
-                      ><b>LogIn</b>
+                        color="secondary"
+                        tile large
+                        text
+                        class="pa-4"
+                        >Forget ?
                     </v-btn>
-                  </div>
+                  </v-list-item>
 
                   <br />
                   <hr />
                   <br />
-                  <p class="text-center grey--text subtitle-2">LOG IN VIA</p>
-
-
-                </v-form></ValidationObserver
-              >
-            </v-col>
-          </v-row>
+                </v-form></ValidationObserver>
 
           <br />
           <p class="text-center">Login Via</p>
@@ -166,6 +160,7 @@ export default {
             })
           })
           .catch((err) => {
+            console.log(err)
             this.$store.dispatch('setSnackbar', {
               color: 'error',
               text: 'Verify you are not a robot!',
