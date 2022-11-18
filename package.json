@@ -17,6 +17,7 @@
     "*.{css,vue}": "stylelint"
   },
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.7.3",
     "@nuxtjs/algolia": "^1.1.4",
     "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
     "@nuxtjs/axios": "^5.13.6",
