@@ -44,7 +44,7 @@
     </v-row>
 
     <v-list class="mt-0 pt-0" flat>
-      <div v-if="this.query.length > 0">
+      <div v-if="this.query.length > 0"> 
         <div v-for="(item, i) in results" :key="i">
             <v-list-item-group color="primary" v-if="item.hits.length > 0">
                 <v-subheader class="text-h5">{{ item.index }}</v-subheader>
@@ -56,13 +56,6 @@
             </v-list-item-group>
             <v-divider v-if="(i + 1) !== results.length" class="mx-4 my-2"></v-divider>
         </div>
-      </div>
-      <div v-else>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="mt-2">No results found</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </div>
     </v-list>
 
