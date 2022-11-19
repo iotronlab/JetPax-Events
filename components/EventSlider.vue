@@ -49,7 +49,7 @@ export default {
 
           let xPos = 0;
           const card = document.querySelectorAll(".card-item");
-          alert(card[0].offsetWidth)
+          // alert(card[0].offsetWidth)
           const slideWidth = 310; // Temporary
           
           const cardWidth = this.cardWidth;
@@ -74,7 +74,7 @@ export default {
           });
 
           const cardItems = card.length;
-          alert(cardItems);
+          // alert(cardItems);
           const wrap = true;
 
           // Secondary code
