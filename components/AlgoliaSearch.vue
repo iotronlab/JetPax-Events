@@ -114,6 +114,8 @@
     </ais-instant-search>
 
     </v-row>
+
+    <div id="autocomplete"></div>
   </v-col>
 </template>
 
@@ -122,7 +124,9 @@ import Vue from 'vue';
 import { mdiMagnify } from "@mdi/js";
 import algoliasearch from 'algoliasearch/lite';
 import VueInstantSearch from 'vue-instantsearch';
-// import { autocomplete, getAlgoliaResults, getAlgoliaFacets } from '@algolia/autocomplete-js';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
+// import '@algolia/autocomplete-theme-classic';
+
 Vue.use(VueInstantSearch);
 
 export default {
@@ -147,6 +151,8 @@ export default {
     if (currentHours > 0 && currentHours < 12) this.greet = "Good Morning";
     else if (currentHours >= 12 && currentHours < 18) this.greet = "Good Afternoon";
     else this.greet = "Good Evening";
+
+    this.startAlgolia();
   },
 
   methods: {
@@ -211,6 +217,51 @@ export default {
       on("autocomplete:selected", function (event, suggestion, dataset) {
           // code
       }); */
+
+      const searchClient = algoliasearch(
+        '59EY5CH98E',
+        '6ce4114a8c3e029c0e0768c169afd193'
+      );
+
+      autocomplete({
+        container: '#autocomplete',
+        placeholder: 'Search for cities',
+        getSources({ query }) {
+          return [
+            {
+              sourceId: 'cities',
+              getItems() {
+                return getAlgoliaResults({
+                  searchClient,
+                  queries: [
+                    {
+                      indexName: 'cities',
+                      query,
+                      params: {
+                        hitsPerPage: 3,
+                      },
+                    },
+                  ],
+                });
+              },
+              templates: {
+                item({ item, components, html }) {
+                  return html`<div class="my-4 text-h2">
+                                <div>
+                                  <p>
+                                    ${components.Highlight({
+                                      hit: item,
+                                      attribute: 'name',
+                                    })}
+                                  </p>
+                              </div>
+                            </div>`;
+                },
+              },
+            },
+          ];
+        },
+      });
 
     }
   },

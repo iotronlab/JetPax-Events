@@ -138,17 +138,11 @@ export default {
   computed: {
     ...mapGetters({
       snackbar: 'snackbar',
-      cities: 'cities',
       defaultCity: 'defaultCity'
     }),
   },
 
   watch: {
-    /* citySelection(oldVal, newVal) {
-      this.setCity(this.citySelection)
-      this.noCity = false
-    }, */
-
     snackbar() {
       this.snackbar.showing = false
       setTimeout(() => {
@@ -173,34 +167,11 @@ export default {
         myNav.classList.add('card-glass')
       }
     }
-
-    this.getCookie()
   },
 
   methods: {
     ...mapActions(['getCities']),
-    ...mapActions(['setCity']),
-
-    getCookie() {
-      const city = "defaultCity"
-      if (this.defaultCity === null) {
-        const cookieArr = document.cookie.split(";")
-        for (let i = 0; i < cookieArr.length; i++) {
-          const cookiePair = cookieArr[i].split("=")
-          if (city === cookiePair[0].trim()) {
-            const cityData = decodeURIComponent(cookiePair[1])
-            this.setCity(cityData)
-            return null
-          }
-        }
-        return null
-      }
-    },
-
   },
-
-  // this.tawk()
-
 }
 </script>
 

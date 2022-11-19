@@ -43,6 +43,7 @@ export const actions = {
   setCity({ commit }, city) {
     document.cookie = "defaultCity=" + city;
     commit('SET_CITY', city)
+    this.$router.push(`/${city}`)
   },
 
   async getCities({ commit }) {

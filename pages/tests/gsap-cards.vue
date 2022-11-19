@@ -1,7 +1,7 @@
 <template>
 <v-card tile flat class="mx-auto" style="background-color: transparent;">
 
-  <AlgoliaSearch />
+  <AlgoliaMultiple />
 
 </v-card>
 </template>

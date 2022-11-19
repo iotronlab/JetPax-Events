@@ -70,7 +70,6 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
-    '@nuxtjs/algolia',
 
     // https://go.nuxtjs.dev/pwa
   ],

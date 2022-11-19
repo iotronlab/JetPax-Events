@@ -11,7 +11,7 @@
         <v-row>
           <v-col cols="12">
             <v-autocomplete v-model="citySelection" outlined :items="cities" item-text="name" label="Search all cities" class="ma-4"
-              item-value="name"></v-autocomplete>
+              item-value="url"></v-autocomplete>
           </v-col>
         </v-row>
 
@@ -167,7 +167,7 @@ export default {
     citySelection(oldVal, newVal) {
       this.setCity(this.citySelection)
       this.noCity = false
-      this.RedirectCity()
+      // this.RedirectCity()
     },
 
     '$route.query': '$fetch',
@@ -190,9 +190,10 @@ export default {
     ...mapActions(['setCity']),
 
     RedirectCity(cityGo) {
-        this.CityURL = this.cities.filter(city => (city.name === cityGo) ? city.url : '')
-        this.goURL = this.CityURL[0].url
-        this.$router.push(`/${this.goURL}`)
+        /* this.CityURL = this.cities.filter(city => (city.name === cityGo) ? city.url : '')
+        this.goURL = this.CityURL[0].url */
+
+        this.$router.push(`/${cityGo}`)
     },
 
     getCookie() {
@@ -205,11 +206,6 @@ export default {
             const cityData = decodeURIComponent(cookiePair[1])
             this.setCity(cityData)
             this.noCity = false
-            // this.RedirectCity(cityData)
-
-
-            // !!!!!!!!!!!
-
             return 1
           }
         }
@@ -222,4 +218,3 @@ export default {
 
 }
 </script>
-
