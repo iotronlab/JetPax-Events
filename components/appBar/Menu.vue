@@ -1,5 +1,6 @@
 <template>
   <v-row no-gutters justify="center" align="center">
+    <Location />
     <div v-for="(item, i) in navItems" :key="i">
       <div v-if="item.children">
         <v-menu rounded="xl" offset-y>
@@ -24,9 +25,7 @@
           </v-list>
         </v-menu>
       </div>
-      <v-btn v-else text color="secondary" :to="item.to">
-        <strong> {{ item.title }}</strong></v-btn
-      >
+      <v-btn v-else text :to="item.to">{{ item.title }}</v-btn>
     </div>
   </v-row>
 </template>
@@ -39,6 +38,5 @@ export default {
       type: Array,
     },
   },
-}
+};
 </script>
-

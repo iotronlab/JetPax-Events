@@ -1,10 +1,17 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer v-model="drawer" class="ma-2 rounded-xl card-glass elevated-1" temporary fixed app>
+    <v-navigation-drawer
+      v-model="drawer"
+      class="ma-2 rounded-xl card-glass elevated-1"
+      temporary
+      fixed
+      app
+    >
       <v-list-item>
         <v-spacer></v-spacer>
         <v-btn text rounded class="text-body-2 py-4 my-4" small to="/location">
-          <v-icon class="mb-2 mr-2">{{ icons.location }}</v-icon>{{ defaultCity ? defaultCity : "select" }}
+          <v-icon class="mb-2 mr-2">{{ icons.location }}</v-icon
+          >{{ defaultCity ? defaultCity : "select" }}
         </v-btn>
       </v-list-item>
       <v-list nav rounded class="text-center">
@@ -16,7 +23,13 @@
       </v-list>
       <v-list v-if="$auth.loggedIn">
         <v-divider></v-divider>
-        <v-list-item v-for="(item, i) in accountItems" :key="i" :to="item.to" router exact>
+        <v-list-item
+          v-for="(item, i) in accountItems"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
@@ -28,7 +41,7 @@
         <v-icon slot="default">{{ icons.menu }}</v-icon>
       </v-app-bar-nav-icon>
       <nuxt-link :to="{ name: 'index' }">
-        <v-img src="/logo.webp" max-width="180" contain alt="logo"></v-img>
+        <v-img src="/logo.webp" max-width="160" alt="logo"></v-img>
       </nuxt-link>
 
       <AppBarMenu v-if="$vuetify.breakpoint.lgAndUp" :nav-items="navItems" />
@@ -39,14 +52,12 @@
       </section>
       <section v-if="$auth.loggedIn == true" class="ml-auto">
         <!-- Account button -->
-
-        <v-btn color="secondary" dark icon to="/account">
-          <v-icon>{{ icons.account }}</v-icon>
-        </v-btn>
+        <UserNav />
+        <!-- {{ user }} -->
       </section>
     </v-app-bar>
     <v-main>
-      <div style="min-height:100vh">
+      <div style="min-height: 100vh">
         <Nuxt />
       </div>
     </v-main>
@@ -54,12 +65,27 @@
     <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
-    <v-btn fab fixed bottom right color="primary" href="https://wa.me/918100487524" target="_blank" rel="noreferrer"
-      style="z-index: 120">
+    <v-btn
+      fab
+      fixed
+      bottom
+      right
+      color="primary"
+      href="https://wa.me/918100487524"
+      target="_blank"
+      rel="noreferrer"
+      style="z-index: 120"
+    >
       <v-icon x-large>{{ icons.whatsapp }} </v-icon>
     </v-btn>
     <v-scroll-y-transition>
-      <v-snackbar v-model="snackbar.showing" top text :color="snackbar.color" :timeout="4000">
+      <v-snackbar
+        v-model="snackbar.showing"
+        top
+        text
+        :color="snackbar.color"
+        :timeout="4000"
+      >
         <v-icon dark class="mr-2">{{ snackbar.icon }}</v-icon>
         {{ snackbar.text }}
 
@@ -74,8 +100,15 @@
 </template>
 
 <script>
-import { mdiMenu, mdiPhone, mdiWhatsapp, mdiEmail, mdiAccount, mdiMapMarkerRadius } from '@mdi/js'
-import { mapGetters, mapActions } from 'vuex'
+import {
+  mdiMenu,
+  mdiPhone,
+  mdiWhatsapp,
+  mdiEmail,
+  mdiAccount,
+  mdiMapMarkerRadius,
+} from "@mdi/js";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -92,87 +125,77 @@ export default {
         location: mdiMapMarkerRadius,
       },
       navItems: [
+        // {
+        //   title: "Home",
+        //   to: "/",
+        // },
+        // {
+        //   title: "About Us",
+        //   to: "/about",
+        //   // children: [
+        //   //   { title: 'Art Forms', to: '/about#artforms' },
+        //   //   { title: 'Our Team', to: '/about#team' },
+        //   //   { title: 'Associates', to: '/about#associates' },
+        //   // ],
+        // },
         {
-          title: 'Home',
-          to: '/',
+          title: "Events",
+          to: "/events",
         },
         {
-          title: 'About Us',
-          to: '/about',
-          // children: [
-          //   { title: 'Art Forms', to: '/about#artforms' },
-          //   { title: 'Our Team', to: '/about#team' },
-          //   { title: 'Associates', to: '/about#associates' },
-          // ],
-        },
-        {
-          title: 'Events',
-          to: '/events',
-        },
-        {
-          title: 'Artists',
-          to: '/artists',
+          title: "Artists",
+          to: "/artists",
         },
 
         {
-          title: 'Join Us',
-          to: '/joinus',
+          title: "List your Event",
+          to: "/joinus",
         },
-        {
-          title: 'Contact Us',
-          to: '/contactus',
-        },
+        // {
+        //   title: "Contact Us",
+        //   to: "/contactus",
+        // },
       ],
-      accountItems: [
-        {
-          title: 'Account',
-          to: '/account',
-        },
-        {
-          title: 'Bookings',
-          to: '/booking',
-        },
-      ],
-    }
+    };
   },
   computed: {
     ...mapGetters({
-      snackbar: 'snackbar',
-      defaultCity: 'defaultCity'
+      snackbar: "snackbar",
+      defaultCity: "defaultCity",
     }),
   },
 
   watch: {
     snackbar() {
-      this.snackbar.showing = false
+      this.snackbar.showing = false;
       setTimeout(() => {
-        this.snackbar.showing = true
-      }, 100)
+        this.snackbar.showing = true;
+      }, 100);
     },
   },
 
   created() {
-    this.getCities()
+    // this.getCities();
   },
 
   mounted() {
-    const myNav = document.getElementById('nav')
+    const myNav = document.getElementById("nav");
     window.onscroll = function () {
-      'use strict'
+      "use strict";
       if (document.body.scrollTop >= 200) {
-        myNav.classList.add('nav-transparent')
-        myNav.classList.remove('card-glass')
+        myNav.classList.add("nav-transparent");
+        myNav.classList.remove("card-glass");
       } else {
-        myNav.classList.remove('nav-transparent')
-        myNav.classList.add('card-glass')
+        myNav.classList.remove("nav-transparent");
+        myNav.classList.add("card-glass");
       }
-    }
+    };
   },
 
   methods: {
-    ...mapActions(['getCities']),
+    ...mapActions(["getCities"]),
   },
-}
+};
 </script>
 
 <style scoped>

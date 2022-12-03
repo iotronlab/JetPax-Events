@@ -1,111 +1,110 @@
 <template>
-  <v-container fluid class="fill-height glow-pink ma-0 pa-0">
-    <v-row no-gutters justify="center">
-      <v-col lg="5" md="8">
-        <v-container fluid class="card-glass rounded-xl ma-0 pa-0">
+  <v-container fluid class="glow-pink">
+    <v-row justify="center" class="pa-2">
+      <v-col
+        cols="12"
+        sm="8"
+        md="6"
+        lg="4"
+        class="card-glass rounded-xl pa-4 mt-10 text-center"
+      >
+        <v-img src="/logo.webp" max-width="160" alt="logo" class="mx-auto mb-2"></v-img>
+        <h1 class="text-body-1 mb-4">Gateway to amazing experiences</h1>
 
-              <ValidationObserver ref="observer" v-slot="{}">
-                <v-form id="login-form" method="post" @submit.prevent="login" class="mx-16 px-16 mt-16 pt-16">
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    name="Email"
-                    rules="required|email"
-                  >
-                  <v-col
-                    cols="12"
-                  >
-                    <v-text-field
-                      v-model="email"
-                      :prepend-icon="icon.email"
-                      label="Email ID"
-                      name="email"
-                      type="email"
-                      :error-messages="errors"
-                    ></v-text-field>
-                  </v-col>
-
-                  </ValidationProvider>
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    name="Password"
-                    rules="required|min:6"
-                  >
-                    <v-text-field
-                      v-model="password"
-                      :prepend-icon="icon.password"
-                      :append-icon="showPass ? icon.passShow : icon.passHide"
-                      :type="showPass ? 'text' : 'password'"
-                      label="Password"
-                      name="password"
-                      :error-messages="errors"
-                      required
-                      @click:append="showPass = !showPass"
-                    ></v-text-field>
-                  </ValidationProvider>
-                  <v-list-item class="ma-0 pa-0">
-                    <div class="d-flex justify-center mt-8">
-                      <v-btn
-                        color="secondary"
-                        tile large
-                        text
-                        type="submit"
-                        class="mx-4 pa-4 mt-n5"
-                        ><b>LogIn</b>
-                      </v-btn>
-                    </div><v-spacer></v-spacer>
-                    <v-btn
-                        color="secondary"
-                        tile large
-                        text
-                        class="pa-4"
-                        >Forget ?
-                    </v-btn>
-                  </v-list-item>
-
-                  <br />
-                  <hr />
-                  <br />
-                </v-form></ValidationObserver>
-
-          <br />
-          <p class="text-center">Login Via</p>
-
-          <br />
-          <v-row no-gutters justify="center">
-            <v-btn
-              color="#4267B2"
-              class="ma-1"
-              dark
-              @click.prevent="loginWithFacebook"
+        <v-btn-toggle
+          v-model="loginMethod"
+          background-color="transparent"
+          class="mb-2"
+          mandatory
+        >
+          <v-btn icon value="contact">
+            <v-icon>{{ icon.phone }}</v-icon>
+          </v-btn>
+          <v-btn icon value="email">
+            <v-icon>{{ icon.email }}</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+        <ValidationObserver ref="observer">
+          <div v-if="loginMethod == 'contact'">
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="Contact"
+              rules="required|min:10|max:15"
             >
-              facebook
-              <v-icon right>{{ icon.facebook }}</v-icon>
-            </v-btn>
+              <v-text-field
+                v-model="identifier"
+                label="Contact"
+                placeholder="Enter your number"
+                name="Contact"
+                type="number"
+                hide-spin-buttons
+                :error-messages="errors"
+                outlined
+                required
+                color="success"
+              ></v-text-field>
+            </ValidationProvider>
+          </div>
 
-            <v-btn
-              color="#DB4437"
-              class="ma-1"
-              dark
-              @click.prevent="loginWithGoogle"
-            >
-              <v-icon left>{{ icon.google }}</v-icon
-              >google
-            </v-btn>
-          </v-row>
-          <br />
+          <div v-if="loginMethod == 'email'">
+            <ValidationProvider v-slot="{ errors }" name="Email" rules="required|email">
+              <v-text-field
+                v-model="identifier"
+                label="Email"
+                placeholder="Enter your email"
+                type="email"
+                name="email"
+                :error-messages="errors"
+                outlined
+                required
+                color="success"
+              ></v-text-field>
+            </ValidationProvider>
+          </div>
 
-          <!-- <v-row no-gutters class="my-2" justify="space-around">
-            <v-btn text small :to="{ path: 'register' }" @click="dialog = false"
-              >Create an account</v-btn
-            >
+          <!-- <ValidationProvider v-slot="{ errors }" name="Password" rules="required|min:6">
+            <v-text-field
+              v-model="password"
+              :prepend-icon="icon.password"
+              :append-icon="showPass ? icon.passShow : icon.passHide"
+              :type="showPass ? 'text' : 'password'"
+              label="Password"
+              name="password"
+              :error-messages="errors"
+              outlined
+              rounded
+              required
+              color="accent"
+              @click:append="showPass = !showPass"
+            ></v-text-field>
+          </ValidationProvider> -->
+          <div class="d-flex justify-center">
+            <v-btn color="primary" @click="checkExistingUser">Sign in</v-btn>
+          </div>
+        </ValidationObserver>
 
-            <v-btn text small :to="{ path: 'reset' }" @click="dialog = false"
-              >Forgot password</v-btn
-            >
-          </v-row> -->
-        </v-container>
-      </v-col></v-row
-    >
+        <br />
+        <p class="text-center">Sign in with</p>
+        <v-row no-gutters justify="center">
+          <v-btn color="#4267B2" class="ma-1" dark @click.prevent="loginWithFacebook">
+            facebook
+            <v-icon right>{{ icon.facebook }}</v-icon>
+          </v-btn>
+
+          <v-btn color="#DB4437" class="ma-1" dark @click.prevent="loginWithGoogle">
+            <v-icon left>{{ icon.google }}</v-icon
+            >google
+          </v-btn>
+        </v-row>
+        <br />
+
+        <v-row no-gutters class="my-2" justify="space-around">
+          <v-btn text small :to="{ path: '/auth/register' }">Create an account</v-btn>
+
+          <v-btn text small :to="{ path: '/auth/reset' }">Forgot password</v-btn>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
@@ -117,78 +116,99 @@ import {
   mdiEyeOff,
   mdiFacebook,
   mdiGoogle,
-} from '@mdi/js'
+  mdiPhone,
+} from "@mdi/js";
 export default {
-  middleware: ['auth-user'],
-  components: {
-    // ValidationObserver,
-  },
+  middleware: ["auth-user"],
 
   data() {
     return {
-      email: '',
-      password: '',
+      loginMethod: "contact",
+      contact: null,
+      email: null,
+      identifier: null,
+      password: null,
       showPass: false,
       icon: {
         email: mdiEmail,
+        phone: mdiPhone,
         password: mdiLock,
         passShow: mdiEye,
         passHide: mdiEyeOff,
         facebook: mdiFacebook,
         google: mdiGoogle,
       },
-    }
+    };
   },
   mounted() {
-    console.log(process.env.apiUrl)
+    console.log(process.env.apiUrl);
   },
   methods: {
     async login() {
-      if (this.$refs.observer.validate()) {
+      if (await this.$refs.observer.validate()) {
         await this.$auth
-          .loginWith('laravelSanctum', {
+          .loginWith("laravelSanctum", {
             data: {
               email: this.email,
               password: this.password,
             },
           })
           .then((res) => {
-            console.log(res)
-            this.$store.dispatch('setSnackbar', {
-              color: 'success',
+            console.log(res);
+            this.$store.dispatch("setSnackbar", {
+              color: "success",
               text: res.message,
-            })
+            });
           })
           .catch((err) => {
-            console.log(err)
-            this.$store.dispatch('setSnackbar', {
-              color: 'error',
-              text: 'Verify you are not a robot!',
-            })
-            this.$sentry.captureException(new Error(err))
-          })
+            console.log(err);
+            this.$store.dispatch("setSnackbar", {
+              color: "error",
+              text: "Verify you are not a robot!",
+            });
+            this.$sentry.captureException(new Error(err));
+          });
       }
 
       // this.checkLogin()
     },
     loginWithFacebook() {
-      window.location.href = process.env.apiUrl + '/login/facebook'
+      window.location.href = process.env.apiUrl + "/login/facebook";
       // this.checkLogin()
       // await this.$auth.loginWith('facebook')
     },
     loginWithGoogle() {
-      window.location.href = process.env.apiUrl + '/login/google'
+      window.location.href = process.env.apiUrl + "/login/google";
       // this.checkLogin()
       //    await this.$auth.loginWith('google')
     },
-    // checkLogin() {
-    //   console.log(this.$auth.user)
-    //   if (this.$auth.loggedIn) {
-    //     this.dialog = false
-    //   } else {
-    //     this.message = 'Invalid email or password'
-    //   }
-    // },
+    async checkExistingUser() {
+      if (
+        await this.$refs.observer.validate()
+        // && this.checkRecaptcha()
+      ) {
+        // this.alert.show = false;
+        this.$axios
+          .$post(`verify/${this.loginMethod}`, { identifier: this.identifier })
+          .then((result) => {
+            if (result.success === true) {
+              // user exists
+              this.login();
+            } else {
+              // this.$refs.observer.setErrors({ mobile: result.message });
+              // this.$store.dispatch("setSnackbar", {
+              //   color: "warning",
+              //   text: result.message,
+              // });
+              // this.alert.show = true;
+              // this.alert.text = result.message;
+            }
+          })
+          .catch((err) => {
+            this.$sentry.captureException(new Error(err));
+          });
+      }
+    },
   },
-}
+};
 </script>

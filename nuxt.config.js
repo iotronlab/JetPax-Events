@@ -230,10 +230,10 @@ export default {
       },
       themes: {
         dark: {
-          primary: '#ed2f7b',
+          primary: '#d946ef',
           // accent: colors.grey.darken3,
           secondary: '#C084FC',
-          accent: '#793AFF',
+          accent: '#86198f',
           info: '#6366F1',
           warning: '#F59E0B',
           error: '#EF4444',

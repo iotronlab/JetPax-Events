@@ -5,3 +5,15 @@
 $color-pack: false;
 $heading-font-family: 'Bebas Neue', cursive;
 $body-font-family: 'Josefin Sans', sans-serif;
+
+$material-light: (
+  'background': #eff6ff,
+  'cards': #eff6ff,
+  'app-bar': #eff6ff,
+);
+$material-dark: (
+  'background': #0f000c,
+  'cards': #0f172a,
+  'app-bar': #0f172a,
+);
+$card-elevation: 0;

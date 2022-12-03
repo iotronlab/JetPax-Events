@@ -47,28 +47,27 @@
 
 <script>
 export default {
-  middleware: ['auth'],
+  middleware: ["auth"],
   data() {
     return {
       bookings: null,
       errorMessage: null,
-    }
+    };
   },
   async fetch() {
     await this.$axios
-      .$get('bookings/getall')
+      .$get("booking/getall")
       .then((res) => {
-        this.bookings = res.data
+        this.bookings = res.data;
       })
       .catch((err) => {
-        this.$sentry.captureException(new Error(err))
-      })
+        this.$sentry.captureException(new Error(err));
+      });
   },
   head() {
     return {
-      title: 'Bookings',
-    }
+      title: "Bookings",
+    };
   },
-}
+};
 </script>
-
