@@ -7,13 +7,6 @@
       fixed
       app
     >
-      <v-list-item>
-        <v-spacer></v-spacer>
-        <v-btn text rounded class="text-body-2 py-4 my-4" small to="/location">
-          <v-icon class="mb-2 mr-2">{{ icons.location }}</v-icon
-          >{{ defaultCity ? defaultCity : "select" }}
-        </v-btn>
-      </v-list-item>
       <v-list nav rounded class="text-center">
         <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" router exact>
           <v-list-item-content>
@@ -48,7 +41,7 @@
 
       <section v-if="$auth.loggedIn == false" class="ml-auto">
         <!-- <Login /> -->
-        <v-btn outlined to="/auth/sign-in">Sign in</v-btn>
+        <v-btn outlined text to="/auth/sign-in">Sign in</v-btn>
       </section>
       <section v-if="$auth.loggedIn == true" class="ml-auto">
         <!-- Account button -->
@@ -173,12 +166,10 @@ export default {
       }, 100);
     },
   },
-
-  created() {
-    // this.getCities();
-  },
-
+  created() {},
   mounted() {
+    this.getCities();
+    this.syncCityFromCookie();
     const myNav = document.getElementById("nav");
     window.onscroll = function () {
       "use strict";
@@ -193,7 +184,24 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getCities"]),
+    ...mapActions(["getCities", "setCity"]),
+    syncCityFromCookie() {
+      const city = document.cookie
+        .split("; ")
+        .filter((row) => row.startsWith("defaultCity="))
+        .map((res) => res.split("=")[1])[0];
+
+      if (city !== undefined) {
+        const decodedCity = decodeURIComponent(city);
+        this.setCity(decodedCity);
+        // this.redirectToCity(decodedCity);
+      } else {
+        // this.askForLocation();
+        // const decodedCity = "kolkata";
+        // this.setCity(decodedCity);
+        // this.redirectToCity(decodedCity);
+      }
+    },
   },
 };
 </script>

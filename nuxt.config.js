@@ -183,8 +183,8 @@ export default {
       'Josefin Sans': {
         wght: [400, 700],
       },
-      'Bebas Neue': {
-        wght: [400],
+      Poppins: {
+        wght: [800],
       },
     },
   },

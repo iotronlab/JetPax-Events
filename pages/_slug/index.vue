@@ -95,13 +95,19 @@ export default {
       })
       .catch((err) => {
         this.errorMessage = err;
+        console.log(this.errorMessage.response.status);
         this.$sentry.captureException(new Error(err));
       });
   },
 
   head() {
+    let title = "Events in " + this.city;
+    if (this.errorMessage) {
+      title =
+        this.errorMessage.response.status === 404 ? "404 Not Found" : "500 Server Error";
+    }
     return {
-      title: "Home",
+      title,
     };
   },
 
