@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 glow-pink">
+  <v-container fluid class="glow-pink">
     <!-- Nav bar right -->
     <section v-if="$fetchState.pending">
       <h1 class="text-lg-h2 text-h3 text-center">Artists</h1>
@@ -30,43 +30,21 @@
             <span v-if="pageData.total > 1">artists</span>
             <span v-else>artist</span>
           </h2>
-          <!-- <v-btn class="mt-2" @click.stop="drawer = !drawer">filter</v-btn> -->
         </v-col>
       </v-row>
-      <v-col cols="12" lg="10" class="mx-auto">
-        <!-- <h1 class="text-h3 text-center">Our Artists</h1>
-        <v-divider class="my-2"></v-divider>
-        <v-toolbar class="mb-2" rounded="lg">
-          <v-select
-            class="mr-2"
-            :append-icon="dropdownIcon"
-            v-for="(filter, i) in filterMenu"
-            :key="i"
-            :label="filter.admin_name"
-            :items="filter.options"
-            item-text="admin_name"
-            item-value="admin_name"
-            hide-details
-            dense
-            outlined
-            rounded
-            small-chips
-            multiple
-            cache-items
-            deletable-chips
-        /></v-toolbar>
-
-        <v-row no-gutters
-          ><h3 class="text-subtitle-1">Creators</h3>
-          <v-spacer /><v-btn @click.stop="drawer = !drawer"
-            >filter results</v-btn
-          ></v-row
-        > -->
+      <v-col cols="12" lg="10" class="mx-auto pa-0">
         <v-row no-gutters>
-          <v-col v-for="(creator, i) in creators" :key="i" cols="12" md="4" class="pa-2">
+          <v-col
+            v-for="(creator, i) in creators"
+            :key="i"
+            cols="12"
+            sm="6"
+            md="4"
+            class="pa-2"
+          >
             <NuxtLink
               :to="{
-                name: 'artists-slug',
+                name: 'slug-artist',
                 params: {
                   slug: creator.url,
                 },
@@ -77,27 +55,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <!-- <v-navigation-drawer v-model="drawer" fixed app temporary right>
-        <v-list-item v-for="(filter, i) in filterMenu" :key="i">
-          <v-list-item-content>
-            <v-list-item-title v-text="filter.admin_name" />
-            <v-list-item-subtitle>
-              <v-select
-                :items="filter.options"
-                item-text="admin_name"
-                item-value="admin_name"
-                label="Select"
-                return-object
-                @change="filterUpdate"
-              >
-              </v-select>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-btn block color="red" @click="submit"> Filter </v-btn>
-        <v-btn class="mt-4" block color="red" @click="reset"> Reset </v-btn>
-      </v-navigation-drawer> -->
-      <h2 class="text-body-1 text-center mb-6">
+      <h2 class="text-body-1 text-center my-5">
         <v-pagination
           v-model="pageData.current_page"
           :length="pageData.last_page"
@@ -175,14 +133,6 @@ export default {
   head() {
     return {
       title: "Artists",
-      // meta: [
-      //   // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-      //   {
-      //     hid: 'description',
-      //     name: 'description',
-      //     content: 'My custom description',
-      //   },
-      // ],
     };
   },
   watch: {

@@ -11,7 +11,7 @@
       <v-col cols="12" lg="8" md="10" class="mx-auto">
         <EventsMiniCard :event="event" />
         <v-divider class="my-2"></v-divider>
-        <h1 class="text-h3 text-center mt-2">Booking Form</h1>
+        <!-- <h1 class="text-h3 text-center mt-2">Booking Form</h1> -->
         <v-divider class="my-2"></v-divider>
         <v-card class="card-glass rounded-xl pa-1">
           <EventsBookingForm
@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import { mdiMapMarkerStar, mdiCalendarHeart } from '@mdi/js'
+import { mdiMapMarkerStar, mdiCalendarHeart } from "@mdi/js";
 export default {
-  middleware: 'auth',
+  middleware: "auth",
   data() {
     return {
       event: {},
@@ -55,14 +55,14 @@ export default {
 
       breadcrumbItems: [
         {
-          text: 'Home',
+          text: "Home",
           disabled: false,
-          to: '/',
+          to: "/",
         },
         {
-          text: 'Events',
+          text: "Events",
           disabled: false,
-          to: '/events',
+          to: "/events",
           exact: true,
         },
         {
@@ -72,45 +72,45 @@ export default {
           exact: true,
         },
       ],
-    }
+    };
   },
   async fetch() {
     try {
       await this.$axios
         .$get(`events/${this.$route.params.slug}`)
         .then((res) => {
-          this.event = res.data
+          this.event = res.data;
         })
         .catch((err) => {
-          this.errorMessage = err
-          this.$sentry.captureException(new Error(err))
-        })
+          this.errorMessage = err;
+          this.$sentry.captureException(new Error(err));
+        });
     } catch (error) {
-      this.$sentry.captureException(new Error(error))
+      this.$sentry.captureException(new Error(error));
     }
   },
   head() {
     return {
-      title: 'Book ' + this.event.name,
+      title: "Book " + this.event.name,
       meta: [
         {
-          hid: 'description',
-          name: 'description',
+          hid: "description",
+          name: "description",
           content: this.event.desc,
         },
       ],
-    }
+    };
   },
   methods: {
     setTotal(total) {
-      this.bookingTotal = total
+      this.bookingTotal = total;
     },
     confirmBooking() {
-      this.$refs.form.confirmBooking()
+      this.$refs.form.confirmBooking();
     },
     setLoading(data) {
-      this.loading = data
+      this.loading = data;
     },
   },
-}
+};
 </script>

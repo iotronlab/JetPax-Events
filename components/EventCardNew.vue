@@ -24,8 +24,8 @@
                 {{ StartDate(event.startOn).split(" ")[1] }}
               </h1>
             </div>
-            <v-btn icon>
-              <v-icon>{{ icons.heart }}</v-icon>
+            <v-btn icon @click.prevent="subscribe">
+              <v-icon>{{ icons.subscribe }}</v-icon>
             </v-btn>
           </v-row>
           <h2 class="text-h4">{{ event.name }}</h2>
@@ -58,7 +58,12 @@
 </template>
 
 <script>
-import { mdiMapMarkerStar, mdiCalendarMonth, mdiHeart } from "@mdi/js";
+import {
+  mdiMapMarkerStar,
+  mdiCalendarMonth,
+  mdiStarFourPoints,
+  mdiStarFourPointsOutline,
+} from "@mdi/js";
 
 export default {
   name: "EventCardNew",
@@ -73,7 +78,8 @@ export default {
       icons: {
         marker: mdiMapMarkerStar,
         calendar: mdiCalendarMonth,
-        heart: mdiHeart,
+        subscribed: mdiStarFourPoints,
+        subscribe: mdiStarFourPointsOutline,
       },
     };
   },

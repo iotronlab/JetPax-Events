@@ -7,7 +7,7 @@
     <v-btn
       v-if="event.isBookingOpen == true"
       :to="{
-        name: 'events-slug-booking',
+        name: 'slug-booking',
         params: {
           slug: event.url,
         },
@@ -31,6 +31,5 @@ export default {
       type: Object,
     },
   },
-}
+};
 </script>
-

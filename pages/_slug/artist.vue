@@ -10,8 +10,8 @@
       <v-img
         :aspect-ratio="$vuetify.breakpoint.smAndUp ? 16 / 2.5 : 16 / 9"
         :src="
-          artist.bannerImage.url
-            ? artist.bannerImage.url
+          artist.bannerImage
+            ? artist.bannerImage
             : require('@/assets/images/index/landing.webp')
         "
         :lazy-src="require('@/assets/images/index/landing.webp')"
@@ -23,13 +23,13 @@
             <v-avatar size="200" class="mt-n16">
               <v-img
                 :src="
-                  artist.displayImage.url
-                    ? artist.displayImage.url
+                  artist.displayImage
+                    ? artist.displayImage
                     : require('@/assets/images/index/landing.webp')
                 "
                 :lazy-src="require('@/assets/images/index/landing.webp')"
-              ></v-img
-            ></v-avatar>
+              ></v-img>
+            </v-avatar>
           </v-container>
         </v-col>
         <v-col cols="12" lg="4" md="4" order-md="first">
@@ -41,13 +41,7 @@
               {{ artist.name }}
             </h1>
             <h2 class="subtitle-1">{{ artist.location }}</h2>
-            <v-btn
-              class="mt-2 btn-artist"
-              color="primary"
-              rounded
-              dark
-              to="/contactus"
-            >
+            <v-btn class="mt-2 btn-artist" color="primary" rounded dark to="/contactus">
               <v-icon left size="28">{{ icons.email }}</v-icon
               >Enquire</v-btn
             >
@@ -66,16 +60,14 @@
           <h5 class="overline mt-2">About the artist</h5>
           <v-sheet
             color="transparent"
-            v-html="
-              artist.desc ? artist.desc : 'This artist has not updated bio yet.'
-            "
+            v-html="artist.desc ? artist.desc : 'This artist has not updated bio yet.'"
           ></v-sheet>
         </v-col>
         <v-col cols="12" lg="6">
           <h5 class="text-h3 text-center mt-2">Gallery</h5>
           <v-divider></v-divider>
-          <Gallery :gallery="artist.images"
-        /></v-col>
+          <!-- <Gallery :gallery="artist.images" /> -->
+        </v-col>
       </v-row>
       <section v-if="artist.videoLinks.length > 0">
         <h5 class="text-h3 text-center mt-2">Music Videos</h5>
@@ -111,7 +103,7 @@
   </v-container>
 </template>
 <script>
-import { mdiEmail } from '@mdi/js'
+import { mdiEmail } from "@mdi/js";
 
 export default {
   data() {
@@ -121,14 +113,14 @@ export default {
       errorMessage: null,
       breadcrumbItems: [
         {
-          text: 'Home',
+          text: "Home",
           disabled: false,
-          to: '/',
+          to: "/",
         },
         {
-          text: 'Artists',
+          text: "Artists",
           disabled: false,
-          to: '/artists',
+          to: "/artists",
           exact: true,
         },
         {
@@ -139,17 +131,17 @@ export default {
       icons: {
         email: mdiEmail,
       },
-    }
+    };
   },
   async fetch() {
     await this.$axios
       .$get(`artists/${this.$route.params.slug}`)
       .then((res) => {
-        this.artist = res.data
+        this.artist = res.data;
       })
       .catch((err) => {
-        this.$sentry.captureException(new Error(err))
-      })
+        this.$sentry.captureException(new Error(err));
+      });
   },
-}
+};
 </script>
