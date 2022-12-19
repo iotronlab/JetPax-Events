@@ -80,7 +80,7 @@ export default {
 
     // apiUrl: process.env.API_URL || 'https://api.iaa.org.in',
     // payKey: 'rzp_live_aFZgYfG1U1OvhZ',
-    payKey: 'rzp_test_buXW2crbs23nuy',
+    payKey: 'rzp_test_AeWPLfokXKNjBv',
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

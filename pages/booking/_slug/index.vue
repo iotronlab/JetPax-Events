@@ -59,12 +59,7 @@
         <v-divider class="my-2"></v-divider>
       </v-col>
 
-      <v-overlay
-        :value="loading"
-        class="text-center"
-        opacity="0.8"
-        z-index="500"
-      >
+      <v-overlay :value="loading" class="text-center" opacity="0.8" z-index="500">
         <p>Saving payment, do not refresh or close!</p>
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
@@ -73,9 +68,9 @@
 </template>
 
 <script>
-import { mdiMapMarkerStar, mdiCalendarHeart } from '@mdi/js'
+import { mdiMapMarkerStar, mdiCalendarHeart } from "@mdi/js";
 export default {
-  middleware: 'auth',
+  middleware: "auth",
 
   data() {
     return {
@@ -87,14 +82,14 @@ export default {
       },
       breadcrumbItems: [
         {
-          text: 'Home',
+          text: "Home",
           disabled: false,
-          to: '/',
+          to: "/",
         },
         {
-          text: 'Bookings',
+          text: "Bookings",
           disabled: false,
-          to: '/booking',
+          to: "/booking",
           exact: true,
         },
         {
@@ -103,43 +98,43 @@ export default {
         },
       ],
       loading: false,
-    }
+    };
   },
   async fetch() {
     await this.$axios
       .$get(`booking/${this.$route.params.slug}`)
       .then((res) => {
-        this.booking = res.data
+        this.booking = res.data;
         if (this.booking.payment_success === 0) {
-          this.initiatePayment()
+          this.initiatePayment();
         }
       })
       .catch((err) => {
-        this.errorMessage = err
-        this.$sentry.captureException(new Error(err))
-      })
+        this.errorMessage = err;
+        this.$sentry.captureException(new Error(err));
+      });
   },
   head() {
     return {
-      title: 'Booking',
+      title: "Booking",
       script: [
         {
-          hid: 'rzpay',
-          src: 'https://checkout.razorpay.com/v1/checkout.js',
+          hid: "rzpay",
+          src: "https://checkout.razorpay.com/v1/checkout.js",
           defer: true,
         },
       ],
-    }
+    };
   },
   // always fetch and not load from cache
   mounted() {
-    this.$fetch()
+    this.$fetch();
   },
 
   methods: {
     initiatePayment() {
-      const self = this
-      this.loading = true
+      const self = this;
+      this.loading = true;
       const rzpOptions = {
         key: process.env.payKey,
         amount: this.booking.amount,
@@ -167,15 +162,14 @@ export default {
         //       self.loading = false
         //     })
         // },
-        callback_url:
-          process.env.apiUrl + '/api/booking/confirm/' + this.booking.uuid,
+        callback_url: process.env.apiUrl + "/api/v1/booking/confirm/" + this.booking.uuid,
         modal: {
           ondismiss() {
-            self.loading = false
-            self.$store.dispatch('setSnackbar', {
-              color: 'error',
-              text: 'Please complete payment to confirm!',
-            })
+            self.loading = false;
+            self.$store.dispatch("setSnackbar", {
+              color: "error",
+              text: "Please complete payment to confirm!",
+            });
           },
         },
         prefill: {
@@ -187,46 +181,46 @@ export default {
           item: this.booking.uuid,
         },
         theme: {
-          color: '#667eea',
+          color: "#667eea",
         },
-      }
+      };
       /* global Razorpay */
       /* eslint no-undef: "error" */
-      const rzp1 = new Razorpay(rzpOptions)
-      rzp1.on('payment.failed', function () {
-        self.loading = false
-        self.$store.dispatch('setSnackbar', {
-          color: 'error',
-          text: 'Payment failed, contact support!',
-        })
-      })
-      rzp1.open()
+      const rzp1 = new Razorpay(rzpOptions);
+      rzp1.on("payment.failed", function () {
+        self.loading = false;
+        self.$store.dispatch("setSnackbar", {
+          color: "error",
+          text: "Payment failed, contact support!",
+        });
+      });
+      rzp1.open();
     },
 
     async downloadInvoice() {
       await this.$axios({
         url: `booking/invoice/${this.booking.uuid}`,
-        method: 'GET',
-        responseType: 'blob', // important
+        method: "GET",
+        responseType: "blob", // important
       })
 
         .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]))
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', this.booking.event.name + '.pdf')
-          document.body.appendChild(link)
-          link.click()
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", this.booking.event.name + ".pdf");
+          document.body.appendChild(link);
+          link.click();
         })
 
         .catch((err) => {
-          this.$store.dispatch('setSnackbar', {
-            color: 'error',
-            text: 'Download failed, contact support!',
-          })
-          this.$sentry.captureException(new Error(err))
-        })
+          this.$store.dispatch("setSnackbar", {
+            color: "error",
+            text: "Download failed, contact support!",
+          });
+          this.$sentry.captureException(new Error(err));
+        });
     },
   },
-}
+};
 </script>
