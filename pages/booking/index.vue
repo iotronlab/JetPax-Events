@@ -19,37 +19,64 @@
             v-for="booking in bookings"
             :key="booking.uuid"
             cols="12"
-            md="5"
+            sm="6"
+            lg="4"
             class="pa-1"
           >
-            <v-sheet class="card-glass pa-2 rounded">
-              Booking ID - {{ booking.uuid }}
-              <br />
-              Event - {{ booking.event.name }}
-              <br />
-              Event Date - {{ booking.event.startOn }}
-              <br />
-              Booking Date - {{ booking.updated }}
-              <br />
-              <h1 class="overline font-weight-bold">
-                Booking status -
-                <span v-if="booking.status == 'confirm'" class="success--text">{{
+            <v-card
+              :to="{
+                name: 'booking-slug',
+                params: {
+                  slug: booking.uuid,
+                },
+              }"
+              outlined
+              class="pa-2 rounded"
+            >
+              <h1 class="caption">
+                Booking ID <br /><b class="text-h6">{{ booking.uuid }}</b>
+                <br />
+                Event <br /><b class="text-h6">{{ booking.event.name }}</b>
+                <br />
+                Event Date <br /><b class="text-h6">{{ booking.event.startOn }}</b>
+                <br />
+                Status<br />
+                <b v-if="booking.status == 'confirm'" class="text-h6 success--text">{{
                   booking.status
-                }}</span>
-                <span v-else class="warning--text">{{ booking.status }}</span>
+                }}</b>
+                <b v-else class="text-h6 warning--text">{{ booking.status }}</b>
               </h1>
-              <v-btn
-                class="mt-4"
-                color="primary"
-                :to="{
-                  name: 'booking-slug',
-                  params: {
-                    slug: booking.uuid,
-                  },
-                }"
-                >view booking</v-btn
-              >
-            </v-sheet>
+              <p class="caption">booked on {{ booking.updated }}</p>
+              <v-card-actions>
+                <v-btn
+                  class="mt-auto"
+                  color="primary"
+                  text
+                  :to="{
+                    name: 'booking-slug',
+                    params: {
+                      slug: booking.uuid,
+                    },
+                  }"
+                >
+                  <v-icon left>{{ icons.view }}</v-icon> view</v-btn
+                >
+                <v-btn
+                  class="mt-auto"
+                  color="primary"
+                  outlined
+                  :to="{
+                    name: 'booking-slug',
+                    params: {
+                      slug: booking.uuid,
+                    },
+                  }"
+                  @click.prevent
+                >
+                  Go to Event</v-btn
+                >
+              </v-card-actions>
+            </v-card>
           </v-col>
         </v-row>
         <v-pagination
@@ -65,6 +92,7 @@
 </template>
 
 <script>
+import { mdiEye } from "@mdi/js";
 export default {
   middleware: ["auth"],
   data() {
@@ -72,6 +100,9 @@ export default {
       bookings: null,
       errorMessage: null,
       pageData: null,
+      icons: {
+        view: mdiEye,
+      },
     };
   },
   async fetch() {

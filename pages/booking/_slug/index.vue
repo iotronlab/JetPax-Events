@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-0">
     <section v-if="$fetchState.pending">
-      <Loading :message="'booking uuid ' + $route.params.slug" />
+      <Loading :message="'booking id ' + $route.params.slug" />
     </section>
     <section v-else-if="errorMessage != null">
       <LazyFetchError />
@@ -31,6 +31,20 @@
           <v-btn class="primary mb-4" @click="downloadInvoice">Download</v-btn>
         </div>
         <EventsMiniCard :event="booking.event" />
+        <h1 class="caption">
+          Booking ID <br /><b class="text-h6">{{ booking.uuid }}</b>
+          <br />
+          Event <br /><b class="text-h6">{{ booking.event.name }}</b>
+          <br />
+          Event Date <br /><b class="text-h6">{{ booking.event.startOn }}</b>
+          <br />
+          Status<br />
+          <b v-if="booking.status == 'confirm'" class="text-h6 success--text">{{
+            booking.status
+          }}</b>
+          <b v-else class="text-h6 warning--text">{{ booking.status }}</b>
+        </h1>
+        <p class="caption">booked on {{ booking.updated }}</p>
         <h1 class="overline mt-2 secondary--text">Booking Details</h1>
 
         <h2>

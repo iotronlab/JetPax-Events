@@ -55,9 +55,9 @@
       </div>
     </v-main>
     <LazyFooter :nav-items="navItems" />
-    <v-footer absolute app>
+    <!-- <v-footer absolute app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-footer> -->
     <v-btn
       fab
       fixed
