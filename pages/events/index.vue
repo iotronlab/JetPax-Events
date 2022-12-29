@@ -34,7 +34,9 @@
       <LazyFilterNav ref="filterNav" :filter-list="filterList" />
 
       <section v-if="events.length < 1">
-        <h1 class="text-body-1 pa-4 text-center">There are no events to display.</h1>
+        <h1 class="text-body-1 pa-4 text-center">
+          There are no events to display.
+        </h1>
       </section>
       <section v-else>
         <!-- page body start -->
@@ -78,7 +80,7 @@
 </template>
 
 <script>
-import { mdiArrowRight, mdiArrowLeft } from "@mdi/js";
+import { mdiArrowRight, mdiArrowLeft } from '@mdi/js'
 export default {
   data() {
     return {
@@ -90,56 +92,56 @@ export default {
       prevArrow: mdiArrowLeft,
       breadcrumbItems: [
         {
-          text: "Home",
+          text: 'Home',
           disabled: false,
-          to: "/",
+          to: '/',
         },
         {
-          text: "Events",
+          text: 'Events',
           disabled: true,
         },
       ],
-    };
+    }
   },
   async fetch() {
     await this.$axios
-      .$get("events", { params: this.$route.query })
+      .$get('events', { params: this.$route.query })
       .then((res) => {
-        this.events = res.data;
-        this.pageData = res.meta;
-        this.getFilters();
+        this.events = res.data
+        this.pageData = res.meta
+        this.getFilters()
       })
       .catch((err) => {
-        this.errorMessage = err;
-        this.$sentry.captureException(new Error(err));
-      });
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
   },
   head() {
     return {
-      title: "Events",
-    };
+      title: 'Events',
+    }
   },
   watch: {
-    "$route.query": "$fetch",
+    '$route.query': '$fetch',
   },
   methods: {
     updateQuery(data) {
-      this.$router.push({ query: { page: data } });
+      this.$router.push({ query: { page: data } })
     },
     async getFilters() {
       await this.$axios
-        .$get("events/filters/all")
+        .$get('events/filters/all')
         .then((res) => {
-          this.filterList = res.data;
+          this.filterList = res.data
           // this.$refs.filterNav.parseQuery();
         })
         .catch((err) => {
-          this.errorMessage = err;
-          this.$sentry.captureException(new Error(err));
-        });
+          this.errorMessage = err
+          this.$sentry.captureException(new Error(err))
+        })
     },
   },
-};
+}
 </script>
 
 <style scoped>
