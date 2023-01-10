@@ -29,7 +29,7 @@
       right
       class="ma-2 rounded card-glass visualIndex"
     >
-      <div class="mt-4">
+      <div class="ma-2">
         <v-btn class="primary" @click="applyFilter">Apply filter</v-btn>
         <v-btn @click="reset" outlined>Reset</v-btn>
       </div>

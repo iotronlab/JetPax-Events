@@ -23,60 +23,11 @@
             lg="4"
             class="pa-1"
           >
-            <v-card
-              :to="{
-                name: 'booking-slug',
-                params: {
-                  slug: booking.uuid,
-                },
-              }"
-              outlined
-              class="pa-2 rounded"
-            >
-              <h1 class="caption">
-                Booking ID <br /><b class="text-h6">{{ booking.uuid }}</b>
-                <br />
-                Event <br /><b class="text-h6">{{ booking.event.name }}</b>
-                <br />
-                Event Date <br /><b class="text-h6">{{ booking.event.startOn }}</b>
-                <br />
-                Status<br />
-                <b v-if="booking.status == 'confirm'" class="text-h6 success--text">{{
-                  booking.status
-                }}</b>
-                <b v-else class="text-h6 warning--text">{{ booking.status }}</b>
-              </h1>
-              <p class="caption">booked on {{ booking.updated }}</p>
-              <v-card-actions>
-                <v-btn
-                  class="mt-auto"
-                  color="primary"
-                  text
-                  :to="{
-                    name: 'booking-slug',
-                    params: {
-                      slug: booking.uuid,
-                    },
-                  }"
-                >
-                  <v-icon left>{{ icons.view }}</v-icon> view</v-btn
-                >
-                <v-btn
-                  class="mt-auto"
-                  color="primary"
-                  outlined
-                  :to="{
-                    name: 'booking-slug',
-                    params: {
-                      slug: booking.uuid,
-                    },
-                  }"
-                  @click.prevent
-                >
-                  Go to Event</v-btn
-                >
-              </v-card-actions>
-            </v-card>
+            <LazyBookingCard :booking="booking">
+              <v-btn color="primary" text>
+                <v-icon left>{{ icons.view }}</v-icon> view</v-btn
+              >
+            </LazyBookingCard>
           </v-col>
         </v-row>
         <v-pagination
@@ -120,6 +71,29 @@ export default {
     return {
       title: "Bookings",
     };
+  },
+  methods: {
+    // startTimer() {
+    //   setInterval(function () {
+    //     // Get today's date and time
+    //     let now = new Date().getTime();
+    //     // Find the distance between now and the count down date
+    //     let distance = countDownDate - now;
+    //     // Time calculations for days, hours, minutes and seconds
+    //     // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    //     // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    //     // Display the result in the element with id="demo"
+    //     document.getElementById("demo").innerHTML =
+    //       days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    //     // If the count down is finished, write some text
+    //     if (distance < 0) {
+    //       clearInterval(x);
+    //       document.getElementById("demo").innerHTML = "EXPIRED";
+    //     }
+    //   }, 1000);
+    // },
   },
 };
 </script>

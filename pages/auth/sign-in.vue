@@ -62,28 +62,40 @@
             </ValidationProvider>
           </div>
 
-          <!-- <ValidationProvider v-slot="{ errors }" name="Password" rules="required|min:6">
+          <ValidationProvider v-slot="{ errors }" name="Password" rules="required|min:6">
             <v-text-field
               v-model="password"
-              :prepend-icon="icon.password"
               :append-icon="showPass ? icon.passShow : icon.passHide"
               :type="showPass ? 'text' : 'password'"
               label="Password"
               name="password"
               :error-messages="errors"
               outlined
-              rounded
               required
-              color="accent"
+              color="success"
               @click:append="showPass = !showPass"
             ></v-text-field>
-          </ValidationProvider> -->
+          </ValidationProvider>
+
           <div class="d-flex justify-center">
-            <v-btn color="primary" @click="checkExistingUser">Sign in</v-btn>
+            <v-btn color="primary" @click.prevent="login">Sign in</v-btn>
           </div>
         </ValidationObserver>
 
         <br />
+        <v-alert
+          v-model="alert.show"
+          class="mx-1 mt-4"
+          border="left"
+          outlined
+          color="primary"
+          close-text="Close Alert"
+          dismissible
+          :close-icon="alert.icon"
+        >
+          {{ alert.text }}
+          <nuxt-link to="/auth/register"><u>create an account</u></nuxt-link>
+        </v-alert>
         <p class="text-center">Sign in with</p>
         <v-row no-gutters justify="center">
           <v-btn color="#4267B2" class="ma-1" dark @click.prevent="loginWithFacebook">
@@ -111,12 +123,12 @@
 // import { ValidationObserver } from 'vee-validate'
 import {
   mdiEmail,
-  mdiLock,
   mdiEye,
   mdiEyeOff,
   mdiFacebook,
   mdiGoogle,
   mdiPhone,
+  mdiClose,
 } from "@mdi/js";
 export default {
   middleware: ["auth-user"],
@@ -124,15 +136,19 @@ export default {
   data() {
     return {
       loginMethod: "contact",
-      contact: null,
-      email: null,
       identifier: null,
       password: null,
+      userExists: false,
       showPass: false,
+      errorMessage: null,
+      alert: {
+        show: false,
+        text: "Something is wrong! Contact support!",
+        icon: mdiClose,
+      },
       icon: {
         email: mdiEmail,
         phone: mdiPhone,
-        password: mdiLock,
         passShow: mdiEye,
         passHide: mdiEyeOff,
         facebook: mdiFacebook,
@@ -149,7 +165,8 @@ export default {
         await this.$auth
           .loginWith("laravelSanctum", {
             data: {
-              email: this.email,
+              method: this.loginMethod,
+              identifier: this.identifier,
               password: this.password,
             },
           })
@@ -161,12 +178,18 @@ export default {
             });
           })
           .catch((err) => {
-            console.log(err);
+            this.errorMessage = err.response.data.message;
+            if (this.errorMessage === "User not found!") {
+              this.alert.show = true;
+              this.alert.text = this.errorMessage;
+            }
+            console.log(err.response);
+            this.$refs.observer.setErrors(err.response.data.errors);
             this.$store.dispatch("setSnackbar", {
               color: "error",
-              text: "Verify you are not a robot!",
+              text: this.errorMessage,
             });
-            this.$sentry.captureException(new Error(err));
+            // this.$sentry.captureException(new Error(err));
           });
       }
 
@@ -189,19 +212,23 @@ export default {
       ) {
         // this.alert.show = false;
         this.$axios
-          .$post(`verify/${this.loginMethod}`, { identifier: this.identifier })
+          .$post(`verify`, { method: this.loginMethod, identifier: this.identifier })
           .then((result) => {
             if (result.success === true) {
               // user exists
-              this.login();
+              this.userExists = true;
+              // this.login();
             } else {
-              // this.$refs.observer.setErrors({ mobile: result.message });
-              // this.$store.dispatch("setSnackbar", {
-              //   color: "warning",
-              //   text: result.message,
-              // });
-              // this.alert.show = true;
-              // this.alert.text = result.message;
+              this.$refs.observer.setErrors({
+                contact: result.message,
+                email: result.message,
+              });
+              this.$store.dispatch("setSnackbar", {
+                color: "warning",
+                text: result.message,
+              });
+              this.alert.show = true;
+              this.alert.text = result.message;
             }
           })
           .catch((err) => {

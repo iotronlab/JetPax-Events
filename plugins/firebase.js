@@ -1,13 +1,13 @@
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 const firebaseConfig = {
-  apiKey: 'AIzaSyBqrOs6baJmiE01TnkUVFcQS1bvRVLslZM',
-  authDomain: 'iaa-app-e3f27.firebaseapp.com',
-  projectId: 'iaa-app-e3f27',
-  storageBucket: 'iaa-app-e3f27.appspot.com',
-  messagingSenderId: '1052205198151',
-  appId: '1:1052205198151:web:a7ae7e22384726c8f23a62',
-  measurementId: 'G-TP8CWVTPY0',
+  apiKey: 'AIzaSyApC_Sk60JJyicwpLHghWlBCtKItMABa5E',
+  authDomain: 'jetpax-370115.firebaseapp.com',
+  projectId: 'jetpax-370115',
+  storageBucket: 'jetpax-370115.appspot.com',
+  messagingSenderId: '516187460545',
+  appId: '1:516187460545:web:e383071b8c81779bfad540',
+  measurementId: 'G-B3X4Y778XD',
 }
 // const apps = getApps()
 // if (!apps.length) {

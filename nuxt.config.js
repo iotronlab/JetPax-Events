@@ -119,15 +119,15 @@ export default {
         },
         endpoints: {
           login: {
-            url: '/api/login',
+            url: '/api/v1/login',
             method: 'post',
           },
           user: {
-            url: '/api/details',
+            url: '/api/v1/details',
             method: 'get',
           },
           logout: {
-            url: '/api/logout',
+            url: '/api/v1/logout',
             method: 'get',
           },
         },

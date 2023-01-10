@@ -51,7 +51,7 @@ export const actions = {
       .$get('all-cities')
       .then((res) => {
         commit('SET_CITIES', res.data)
-        console.log(res.data)
+
         dispatch('syncDefaultCity', res.data)
 
         return res.data
@@ -64,10 +64,9 @@ export const actions = {
   syncDefaultCity({ dispatch }, cities) {
     let city = cities.find((element) => element.url === state.defaultCity)
     // city not found in database
-    console.log(city, state.defaultCity)
     if (city === undefined) {
       city = cities.find((element) => element.default === 1)
-      console.log(city)
+
       dispatch('setCity', city.url)
     }
   },

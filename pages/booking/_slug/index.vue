@@ -8,72 +8,60 @@
     </section>
     <section v-else>
       <!-- {{ booking }} -->
-      <v-col cols="12" md="8" class="mx-auto">
+      <v-col cols="12" sm="10" md="8" class="mx-auto">
         <!-- <Breadcrumb :breadcrumb-items="breadcrumbItems" /> -->
         <Breadcrumb :breadcrumb-items="breadcrumbItems" />
-        <v-divider></v-divider>
-        <h1 class="overline font-weight-bold">
-          Booking status -
-          <span v-if="booking.status == 'confirm'" class="success--text">{{
-            booking.status
-          }}</span>
-          <span v-else class="warning--text">{{ booking.status }}</span>
-        </h1>
-        <div v-if="!booking.payment_success">
-          <p class="caption mb-1">
-            Kindly complete the payment within 24hrs to avoid cancellation
-          </p>
-          <v-btn color="primary" class="mb-4" @click="initiatePayment"
-            >retry payment</v-btn
-          >
-        </div>
-        <div v-else>
-          <v-btn class="primary mb-4" @click="downloadInvoice">Download</v-btn>
-        </div>
-        <EventsMiniCard :event="booking.event" />
-        <h1 class="caption">
-          Booking ID <br /><b class="text-h6">{{ booking.uuid }}</b>
-          <br />
-          Event <br /><b class="text-h6">{{ booking.event.name }}</b>
-          <br />
-          Event Date <br /><b class="text-h6">{{ booking.event.startOn }}</b>
-          <br />
-          Status<br />
-          <b v-if="booking.status == 'confirm'" class="text-h6 success--text">{{
-            booking.status
-          }}</b>
-          <b v-else class="text-h6 warning--text">{{ booking.status }}</b>
-        </h1>
-        <p class="caption">booked on {{ booking.updated }}</p>
-        <h1 class="overline mt-2 secondary--text">Booking Details</h1>
 
-        <h2>
-          Booking ID - <span class="primary--text">{{ booking.uuid }}</span>
-        </h2>
-        <h3 class="text-body-1">
-          Name - {{ booking.booking_name }}<br />
-          Email - {{ booking.booking_email }}<br />
-          Contact - {{ booking.booking_contact }}
-        </h3>
-        <v-divider class="my-2"></v-divider>
-        <h4 class="overline secondary--text">Tickets Info</h4>
+        <!-- <EventsMiniCard :event="booking.event" /> -->
 
-        <h4
-          v-for="(ticket, i) in booking.tickets"
-          :key="i"
-          cols="12"
-          md="6"
-          class="text-body-1"
-        >
-          {{ ticket.name }} x {{ ticket.quantity }}
-        </h4>
-        <v-divider class="my-2"></v-divider>
-        <h3>Total - INR {{ booking.amount / 100 }}</h3>
+        <v-row no-gutters justify="center"
+          ><v-col cols="12" md="5">
+            <BookingCard :booking="booking">
+              <v-btn
+                v-if="!booking.payment_success"
+                color="accent"
+                @click="initiatePayment"
+                >retry payment</v-btn
+              >
 
-        <v-divider class="my-2"></v-divider>
+              <v-btn v-else class="accent" @click="downloadInvoice">Download</v-btn>
+            </BookingCard>
+          </v-col>
+          <v-col v-if="booking.qr" cols="6" sm="4" md="2" class="pa-2"
+            ><v-sheet max-width="50vw" color="white" class="pa-2 mx-auto">
+              <v-img :src="booking.qr"></v-img> </v-sheet
+          ></v-col>
+          <v-col cols="12" md="5" class="pa-2">
+            <h1 class="overline font-weight-black secondary--text">Booking Details</h1>
+
+            <h2 class="caption">
+              Booking Name <br /><b class="text-h6">{{ booking.booking_name }}</b>
+              <br />
+              Booking Email <br /><b class="text-h6">{{ booking.booking_email }}</b>
+              <br />
+              Contact <br /><b class="text-h6">{{ booking.booking_contact }}</b>
+            </h2>
+            <v-divider class="my-2"></v-divider>
+            <h3 class="overline font-weight-black secondary--text">Tickets Info</h3>
+
+            <h4
+              v-for="(ticket, i) in booking.tickets"
+              :key="i"
+              cols="12"
+              md="6"
+              class="text-body-1"
+            >
+              {{ ticket.name }} x {{ ticket.quantity }}
+            </h4>
+            <v-divider class="my-2"></v-divider>
+            <h3>Total - INR {{ booking.amount / 100 }}</h3>
+
+            <v-divider class="my-2"></v-divider>
+          </v-col>
+        </v-row>
       </v-col>
 
-      <v-overlay :value="loading" class="text-center" opacity="0.8" z-index="500">
+      <v-overlay :value="acceptPayment" class="text-center" opacity="0.8" z-index="500">
         <p>Saving payment, do not refresh or close!</p>
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
@@ -90,6 +78,7 @@ export default {
     return {
       booking: {},
       errorMessage: null,
+      timeLimit: null,
       icon: {
         location: mdiMapMarkerStar,
         calender: mdiCalendarHeart,
@@ -111,7 +100,7 @@ export default {
           disabled: true,
         },
       ],
-      loading: false,
+      acceptPayment: false,
     };
   },
   async fetch() {
@@ -119,8 +108,14 @@ export default {
       .$get(`booking/${this.$route.params.slug}`)
       .then((res) => {
         this.booking = res.data;
-        if (this.booking.payment_success === 0) {
-          this.initiatePayment();
+        if (this.booking.status === "pending") {
+          const countDownDate = new Date(this.booking.expires).getTime();
+          const now = new Date().getTime();
+          // timeLimit in total of seconds
+          this.timeLimit = Math.floor((countDownDate - now) / 1000);
+          if (this.timeLimit > 0) {
+            this.initiatePayment();
+          }
         }
       })
       .catch((err) => {
@@ -140,6 +135,12 @@ export default {
       ],
     };
   },
+  expired() {
+    if (this.booking.status === "pending" && this.timeLimit <= 0) {
+      return true;
+    }
+    return false;
+  },
   // always fetch and not load from cache
   mounted() {
     this.$fetch();
@@ -148,7 +149,7 @@ export default {
   methods: {
     initiatePayment() {
       const self = this;
-      this.loading = true;
+      this.acceptPayment = true;
       const rzpOptions = {
         key: process.env.payKey,
         amount: this.booking.amount,
@@ -156,7 +157,7 @@ export default {
         description: this.booking.event.desc,
         order_id: this.booking.payment.generated_id,
         // handler(response) {
-        //   self.loading = true
+        //   self.acceptPayment = true
         //   self.$axios
         //     .$post(`booking/confirm/${self.booking.uuid}`, response)
         //     .then((res) => {
@@ -165,7 +166,7 @@ export default {
         //         color: 'success',
         //         text: res.message,
         //       })
-        //       self.loading = false
+        //       self.acceptPayment = false
         //     })
         //     .catch((err) => {
         //       self.$store.dispatch('setSnackbar', {
@@ -173,13 +174,13 @@ export default {
         //         text: 'Payment fail. Please try again!',
         //       })
         //       self.$sentry.captureException(new Error(err))
-        //       self.loading = false
+        //       self.acceptPayment = false
         //     })
         // },
         callback_url: process.env.apiUrl + "/api/v1/booking/confirm/" + this.booking.uuid,
         modal: {
           ondismiss() {
-            self.loading = false;
+            self.acceptPayment = false;
             self.$store.dispatch("setSnackbar", {
               color: "error",
               text: "Please complete payment to confirm!",
@@ -202,7 +203,7 @@ export default {
       /* eslint no-undef: "error" */
       const rzp1 = new Razorpay(rzpOptions);
       rzp1.on("payment.failed", function () {
-        self.loading = false;
+        self.acceptPayment = false;
         self.$store.dispatch("setSnackbar", {
           color: "error",
           text: "Payment failed, contact support!",
