@@ -20,7 +20,7 @@
   "dependencies": {
     "@algolia/autocomplete-js": "^1.7.3",
     "@algolia/autocomplete-theme-classic": "^1.7.3",
-    "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
+    "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/robots": "^2.5.0",
     "@nuxtjs/sentry": "^5.1.6",
