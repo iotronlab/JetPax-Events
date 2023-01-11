@@ -72,10 +72,10 @@ import {
   mdiCheckboxBlankOutline,
   mdiCheckboxOutline,
   mdiCloseOutline,
-} from "@mdi/js";
+} from '@mdi/js'
 
 export default {
-  name: "FilterNav",
+  name: 'FilterNav',
   props: {
     filterList: {
       type: Array,
@@ -98,21 +98,21 @@ export default {
 
   watch: {
     filterList() {
-      this.parseQueryFilters();
+      this.parseQueryFilters()
     },
   },
 
   methods: {
     applyFilter() {
-      const filters = this.selected;
+      const filters = this.selected
       Object.keys(filters).forEach((key) => {
         if (filters[key].length > 0) {
-          filters[key] = filters[key].toString();
+          filters[key] = filters[key].toString()
         } else {
-          this.$delete(filters, key);
+          this.$delete(filters, key)
         }
-      });
-      this.$router.push({ query: filters });
+      })
+      this.$router.push({ query: filters })
     },
     // applyFilter() {
     //   const filters = this.selected
@@ -128,30 +128,30 @@ export default {
 
     removeFilter(filter, option) {
       this.selected[filter] = this.selected[filter].filter(function (element) {
-        return element !== option;
-      });
-      this.applyFilter();
+        return element !== option
+      })
+      this.applyFilter()
     },
 
     reset() {
-      this.$router.push(this.$route.path);
+      this.$router.push(this.$route.path)
     },
 
     parseQueryFilters() {
-      const queryFilters = this.$route.query;
-      this.selected = {};
+      const queryFilters = this.$route.query
+      this.selected = {}
 
       this.filterList.forEach((el) => {
         // check if route query filters exists in fetched filters array
         if (queryFilters[el.name]) {
           // set filters to selected if exists
           // this.selected[el.name] = queryFilters[el.name].split(",")
-          this.$set(this.selected, el.name, queryFilters[el.name].split(","));
+          this.$set(this.selected, el.name, queryFilters[el.name].split(','))
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -159,7 +159,7 @@ export default {
   z-index: 100;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   accent-color: #ed2f7b;
   cursor: pointer;
   transform: scale(1.5);

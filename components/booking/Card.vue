@@ -17,7 +17,9 @@
           Status<br />
           <b
             class="text-h6"
-            :class="booking.status == 'confirm' ? 'success--text' : 'warning--text'"
+            :class="
+              booking.status == 'confirm' ? 'success--text' : 'warning--text'
+            "
             >{{ booking.status }}</b
           >
           <br />
@@ -74,39 +76,39 @@ export default {
     return {
       timerInterval: null,
       timeLimit: null,
-    };
+    }
   },
   computed: {
     formattedTimeLeft() {
-      if (this.booking.status === "pending" && this.timeLimit > 0) {
-        const timeLeft = this.timeLimit;
+      if (this.booking.status === 'pending' && this.timeLimit > 0) {
+        const timeLeft = this.timeLimit
         // Time calculations minutes and seconds
 
-        const minutes = Math.floor((timeLeft / 60) % 60);
-        let seconds = Math.floor(timeLeft % 60);
+        const minutes = Math.floor((timeLeft / 60) % 60)
+        let seconds = Math.floor(timeLeft % 60)
         if (seconds < 10) {
-          seconds = `0${seconds}`;
+          seconds = `0${seconds}`
         }
         // The output in MM:SS format
-        return `${minutes}:${seconds}`;
+        return `${minutes}:${seconds}`
       }
-      return "Expired";
+      return 'Expired'
     },
     expired() {
-      if (this.booking.status === "pending" && this.timeLimit <= 0) {
-        return true;
+      if (this.booking.status === 'pending' && this.timeLimit <= 0) {
+        return true
       }
-      return false;
+      return false
     },
   },
   mounted() {
-    if (this.booking.status === "pending") {
-      const countDownDate = new Date(this.booking.expires).getTime();
-      const now = new Date().getTime();
+    if (this.booking.status === 'pending') {
+      const countDownDate = new Date(this.booking.expires).getTime()
+      const now = new Date().getTime()
       // timeLimit in total of seconds
-      this.timeLimit = Math.floor((countDownDate - now) / 1000);
+      this.timeLimit = Math.floor((countDownDate - now) / 1000)
       if (this.timeLimit > 0) {
-        this.startTimer();
+        this.startTimer()
       }
     }
   },
@@ -114,12 +116,12 @@ export default {
   methods: {
     startTimer() {
       this.timerInterval = setInterval(() => {
-        this.timeLimit -= 1;
+        this.timeLimit -= 1
         if (this.timeLimit <= 0) {
-          clearInterval(this.timerInterval);
+          clearInterval(this.timerInterval)
         }
-      }, 1000);
+      }, 1000)
     },
   },
-};
+}
 </script>

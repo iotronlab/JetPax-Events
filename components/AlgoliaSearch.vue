@@ -20,64 +20,79 @@
         <ais-pagination />
       </ais-instant-search> -->
 
-    <ais-instant-search :search-client="searchClient" index-name="cities" style="min-width: 40vw;">
-      <ais-index index-name="cities" />
-      <ais-autocomplete>
-        <template v-slot="{ currentRefinement, indices, refine }">
-
-          <!-- <input
+      <ais-instant-search
+        :search-client="searchClient"
+        index-name="cities"
+        style="min-width: 40vw"
+      >
+        <ais-index index-name="cities" />
+        <ais-autocomplete>
+          <template v-slot="{ currentRefinement, indices, refine }">
+            <!-- <input
             type="search"
             :value="currentRefinement"
             placeholder="Search for a city"
             @input="refine($event.currentTarget.value)"
           > -->
 
-          <!-- <v-text-field
+            <!-- <v-text-field
             type="search" rounded outlined :prepend-inner-icon="icons.search"
             :value="currentRefinement" color="success"
             placeholder="Search city"
             @input="refine($event.currentTarget.value)"
           ></v-text-field> -->
 
-          <!-- <input type="text" id="search-input" placeholder="Search cities" /> -->
+            <!-- <input type="text" id="search-input" placeholder="Search cities" /> -->
 
-          <div class="v-input theme--dark v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder v-text-field--rounded mt-2 mx-4">
-            <div class="v-input__control">
-              <div class="v-input__slot">
-                <div class="v-input__prepend-inner">
-                  <div class="v-input__icon v-input__icon--prepend-inner">
-                    <span aria-hidden="true" class="v-icon notranslate theme--dark">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" class="v-icon__svg">
-                        <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"></path>
-                      </svg>
-                    </span>
+            <div
+              class="v-input theme--dark v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder v-text-field--rounded mt-2 mx-4"
+            >
+              <div class="v-input__control">
+                <div class="v-input__slot">
+                  <div class="v-input__prepend-inner">
+                    <div class="v-input__icon v-input__icon--prepend-inner">
+                      <span
+                        aria-hidden="true"
+                        class="v-icon notranslate theme--dark"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          role="img"
+                          aria-hidden="true"
+                          class="v-icon__svg"
+                        >
+                          <path
+                            d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+                          ></path>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                  <fieldset aria-hidden="true">
+                    <legend style="width: 0">
+                      <span class="notranslate"></span>
+                    </legend>
+                  </fieldset>
+                  <div class="v-text-field__slot">
+                    <input
+                      type="search"
+                      :value="currentRefinement"
+                      placeholder="Search a city"
+                      @input="refine($event.currentTarget.value)"
+                    />
                   </div>
                 </div>
-                <fieldset aria-hidden="true">
-                  <legend style="width: 0;">
-                    <span class="notranslate"></span>
-                  </legend>
-                </fieldset>
-                <div class="v-text-field__slot">
-                  <input
-                    type="search"
-                    :value="currentRefinement"
-                    placeholder="Search a city"
-                    @input="refine($event.currentTarget.value)"
-                  >
-                </div>
-              </div>
-              <div class="v-text-field__details">
-                <div class="v-messages theme--dark">
-                  <div class="v-messages__wrapper"></div>
+                <div class="v-text-field__details">
+                  <div class="v-messages theme--dark">
+                    <div class="v-messages__wrapper"></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div v-if="currentRefinement && currentRefinement.length > 0">
-
-            <!--  <ul v-for="index in indices" :key="index.indexId">
+            <div v-if="currentRefinement && currentRefinement.length > 0">
+              <!--  <ul v-for="index in indices" :key="index.indexId">
               <li>
                 <h3>{{ index.indexName }}</h3>
                 <ul>
@@ -88,31 +103,39 @@
               </li>
             </ul> -->
 
-            <v-list v-for="(index, i) in indices.filter((element, j) => j % 2 == 0)" :key="i" class="mt-n4 pt-0">
-              <v-subheader class="overline">{{ index.indexName }}</v-subheader>
-              <v-list-item-group v-if="index.hits.length > 0">
-                <v-list-item v-for="hit in index.hits" :key="hit.objectID">
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      <ais-highlight attribute="name" :hit="hit" class="text-body-1"/>
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-              <v-list-item-group v-else>
-                <v-list-item>
-                  <v-list-item-content>
-                    No results found
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-
-          </div>
-        </template>
-      </ais-autocomplete>
-    </ais-instant-search>
-
+              <v-list
+                v-for="(index, i) in indices.filter((element, j) => j % 2 == 0)"
+                :key="i"
+                class="mt-n4 pt-0"
+              >
+                <v-subheader class="overline">{{
+                  index.indexName
+                }}</v-subheader>
+                <v-list-item-group v-if="index.hits.length > 0">
+                  <v-list-item v-for="hit in index.hits" :key="hit.objectID">
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        <ais-highlight
+                          attribute="name"
+                          :hit="hit"
+                          class="text-body-1"
+                        />
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+                <v-list-item-group v-else>
+                  <v-list-item>
+                    <v-list-item-content>
+                      No results found
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </div>
+          </template>
+        </ais-autocomplete>
+      </ais-instant-search>
     </v-row>
 
     <div id="autocomplete"></div>
@@ -120,20 +143,20 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { mdiMagnify } from "@mdi/js";
-import algoliasearch from 'algoliasearch/lite';
-import VueInstantSearch from 'vue-instantsearch';
-import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
+import Vue from 'vue'
+import { mdiMagnify } from '@mdi/js'
+import algoliasearch from 'algoliasearch/lite'
+import VueInstantSearch from 'vue-instantsearch'
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
 // import '@algolia/autocomplete-theme-classic';
 
-Vue.use(VueInstantSearch);
+Vue.use(VueInstantSearch)
 
 export default {
   data() {
     return {
-      greet: "",
-      SearchCity: "",
+      greet: '',
+      SearchCity: '',
       icons: {
         search: mdiMagnify,
       },
@@ -141,24 +164,24 @@ export default {
         '59EY5CH98E',
         '6ce4114a8c3e029c0e0768c169afd193'
       ),
-    };
+    }
   },
   mounted() {
-    const current = new Date();
+    const current = new Date()
     // current.setHours(12);
-    const currentHours = current.getHours();
+    const currentHours = current.getHours()
     // console.log(currentHours)
-    if (currentHours > 0 && currentHours < 12) this.greet = "Good Morning";
-    else if (currentHours >= 12 && currentHours < 18) this.greet = "Good Afternoon";
-    else this.greet = "Good Evening";
+    if (currentHours > 0 && currentHours < 12) this.greet = 'Good Morning'
+    else if (currentHours >= 12 && currentHours < 18)
+      this.greet = 'Good Afternoon'
+    else this.greet = 'Good Evening'
 
-    this.startAlgolia();
+    this.startAlgolia()
   },
 
   methods: {
-     startAlgolia() {
-
-    /*  const search = VueInstantSearch({
+    startAlgolia() {
+      /*  const search = VueInstantSearch({
         appId: '59EY5CH98E',
         apiKey: '6ce4114a8c3e029c0e0768c169afd193',
         indexName: 'cities',
@@ -221,7 +244,7 @@ export default {
       const searchClient = algoliasearch(
         '59EY5CH98E',
         '6ce4114a8c3e029c0e0768c169afd193'
-      );
+      )
 
       autocomplete({
         container: '#autocomplete',
@@ -242,28 +265,27 @@ export default {
                       },
                     },
                   ],
-                });
+                })
               },
               templates: {
                 item({ item, components, html }) {
                   return html`<div class="my-4 text-h2">
-                                <div>
-                                  <p>
-                                    ${components.Highlight({
-                                      hit: item,
-                                      attribute: 'name',
-                                    })}
-                                  </p>
-                              </div>
-                            </div>`;
+                    <div>
+                      <p>
+                        ${components.Highlight({
+                          hit: item,
+                          attribute: 'name',
+                        })}
+                      </p>
+                    </div>
+                  </div>`
                 },
               },
             },
-          ];
+          ]
         },
-      });
-
-    }
+      })
+    },
   },
-};
+}
 </script>

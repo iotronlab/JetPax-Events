@@ -2,7 +2,7 @@
   <div>
     <v-btn text @click.stop="citySelect = true">
       <v-icon left>{{ icons.location }}</v-icon
-      >{{ citySelection ? citySelection : "select" }}
+      >{{ citySelection ? citySelection : 'select' }}
     </v-btn>
     <v-dialog
       v-model="citySelect"
@@ -12,7 +12,9 @@
     >
       <v-card class="card-glass">
         <v-card-title>Select your city</v-card-title>
-        <v-card-text>Let's find amazing experiences at your location.</v-card-text>
+        <v-card-text
+          >Let's find amazing experiences at your location.</v-card-text
+        >
         <v-autocomplete
           v-model="citySelection"
           outlined
@@ -28,7 +30,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn outlined text to="/web" @click.stop="citySelect = false">
-            <v-icon color="success" left>{{ icons.online }}</v-icon> browse Web Events
+            <v-icon color="success" left>{{ icons.online }}</v-icon> browse Web
+            Events
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -37,8 +40,8 @@
 </template>
 
 <script>
-import { mdiMapMarkerRadius, mdiCircleDouble } from "@mdi/js";
-import { mapGetters, mapActions } from "vuex";
+import { mdiMapMarkerRadius, mdiCircleDouble } from '@mdi/js'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -48,12 +51,12 @@ export default {
         location: mdiMapMarkerRadius,
         online: mdiCircleDouble,
       },
-    };
+    }
   },
   computed: {
     ...mapGetters({
-      defaultCity: "defaultCity",
-      cities: "cities",
+      defaultCity: 'defaultCity',
+      cities: 'cities',
     }),
   },
   watch: {
@@ -61,10 +64,10 @@ export default {
       //   this.setCity(this.citySelection);
       //   this.citySelect = false;
       //   // this.RedirectCity()
-      this.citySelection = this.defaultCity;
+      this.citySelection = this.defaultCity
       // console.log(this.$route.path === '/');
-      if (this.$route.path === "/") {
-        this.$router.push(`/${this.citySelection}`);
+      if (this.$route.path === '/') {
+        this.$router.push(`/${this.citySelection}`)
       }
       //
     },
@@ -76,7 +79,7 @@ export default {
       //   && this.cities.length > 0
     ) {
       //   const city = this.cities.find((element) => element.url === this.defaultCity);
-      this.citySelection = this.defaultCity;
+      this.citySelection = this.defaultCity
       // city !== undefined ? city.url : null;
     } else {
       // this.askForLocation();
@@ -84,17 +87,17 @@ export default {
   },
 
   methods: {
-    ...mapActions(["setCity", "getCities"]),
+    ...mapActions(['setCity', 'getCities']),
     redirectToCity() {
       if (this.citySelection !== null) {
         // this.$router.push(`/${this.citySelection}`);
-        this.citySelect = false;
-        console.log(this.citySelection);
-        this.setCity(this.citySelection);
+        this.citySelect = false
+        console.log(this.citySelection)
+        this.setCity(this.citySelection)
 
-        this.$router.push(`/${this.citySelection}`);
+        this.$router.push(`/${this.citySelection}`)
       }
     },
   },
-};
+}
 </script>

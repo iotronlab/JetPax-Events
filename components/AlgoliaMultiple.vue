@@ -5,8 +5,10 @@
       <v-text-field
         label="Search"
         :prepend-inner-icon="icons.search"
-        rounded class="mx-2 my-2"
-        outlined v-model="query"
+        rounded
+        class="mx-2 my-2"
+        outlined
+        v-model="query"
         color="success"
         placeholder="search events, artists, cities"
       ></v-text-field>
@@ -14,7 +16,7 @@
       <!-- <v-autocomplete v-model="query" outlined :items="results" label="Search cities" class="ma-4">
       </v-autocomplete> -->
 
-        <!-- <v-autocomplete
+      <!-- <v-autocomplete
             v-model="query"
             :items="results"
             :prepend-inner-icon="icons.search"
@@ -40,36 +42,37 @@
                 </v-list>
             </template>
             </v-autocomplete> -->
-
     </v-row>
 
     <v-list class="mt-0 pt-0" flat>
-      <div v-if="this.query.length > 0"> 
+      <div v-if="this.query.length > 0">
         <div v-for="(item, i) in results" :key="i">
-            <v-list-item-group color="primary" v-if="item.hits.length > 0">
-                <v-subheader class="text-h5">{{ item.index }}</v-subheader>
-                <v-list-item v-for="(hit, j) in item.hits" :key="j">
-                <v-list-item-content>
-                    <v-list-item-title v-text="hit.name"></v-list-item-title>
-                </v-list-item-content>
-                </v-list-item>
-            </v-list-item-group>
-            <v-divider v-if="(i + 1) !== results.length" class="mx-4 my-2"></v-divider>
+          <v-list-item-group color="primary" v-if="item.hits.length > 0">
+            <v-subheader class="text-h5">{{ item.index }}</v-subheader>
+            <v-list-item v-for="(hit, j) in item.hits" :key="j">
+              <v-list-item-content>
+                <v-list-item-title v-text="hit.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+          <v-divider
+            v-if="i + 1 !== results.length"
+            class="mx-4 my-2"
+          ></v-divider>
         </div>
       </div>
     </v-list>
-
   </v-col>
 </template>
 
 <script>
-import { mdiMagnify } from "@mdi/js";
-import algoliasearch from 'algoliasearch/lite';
+import { mdiMagnify } from '@mdi/js'
+import algoliasearch from 'algoliasearch/lite'
 
 export default {
   data() {
     return {
-      greet: "",
+      greet: '',
       icons: {
         search: mdiMagnify,
       },
@@ -78,8 +81,8 @@ export default {
         '6ce4114a8c3e029c0e0768c169afd193'
       ),
       query: '',
-        results: [],
-    };
+      results: [],
+    }
   },
 
   watch: {
@@ -93,37 +96,39 @@ export default {
   },
 
   mounted() {
-    const current = new Date();
-    const currentHours = current.getHours();
-    if (currentHours > 0 && currentHours < 12) this.greet = "Good Morning";
-    else if (currentHours >= 12 && currentHours < 18) this.greet = "Good Afternoon";
-    else this.greet = "Good Evening";
+    const current = new Date()
+    const currentHours = current.getHours()
+    if (currentHours > 0 && currentHours < 12) this.greet = 'Good Morning'
+    else if (currentHours >= 12 && currentHours < 18)
+      this.greet = 'Good Afternoon'
+    else this.greet = 'Good Evening'
 
     this.startAlgolia()
   },
 
   methods: {
     startAlgolia() {
-        const queries = [{
-                indexName: 'cities',
-                query: this.query,
-                params: {
-                  hitsPerPage: 3
-              }
-            },{
-                indexName: 'artists',
-                query: this.query,
-                params: {
-                  hitsPerPage: 3,
-            }
-        }]
+      const queries = [
+        {
+          indexName: 'cities',
+          query: this.query,
+          params: {
+            hitsPerPage: 3,
+          },
+        },
+        {
+          indexName: 'artists',
+          query: this.query,
+          params: {
+            hitsPerPage: 3,
+          },
+        },
+      ]
 
-        this.searchClient.multipleQueries(queries).then(({ results }) => {
-            this.results = results;
-        });
-
+      this.searchClient.multipleQueries(queries).then(({ results }) => {
+        this.results = results
+      })
     },
   },
-
-};
+}
 </script>

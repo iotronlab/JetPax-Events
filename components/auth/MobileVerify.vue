@@ -4,8 +4,14 @@
       <!-- contact entry with country code -->
 
       <v-row justify="center" align="center">
-        <v-select v-model="isdCode" :items="countries" item-value="isd_code" item-text="isd_code" solo
-          style="max-width: 5rem !important">
+        <v-select
+          v-model="isdCode"
+          :items="countries"
+          item-value="isd_code"
+          item-text="isd_code"
+          solo
+          style="max-width: 5rem !important"
+        >
           <template #selection="{ item }">
             <v-img max-width="1.5rem" :src="item.flag" class="mr-2"></v-img>
             {{ item.isd_code }}
@@ -15,26 +21,61 @@
             {{ item.isd_code }}
           </template>
         </v-select>
-        <validation-provider v-slot="{ errors }" name="mobile" rules="required|digits:10" style="width: 70%">
-          <v-text-field v-model="contact" counter maxlength="10" type="number" label="Mobile Number" :disabled="otpSent"
-            outlined :error-messages="errors" rounded>
+        <validation-provider
+          v-slot="{ errors }"
+          name="mobile"
+          rules="required|digits:10"
+          style="width: 70%"
+        >
+          <v-text-field
+            v-model="contact"
+            counter
+            maxlength="10"
+            type="number"
+            label="Mobile Number"
+            :disabled="otpSent"
+            outlined
+            :error-messages="errors"
+            rounded
+          >
           </v-text-field>
         </validation-provider>
       </v-row>
 
-      <v-alert v-model="alert.show" class="mx-1 mt-4" border="left" outlined color="primary" close-text="Close Alert"
-        dismissible :close-icon="alert.icon">
+      <v-alert
+        v-model="alert.show"
+        class="mx-1 mt-4"
+        border="left"
+        outlined
+        color="primary"
+        close-text="Close Alert"
+        dismissible
+        :close-icon="alert.icon"
+      >
         {{ alert.text }}
         <nuxt-link v-if="type === 'register'" to="/auth/reset">Reset</nuxt-link>
-        <nuxt-link v-if="type === 'reset'" to="/auth/register">Register</nuxt-link>
+        <nuxt-link v-if="type === 'reset'" to="/auth/register"
+          >Register</nuxt-link
+        >
       </v-alert>
 
       <div v-if="otpSent" class="px-2">
         <v-divider class="my-4" />
         <p class="caption text-center text--secondary">Enter OTP</p>
-        <validation-provider v-slot="{ errors }" name="OTP" rules="required|min:6">
-          <v-otp-input v-model="otp" counter outlined maxlength="6"
-            :hint="'Enter otp recieved via sms on +91' + contact" label="Enter OTP" :error-messages="errors">
+        <validation-provider
+          v-slot="{ errors }"
+          name="OTP"
+          rules="required|min:6"
+        >
+          <v-otp-input
+            v-model="otp"
+            counter
+            outlined
+            maxlength="6"
+            :hint="'Enter otp recieved via sms on +91' + contact"
+            label="Enter OTP"
+            :error-messages="errors"
+          >
           </v-otp-input>
           {{ errors.toString() }}
         </validation-provider>
@@ -43,7 +84,15 @@
     <v-card-actions class="my-4">
       <v-btn v-if="otpSent" text @click="changeNumber"> Change Number </v-btn>
       <v-spacer></v-spacer>
-      <v-btn v-if="!otpSent" id="otp" type="submit" outlined rounded color="accent" @click="checkExistingUser">
+      <v-btn
+        v-if="!otpSent"
+        id="otp"
+        type="submit"
+        outlined
+        rounded
+        color="accent"
+        @click="checkExistingUser"
+      >
         Send Otp
       </v-btn>
       <v-btn v-if="otpSent" outlined rounded color="accent" @click="verifyOtp">

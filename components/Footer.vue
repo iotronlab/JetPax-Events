@@ -32,7 +32,9 @@
               :href="social.url"
               target="_blank"
               rel="noopener"
-              ><v-icon :aria-label="social.name">{{ social.icon }}</v-icon></v-btn
+              ><v-icon :aria-label="social.name">{{
+                social.icon
+              }}</v-icon></v-btn
             >
           </v-row>
         </section>
@@ -68,7 +70,7 @@ import {
   mdiInstagram,
   mdiFacebook,
   mdiGoogle,
-} from "@mdi/js";
+} from '@mdi/js'
 
 export default {
   props: {
@@ -87,38 +89,38 @@ export default {
       errorMessage: null,
       socialLinks: [
         {
-          name: "Facebook",
-          url: "https://www.facebook.com/jetpaxevents",
+          name: 'Facebook',
+          url: 'https://www.facebook.com/jetpaxevents',
           icon: mdiFacebook,
         },
         {
-          name: "Instagram",
-          url: "https://www.instagram.com/independentartistassociation",
+          name: 'Instagram',
+          url: 'https://www.instagram.com/independentartistassociation',
           icon: mdiInstagram,
         },
         {
-          name: "Youtube",
-          url: "https://www.youtube.com/channel/UC0Q1WPPZBPwfXj3G7ZtGPUQ",
+          name: 'Youtube',
+          url: 'https://www.youtube.com/channel/UC0Q1WPPZBPwfXj3G7ZtGPUQ',
           icon: mdiYoutube,
         },
         {
-          name: "Google",
-          url: "https://goo.gl/maps/Q6jKTGNSywZPSHj59",
+          name: 'Google',
+          url: 'https://goo.gl/maps/Q6jKTGNSywZPSHj59',
           icon: mdiGoogle,
         },
       ],
-    };
+    }
   },
   async fetch() {
     await this.$axios
-      .$get("policy")
+      .$get('policy')
       .then((res) => {
-        this.policies = res.data;
+        this.policies = res.data
       })
       .catch((err) => {
-        this.errorMessage = err;
-        this.$sentry.captureException(new Error(err));
-      });
+        this.errorMessage = err
+        this.$sentry.captureException(new Error(err))
+      })
   },
-};
+}
 </script>

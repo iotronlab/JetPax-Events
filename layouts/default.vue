@@ -4,6 +4,7 @@
       v-model="drawer"
       class="ma-2 rounded-xl card-glass elevated-1"
       temporary
+      right
       fixed
       app
     >
@@ -30,9 +31,6 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar id="nav" class="elevated nav-transparent" fixed app flat>
-      <v-app-bar-nav-icon aria-label="nav-button" @click.stop="drawer = !drawer">
-        <v-icon slot="default">{{ icons.menu }}</v-icon>
-      </v-app-bar-nav-icon>
       <nuxt-link :to="{ name: 'index' }">
         <v-img src="/logo.webp" max-width="160" alt="logo"></v-img>
       </nuxt-link>
@@ -48,6 +46,9 @@
         <UserNav />
         <!-- {{ user }} -->
       </section>
+      <v-app-bar-nav-icon aria-label="nav-button" @click.stop="drawer = !drawer">
+        <v-icon slot="default">{{ icons.menu }}</v-icon>
+      </v-app-bar-nav-icon>
     </v-app-bar>
     <v-main>
       <div style="min-height: 100vh">

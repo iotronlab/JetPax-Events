@@ -5,14 +5,14 @@ export default async function (to, from, savedPosition) {
   const findEl = async (hash, x = 0) => {
     return (
       document.querySelector(hash) ||
-      await new Promise((resolve) => {
+      (await new Promise((resolve) => {
         if (x > 50) {
           return resolve(document.querySelector('#app'))
         }
         setTimeout(() => {
           resolve(findEl(hash, ++x || 1))
         }, 100)
-      })
+      }))
     )
   }
 

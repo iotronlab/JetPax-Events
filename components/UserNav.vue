@@ -37,41 +37,43 @@
 </template>
 
 <script>
-import { mdiClose } from "@mdi/js";
-import { mapGetters, mapState } from "vuex";
+import { mdiClose } from '@mdi/js'
+import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
       userNav: false,
       accountItems: [
         {
-          title: "Account",
-          to: "/account",
+          title: 'Account',
+          to: '/account',
         },
         {
-          title: "Bookings",
-          to: "/booking",
+          title: 'Bookings',
+          to: '/booking',
         },
       ],
       icons: {
         close: mdiClose,
       },
-    };
+    }
   },
   computed: {
     ...mapGetters({
-      defaultCity: "defaultCity",
+      defaultCity: 'defaultCity',
     }),
     ...mapState({
       user: (state) => state.auth.user,
     }),
     avatar() {
-      const fullName = this.user.name;
-      const namesArray = fullName.trim().split(" ");
-      if (namesArray.length === 1) return `${namesArray[0].charAt(0)}`;
+      const fullName = this.user.name
+      const namesArray = fullName.trim().split(' ')
+      if (namesArray.length === 1) return `${namesArray[0].charAt(0)}`
       else
-        return `${namesArray[0].charAt(0)}${namesArray[namesArray.length - 1].charAt(0)}`;
+        return `${namesArray[0].charAt(0)}${namesArray[
+          namesArray.length - 1
+        ].charAt(0)}`
     },
   },
-};
+}
 </script>

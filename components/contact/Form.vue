@@ -126,7 +126,6 @@
   </v-container>
 </template>
 
-
 <script>
 import { mdiCheckDecagram } from '@mdi/js'
 export default {
@@ -168,4 +167,3 @@ export default {
   },
 }
 </script>
-

@@ -17,65 +17,65 @@ export default {
   data() {
     return {
       events: [],
-    };
+    }
   },
 
   computed: {
     cardWidth() {
       switch (this.$vuetify.breakpoint.name) {
-        case "md":
-          return 500;
-        case "lg":
-          return 700;
-        case "xl":
-          return 800;
+        case 'md':
+          return 500
+        case 'lg':
+          return 700
+        case 'xl':
+          return 800
         default:
-          return 500;
+          return 500
       }
     },
   },
   mounted() {
     this.$axios.$get(`events`, { params: { page: 1 } }).then((res) => {
-      this.events = res.data;
-      this.init();
-    });
+      this.events = res.data
+      this.init()
+    })
   },
   methods: {
     init() {
       this.$nextTick(() => {
         this.$nextTick(() => {
-          const gsap = this.$gsap;
-          const Draggable = this.$Draggable;
+          const gsap = this.$gsap
+          const Draggable = this.$Draggable
 
-          let xPos = 0;
-          const card = document.querySelectorAll(".card-item");
+          let xPos = 0
+          const card = document.querySelectorAll('.card-item')
           // alert(card[0].offsetWidth)
-          const slideWidth = 310; // Temporary
-          
-          const cardWidth = this.cardWidth;
-          const ring = document.getElementById("ring");
-          const wrapper = document.getElementById("wrapper");
-          const mainContent = document.getElementById("stage");
+          const slideWidth = 310 // Temporary
 
-          gsap.set(ring, { rotationY: 180, cursor: "drag" });
+          const cardWidth = this.cardWidth
+          const ring = document.getElementById('ring')
+          const wrapper = document.getElementById('wrapper')
+          const mainContent = document.getElementById('stage')
+
+          gsap.set(ring, { rotationY: 180, cursor: 'drag' })
           gsap.set(card, {
             rotateY: (i) => getRotate(i),
             transformOrigin: `50% 50% ${cardWidth}px`,
-            z: -(cardWidth),
-            backfaceVisibility: "hidden",
-          });
+            z: -cardWidth,
+            backfaceVisibility: 'hidden',
+          })
 
           gsap.timeline().from(card, {
             duration: 1.5,
             y: 200,
             opacity: 0,
             stagger: 0.1,
-            ease: "expo",
-          });
+            ease: 'expo',
+          })
 
-          const cardItems = card.length;
+          const cardItems = card.length
           // alert(cardItems);
-          const wrap = true;
+          const wrap = true
 
           // Secondary code
           /* const dragSnap = (cardItems * slideWidth) / cardItems;
@@ -92,47 +92,49 @@ export default {
               width: 0,
               height: 0,
             },
-            type: "x",
+            type: 'x',
             throwProps: true,
             allowNativeTouchScrolling: true,
             zIndexBoost: true,
 
             onDragStart: (e) => {
-              if (e.touches) e.clientX = e.touches[0].clientX;
-              xPos = Math.round(e.clientX);
-              gsap.set(".ring", { cursor: "grabbing" });
+              if (e.touches) e.clientX = e.touches[0].clientX
+              xPos = Math.round(e.clientX)
+              gsap.set('.ring', { cursor: 'grabbing' })
             },
 
             onDrag: (e) => {
-              if (e.touches) e.clientX = e.touches[0].clientX;
-              gsap.to(".ring", {
-                rotationY: "-=" + ((Math.round(e.clientX) - xPos) % 360),
-              });
-              console.log(xPos, e.clientX, " - ", xPos - e.clientX);
-              xPos = Math.round(e.clientX);
+              if (e.touches) e.clientX = e.touches[0].clientX
+              gsap.to('.ring', {
+                rotationY: '-=' + ((Math.round(e.clientX) - xPos) % 360),
+              })
+              console.log(xPos, e.clientX, ' - ', xPos - e.clientX)
+              xPos = Math.round(e.clientX)
             },
 
             onDragEnd: (e) => {
-              gsap.set(".ring", { cursor: "grab" });
+              gsap.set('.ring', { cursor: 'grab' })
             },
 
-            snap: value => {
-                /* const n = Math.round(parseFloat(value) / dragSnap) * dragSnap * roundFactor;
+            snap: (value) => {
+              /* const n = Math.round(parseFloat(value) / dragSnap) * dragSnap * roundFactor;
                 return (n - n % 1) / roundFactor; */
 
-                const snapped = gsap.utils.snap(slideWidth, value);
-                return wrap ? snapped : gsap.utils.clamp(-slideWidth * (cardItems - 4), 0, snapped);
-             },
-          });
+              const snapped = gsap.utils.snap(slideWidth, value)
+              return wrap
+                ? snapped
+                : gsap.utils.clamp(-slideWidth * (cardItems - 4), 0, snapped)
+            },
+          })
 
           function getRotate(i) {
-            return i * -36;
+            return i * -36
           }
-        });
-      });
+        })
+      })
     },
   },
-};
+}
 </script>
 
 <style scoped>

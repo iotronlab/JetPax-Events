@@ -15,25 +15,26 @@
 </template>
 
 <script>
-import { mdiMagnify } from "@mdi/js";
+import { mdiMagnify } from '@mdi/js'
 
 export default {
   data() {
     return {
-      greet: "",
+      greet: '',
       icons: {
         search: mdiMagnify,
       },
-    };
+    }
   },
   mounted() {
-    const current = new Date();
+    const current = new Date()
     // current.setHours(12);
-    const currentHours = current.getHours();
+    const currentHours = current.getHours()
     // console.log(currentHours)
-    if (currentHours > 0 && currentHours < 12) this.greet = "Good Morning";
-    else if (currentHours >= 12 && currentHours < 18) this.greet = "Good Afternoon";
-    else this.greet = "Good Evening";
+    if (currentHours > 0 && currentHours < 12) this.greet = 'Good Morning'
+    else if (currentHours >= 12 && currentHours < 18)
+      this.greet = 'Good Afternoon'
+    else this.greet = 'Good Evening'
   },
-};
+}
 </script>

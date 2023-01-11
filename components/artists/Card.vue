@@ -17,7 +17,9 @@
         <h5 v-if="creator.upcoming_events > 0">Events - {{ creator.upcoming_events }}</h5>
         <h4 class="text-subtitle-1 ml-4">{{ creator.name }}</h4>
       </div> -->
-      <div class="d-flex align-content-space-between flex-wrap fill-height pa-1">
+      <div
+        class="d-flex align-content-space-between flex-wrap fill-height pa-1"
+      >
         <v-row no-gutters style="width: 100%">
           <v-chip class="card-glass" v-if="creator.upcoming_events > 0">
             {{ creator.upcoming_events }} upcoming
@@ -72,7 +74,7 @@
   </v-card>
 </template>
 <script>
-import { mdiFacebook, mdiTwitter, mdiInstagram, mdiYoutube } from "@mdi/js";
+import { mdiFacebook, mdiTwitter, mdiInstagram, mdiYoutube } from '@mdi/js'
 
 export default {
   props: {
@@ -84,20 +86,20 @@ export default {
   data() {
     return {
       icons: {
-        Facebook: { link: mdiFacebook, color: "#1877f2" },
-        Youtube: { link: mdiYoutube, color: "#FF0000" },
-        Instagram: { link: mdiInstagram, color: "#7232bd" },
-        Twitter: { link: mdiTwitter, color: "#1DA1F2" },
+        Facebook: { link: mdiFacebook, color: '#1877f2' },
+        Youtube: { link: mdiYoutube, color: '#FF0000' },
+        Instagram: { link: mdiInstagram, color: '#7232bd' },
+        Twitter: { link: mdiTwitter, color: '#1DA1F2' },
       },
-    };
+    }
   },
   computed: {
     formattedFollows() {
       return (num) =>
         Math.abs(num) > 999
-          ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
-          : Math.sign(num) * Math.abs(num);
+          ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'k'
+          : Math.sign(num) * Math.abs(num)
     },
   },
-};
+}
 </script>

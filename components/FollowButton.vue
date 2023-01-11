@@ -7,13 +7,15 @@
     @click.prevent="subscribe"
     elevation="8"
   >
-    <v-icon left>{{ isSubscribed ? icons.subscribed : icons.subscribe }}</v-icon>
-    {{ isSubscribed ? "subscribed" : "subscribe" }}
+    <v-icon left>{{
+      isSubscribed ? icons.subscribed : icons.subscribe
+    }}</v-icon>
+    {{ isSubscribed ? 'subscribed' : 'subscribe' }}
   </v-btn>
 </template>
 
 <script>
-import { mdiStarFourPoints, mdiStarFourPointsOutline } from "@mdi/js";
+import { mdiStarFourPoints, mdiStarFourPointsOutline } from '@mdi/js'
 export default {
   props: {
     creator: {
@@ -27,11 +29,11 @@ export default {
         subscribed: mdiStarFourPoints,
         subscribe: mdiStarFourPointsOutline,
       },
-    };
+    }
   },
   computed: {
     isSubscribed() {
-      return this.creator.subscribed;
+      return this.creator.subscribed
     },
   },
   methods: {
@@ -39,13 +41,13 @@ export default {
       await this.$axios
         .post(`bookmark/artist/${this.creator.url}`)
         .then((result) => {
-          this.$emit("subscribed", this.creator.url);
+          this.$emit('subscribed', this.creator.url)
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     unSubscribe() {},
   },
-};
+}
 </script>

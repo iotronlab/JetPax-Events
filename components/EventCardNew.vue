@@ -16,12 +16,14 @@
         gradient="to top, rgba(0, 0, 0, 0.8) 0%, transparent 70%"
         dark
       >
-        <div class="d-flex align-content-space-between flex-wrap fill-height pa-1">
+        <div
+          class="d-flex align-content-space-between flex-wrap fill-height pa-1"
+        >
           <v-row no-gutters justify="space-between" style="width: 100%">
             <div class="card-glass rounded-lg">
               <h1 class="ma-1 text-center text-h5">
-                {{ StartDate(event.startOn).split(" ")[0] }} <br />
-                {{ StartDate(event.startOn).split(" ")[1] }}
+                {{ StartDate(event.startOn).split(' ')[0] }} <br />
+                {{ StartDate(event.startOn).split(' ')[1] }}
               </h1>
             </div>
             <v-btn icon @click.prevent="subscribe">
@@ -43,15 +45,23 @@
     <v-row no-gutters class="pa-2 text-subtitle-1">
       <v-row no-gutters align="center" class="mx-1">
         <h4>Genres</h4>
-        <v-chip v-for="(genre, n) in event.genres" :key="n" class="ma-1" outlined>{{
-          genre
-        }}</v-chip>
+        <v-chip
+          v-for="(genre, n) in event.genres"
+          :key="n"
+          class="ma-1"
+          outlined
+          >{{ genre }}</v-chip
+        >
       </v-row>
       <v-row no-gutters align="center" class="mx-1">
         <h4>Languages</h4>
-        <v-chip v-for="(language, k) in event.languages" :key="k" class="ma-1" outlined>{{
-          language
-        }}</v-chip>
+        <v-chip
+          v-for="(language, k) in event.languages"
+          :key="k"
+          class="ma-1"
+          outlined
+          >{{ language }}</v-chip
+        >
       </v-row>
     </v-row>
   </div>
@@ -63,10 +73,10 @@ import {
   mdiCalendarMonth,
   mdiStarFourPoints,
   mdiStarFourPointsOutline,
-} from "@mdi/js";
+} from '@mdi/js'
 
 export default {
-  name: "EventCardNew",
+  name: 'EventCardNew',
   props: {
     event: {
       type: Object,
@@ -81,23 +91,23 @@ export default {
         subscribed: mdiStarFourPoints,
         subscribe: mdiStarFourPointsOutline,
       },
-    };
+    }
   },
 
   methods: {
     FullDate(start, end) {
-      const strt = start.split(" ")[2][0];
-      const ed = end.split(" ");
-      const date = strt + " - " + ed[2][0] + " " + ed[1] + " " + ed[3];
-      return date;
+      const strt = start.split(' ')[2][0]
+      const ed = end.split(' ')
+      const date = strt + ' - ' + ed[2][0] + ' ' + ed[1] + ' ' + ed[3]
+      return date
     },
 
     StartDate(start) {
-      const strt = start.split(" ")[2][0];
-      const mon = start.split(" ")[1];
-      const date = strt + " " + mon;
-      return date;
+      const strt = start.split(' ')[2][0]
+      const mon = start.split(' ')[1]
+      const date = strt + ' ' + mon
+      return date
     },
   },
-};
+}
 </script>
